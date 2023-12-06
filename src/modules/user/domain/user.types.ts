@@ -7,6 +7,7 @@ export interface UserProps {
   firstName: string;
   lastName: string;
   nickName: string;
+  password: string;
   email: Email;
   status: UserStatus;
   role: UserRole;
@@ -17,6 +18,7 @@ export interface CreateUserProps {
   lastName: string;
   nickName: string;
   email: string;
+  password: string;
 }
 
 export enum UserRoles {
@@ -27,4 +29,10 @@ export enum UserRoles {
 export enum UserStatuses {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'INACTIVE',
+}
+
+export enum UserChangeTypes {
+  EMAIL = 'EMAIL',
+  STATUS = 'STATUS',
+  ROLE = 'ROLE',
 }

@@ -20,8 +20,8 @@ export abstract class AggregateRoot<EntityProps> extends Entity<EntityProps> {
   }
 
   public async publishEvents(
-    logger: ILoggerPort,
     eventPublisher: IEventPublisherPort,
+    logger: ILoggerPort,
   ): Promise<void> {
     await Promise.all(
       this.domainEvents.map(async (event) => {

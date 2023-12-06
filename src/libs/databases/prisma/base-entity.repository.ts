@@ -14,15 +14,12 @@ export abstract class BaseEntityRepository<
 > implements RepositoryPort<Aggregate>
 {
   protected modelName: Prisma.ModelName;
+  protected readonly prismaService: PrismaService;
 
   constructor(
-    private readonly prismaService: PrismaService,
-    private readonly logger: ILoggerPort,
-    private readonly mapper: Mapper<Aggregate, DbModel>,
-    modelName: Prisma.ModelName,
-  ) {
-    this.modelName = modelName;
-  }
+    protected readonly mapper: Mapper<Aggregate, DbModel>,
+    protected readonly logger: ILoggerPort,
+  ) {}
 
   async create(entity: Aggregate): Promise<Aggregate> {
     try {

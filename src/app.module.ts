@@ -9,6 +9,7 @@ import { PrismaService } from './infrastructure/database-providers/prisma/prisma
 import { UserModule } from './modules/user/user.module';
 import { PostModule } from './modules/post/post.module';
 import { CommentModule } from './modules/comment/comment.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 const interceptors: Provider[] = [
   {
@@ -24,7 +25,7 @@ const interceptors: Provider[] = [
       isGlobal: true,
     }),
     CqrsModule.forRoot(),
-
+    EventEmitterModule.forRoot(),
     // modules
     UserModule,
     PostModule,

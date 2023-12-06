@@ -21,6 +21,19 @@ export class Email extends ValueObject<EmailProps> {
     return this.props.email;
   }
 
+  public isValidEmail(email: string) {
+    // check for email format, validation, etc..
+    // Validate the email using Zod
+    try {
+      emailSchema.parse({
+        email,
+      }); // This will throw an error if validation fails
+    } catch (error) {
+      // Handle or rethrow the validation error
+      throw new ArgumentInvalidException('Email is invalid');
+    }
+  }
+
   /**
    * Note: This is a very simplified example of validation,
    * real world projects will have stricter rules.
@@ -29,13 +42,6 @@ export class Email extends ValueObject<EmailProps> {
    * a request) sacrificing some security for performance and convenience.
    */
   protected validate(props: EmailProps): void {
-    // check for email format, validation, etc..
-    // Validate the email using Zod
-    try {
-      emailSchema.parse(props); // This will throw an error if validation fails
-    } catch (error) {
-      // Handle or rethrow the validation error
-      throw new ArgumentInvalidException('Email is invalid');
-    }
+    this.isValidEmail(props.email);
   }
 }

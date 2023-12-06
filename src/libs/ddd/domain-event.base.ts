@@ -3,11 +3,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 type DomainEventMetadata = {
   /** Timestamp when this domain event occurred */
-  readonly timestamp: number;
+  readonly timestamp?: number;
 
   /** ID for correlation purposes (for Integration Events,logs correlation, etc).
    */
-  readonly correlationId: string;
+  readonly correlationId?: string;
 
   /**
    * Causation id used to reconstruct execution order if needed
@@ -26,6 +26,10 @@ export type DomainEventProps<T> = Omit<T, 'id' | 'metadata'> & {
 };
 
 export abstract class DomainEvent {
+  /**
+   * This properties will be exists in all domain events
+   */
+  // unique ID for the domain Event
   public readonly id: string;
 
   /** Aggregate ID where domain event occurred */
