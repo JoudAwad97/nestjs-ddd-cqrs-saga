@@ -14,8 +14,14 @@ import { SendWelcomeEmailApplicationService } from './actions/commands/send-welc
 import { UserAccountValidationApplicationService } from './actions/commands/user-account-validation/user-account-validation.application.service';
 import { DeleteUserApplicationService } from './actions/commands/delete-user/delete-user.application.service';
 import { DeleteUserHttpController } from './actions/commands/delete-user/delete-user.controller';
+import { UpdateUserHttpController } from './actions/commands/update-user/update-user.controller';
+import { UpdateUserApplicationService } from './actions/commands/update-user/update-user.application.service';
 
-const httpControllers = [CreateUserHttpController, DeleteUserHttpController];
+const httpControllers = [
+  CreateUserHttpController,
+  DeleteUserHttpController,
+  UpdateUserHttpController,
+];
 const messageControllers = [];
 const graphqlResolvers: Provider[] = [];
 
@@ -28,6 +34,7 @@ const commandHandlers: Provider[] = [
   SendWelcomeEmailApplicationService,
   UserAccountValidationApplicationService,
   DeleteUserApplicationService,
+  UpdateUserApplicationService,
 ];
 const queryHandlers: Provider[] = [];
 

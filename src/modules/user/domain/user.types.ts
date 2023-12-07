@@ -13,6 +13,13 @@ export interface UserProps {
   role: UserRole;
 }
 
+export interface UpdateUserProps {
+  firstName: string;
+  lastName: string;
+  nickName?: string;
+  email: string;
+}
+
 export interface CreateUserProps {
   firstName: string;
   lastName: string;
@@ -35,4 +42,5 @@ export enum UserChangeTypes {
   EMAIL = 'EMAIL',
   STATUS = 'STATUS',
   ROLE = 'ROLE',
+  UPDATE = 'UPDATE',
 }

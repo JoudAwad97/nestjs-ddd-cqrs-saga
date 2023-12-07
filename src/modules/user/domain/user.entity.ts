@@ -1,6 +1,7 @@
 import { AggregateID, AggregateRoot } from '@src/libs/ddd';
 import {
   CreateUserProps,
+  UpdateUserProps,
   UserChangeTypes,
   UserProps,
   UserRoles,
@@ -54,6 +55,19 @@ export class UserEntity extends AggregateRoot<UserProps> {
     );
 
     return user;
+  }
+
+  public update(input: UpdateUserProps) {
+    const oldUser = { ...this };
+
+    this.props.firstName = input.firstName;
+    this.props.lastName = input.lastName;
+    this.props.nickName = input.nickName;
+
+    const email = new Email({ email: input.email });
+    this.props.email = email;
+
+    this.generateUpdateUserEvent(oldUser, UserChangeTypes.UPDATE);
   }
 
   private userIsActivated(): boolean {
