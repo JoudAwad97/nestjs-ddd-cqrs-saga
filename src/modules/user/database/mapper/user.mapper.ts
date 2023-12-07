@@ -69,8 +69,12 @@ export class UserMapper
    * this can be helpful to determine what information you are returning to the client.
    */
   toResponse(entity: UserEntity): UserResponseDto {
-    // TODO: REFACTOR
+    const props = entity.getProps();
     const response = new UserResponseDto(entity);
+    response.email = props.email.getEmail();
+    response.firstName = props.firstName;
+    response.lastName = props.lastName;
+    response.nickName = props.nickName;
     return response;
   }
 }

@@ -16,11 +16,17 @@ import { DeleteUserApplicationService } from './actions/commands/delete-user/del
 import { DeleteUserHttpController } from './actions/commands/delete-user/delete-user.controller';
 import { UpdateUserHttpController } from './actions/commands/update-user/update-user.controller';
 import { UpdateUserApplicationService } from './actions/commands/update-user/update-user.application.service';
+import { FindUsersHttpController } from './actions/queries/find-users/find-users.controller';
+import { FindUsersQueryApplicationService } from './actions/queries/find-users/find-users.application.service';
+import { FindUserHttpController } from './actions/queries/find-user/find-user.controller';
+import { FindUserQueryApplicationService } from './actions/queries/find-user/find-user.application.service';
 
 const httpControllers = [
   CreateUserHttpController,
   DeleteUserHttpController,
   UpdateUserHttpController,
+  FindUsersHttpController,
+  FindUserHttpController,
 ];
 const messageControllers = [];
 const graphqlResolvers: Provider[] = [];
@@ -36,7 +42,10 @@ const commandHandlers: Provider[] = [
   DeleteUserApplicationService,
   UpdateUserApplicationService,
 ];
-const queryHandlers: Provider[] = [];
+const queryHandlers: Provider[] = [
+  FindUsersQueryApplicationService,
+  FindUserQueryApplicationService,
+];
 
 const mappers: Provider[] = [UserMapper];
 
