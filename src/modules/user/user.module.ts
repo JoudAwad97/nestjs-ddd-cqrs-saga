@@ -9,12 +9,23 @@ import { UserRepository } from './database/repository/user.repository';
 import { CreateUserHttpController } from './actions/commands/create-user/create-user.controller';
 import { CreateUserApplicationService } from './actions/commands/create-user/create-user.application.service';
 import { EventEmitter } from '@src/infrastructure/publisher';
+import { UserCreatedSaga } from './sagas/user.saga';
+import { SendWelcomeEmailApplicationService } from './actions/commands/send-welcome-email/send-welcome-email.application.service';
+import { UserAccountValidationApplicationService } from './actions/commands/user-account-validation/user-account-validation.application.service';
 
 const httpControllers = [CreateUserHttpController];
 const messageControllers = [];
 const graphqlResolvers: Provider[] = [];
 
-const commandHandlers: Provider[] = [CreateUserApplicationService];
+const eventHandlers: Provider[] = [];
+
+const sagas: Provider[] = [UserCreatedSaga];
+
+const commandHandlers: Provider[] = [
+  CreateUserApplicationService,
+  SendWelcomeEmailApplicationService,
+  UserAccountValidationApplicationService,
+];
 const queryHandlers: Provider[] = [];
 
 const mappers: Provider[] = [UserMapper];
@@ -41,6 +52,8 @@ const libraries: Provider[] = [
   imports: [],
   controllers: [...httpControllers, ...messageControllers],
   providers: [
+    ...sagas,
+    ...eventHandlers,
     ...libraries,
     ...graphqlResolvers,
     ...commandHandlers,

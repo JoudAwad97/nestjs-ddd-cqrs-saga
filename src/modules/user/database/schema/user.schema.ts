@@ -27,6 +27,7 @@ export const userSchema = z.object({
     .string()
     .min(NICK_NAME_MIN_LENGTH)
     .max(NICK_NAME_MAX_LENGTH)
+    .nullable()
     .optional(),
   role: z.nativeEnum(UserRole),
   status: z.nativeEnum(UserStatus),

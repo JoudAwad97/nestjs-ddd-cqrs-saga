@@ -19,22 +19,27 @@ export abstract class AggregateRoot<EntityProps> extends Entity<EntityProps> {
     this._domainEvents = [];
   }
 
-  public async publishEvents(
+  /**
+   * this is basically a way of publishing Domain-Events the full integrations can be used with either:
+   * 1. CQRS built in publisher
+   * 2. EventEmitter
+   * 3. RabbitMQ
+   * 4. Kafka
+   * @param eventPublisher
+   * @param logger
+   */
+  public publishEvents(
     eventPublisher: IEventPublisherPort,
     logger: ILoggerPort,
-  ): Promise<void> {
-    await Promise.all(
-      this.domainEvents.map(async (event) => {
-        logger.debug(
-          `[${RequestContextService.getRequestId()}] "${
-            event.constructor.name
-          }" event published for aggregate ${this.constructor.name} : ${
-            this.id
-          }`,
-        );
-        return eventPublisher.publish(event.constructor.name, event);
-      }),
-    );
+  ): void {
+    this.domainEvents.map(async (event) => {
+      logger.debug(
+        `[${RequestContextService.getRequestId()}] "${
+          event.constructor.name
+        }" event published for aggregate ${this.constructor.name} : ${this.id}`,
+      );
+      return eventPublisher.publishDomainEvent(event);
+    });
     this.clearEvents();
   }
 }

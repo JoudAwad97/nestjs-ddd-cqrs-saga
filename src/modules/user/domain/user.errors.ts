@@ -1,21 +1,15 @@
-import { ExceptionBase } from '@src/libs/exception/exception.base';
+import { ConflictException, NotFoundException } from '@nestjs/common';
 
-export class UserAlreadyExistsError extends ExceptionBase {
-  static readonly message = 'User already exists';
-
-  public readonly code = 'USER.ALREADY_EXISTS';
-
-  constructor(cause?: Error, metadata?: unknown) {
-    super(UserAlreadyExistsError.message, cause, metadata);
+export class UserErrors {
+  static UserAlreadyExists(): void {
+    throw new ConflictException('User already exists');
   }
-}
 
-export class EmailAlreadyInUse extends ExceptionBase {
-  static readonly message = 'Email already in use';
+  static EmailAlreadyInUse(): void {
+    throw new ConflictException('Email already in use');
+  }
 
-  public readonly code = 'USER.EMAIL_ALREADY_IN_USE';
-
-  constructor(cause?: Error, metadata?: unknown) {
-    super(UserAlreadyExistsError.message, cause, metadata);
+  static UserNotFound(): void {
+    throw new NotFoundException('User not found');
   }
 }

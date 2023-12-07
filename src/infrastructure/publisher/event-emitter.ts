@@ -1,13 +1,22 @@
 import { IEventPublisherPort } from '@libs/ports/event-publisher.port';
 import { Injectable } from '@nestjs/common';
-import { EventEmitter2 } from '@nestjs/event-emitter';
+import { EventBus } from '@nestjs/cqrs';
 import { DomainEvent } from '@src/libs/ddd';
 
 @Injectable()
 export class EventEmitter implements IEventPublisherPort {
-  constructor(private readonly eventEmitter: EventEmitter2) {}
+  constructor(private readonly eventBus: EventBus) {}
 
-  publish(eventName: string, eventPayload: DomainEvent): void {
-    this.eventEmitter.emit(eventName, eventPayload);
+  // we can have two different approaches to handle the event publishing
+  // one for pushing domain specific events
+  // and another for pushing integration events (system events)
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  publishIntegrationEvent(_eventPayload: any): void {
+    throw new Error('Method not implemented.');
+  }
+
+  publishDomainEvent(eventPayload: DomainEvent): void {
+    this.eventBus.publish(eventPayload);
   }
 }

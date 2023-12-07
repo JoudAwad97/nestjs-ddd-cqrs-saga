@@ -1,6 +1,6 @@
 import { UserRepositoryPort } from '@src/modules/user/database/repository/user.repository.port';
 import { CreateUserCommand } from './create-user.command';
-import { CommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Inject } from '@nestjs/common';
 import {
   USER_EVENT_PUBLISHER,
@@ -11,16 +11,18 @@ import { AggregateID } from '@src/libs/ddd';
 import { UserEntity } from '@src/modules/user/domain/user.entity';
 import { ILoggerPort } from '@src/libs/ports/logger.port';
 import { IEventPublisherPort } from '@src/libs/ports/event-publisher.port';
-import { UserAlreadyExistsError } from '@src/modules/user/domain/user.errors';
+import { UserErrors } from '@src/modules/user/domain/user.errors';
 
 @CommandHandler(CreateUserCommand)
-export class CreateUserApplicationService {
+export class CreateUserApplicationService
+  implements ICommandHandler<CreateUserCommand>
+{
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepositoryPort,
-    @Inject(USER_LOGGER) private readonly logger: ILoggerPort,
     @Inject(USER_EVENT_PUBLISHER)
     private readonly eventPublisher: IEventPublisherPort,
+    @Inject(USER_LOGGER) private readonly logger: ILoggerPort,
   ) {}
 
   async execute(command: CreateUserCommand): Promise<AggregateID> {
@@ -30,7 +32,7 @@ export class CreateUserApplicationService {
     const userExists = await this.userRepository.findOneByEmail(email);
 
     if (userExists) {
-      throw new UserAlreadyExistsError();
+      throw UserErrors.EmailAlreadyInUse();
     }
 
     // create a new user entity
@@ -42,13 +44,11 @@ export class CreateUserApplicationService {
       nickName,
     });
 
-    /**
-     * TODO: change how we implement the baseRepository
-     */
     this.logger.log("Creating user's account");
     const result = await this.userRepository.create(user);
 
-    // publish events
+    // publish events related to the "create" action
+    // passing of the event publisher and logger is dynamic here as both uses ports
     user.publishEvents(this.eventPublisher, this.logger);
 
     return result.id;

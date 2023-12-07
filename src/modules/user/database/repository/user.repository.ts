@@ -25,6 +25,18 @@ export class UserRepository
     this.prismaService = new PrismaService(this.logger);
   }
 
+  async updateUser(user: UserEntity): Promise<UserEntity> {
+    const persistenceUser = this.mapper.toPersistence(user);
+    return this.prismaService.user
+      .update({
+        where: {
+          id: user.id,
+        },
+        data: persistenceUser,
+      })
+      .then(this.mapper.toDomain);
+  }
+
   async findOneByEmail(email: string): Promise<UserEntity | null> {
     this.logger.log("Fetching user by email: '" + email + "'");
     const result = await this.prismaService.user.findUnique({

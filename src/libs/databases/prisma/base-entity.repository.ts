@@ -1,12 +1,10 @@
 import { RepositoryPort } from 'src/libs/ports/repository.port';
 import { PrismaService } from 'src/infrastructure/database-providers/prisma/prisma';
-import { Option } from 'oxide.ts';
 import { ObjectLiteral } from 'src/libs/types';
 import { ILoggerPort } from 'src/libs/ports/logger.port';
 import { Mapper } from 'src/libs/ddd/mapper.interface';
 import { Prisma } from '@prisma/client';
 import { AggregateRoot } from 'src/libs/ddd';
-import { InternalServerErrorException } from '@nestjs/common';
 
 export abstract class BaseEntityRepository<
   Aggregate extends AggregateRoot<any>,
@@ -21,42 +19,28 @@ export abstract class BaseEntityRepository<
     protected readonly logger: ILoggerPort,
   ) {}
 
-  async create(entity: Aggregate): Promise<Aggregate> {
-    try {
-      const result = await this.prismaService[this.modelName].create({
+  create(entity: Aggregate): Promise<Aggregate> {
+    return this.prismaService[this.modelName]
+      .create({
         data: this.mapper.toPersistence(entity),
-      });
-      return this.mapper.toDomain(result);
-    } catch (error) {
-      this.logger.error(`Error creating ${this.modelName} entity`);
-      throw new InternalServerErrorException(error);
-    }
+      })
+      .then((result) => this.mapper.toDomain(result));
   }
 
-  findById(id: string): Promise<Option<Aggregate>> {
-    try {
-      return this.prismaService[this.modelName]
-        .findUnique({
-          where: { id },
-        })
-        .then((result) => (result ? this.mapper.toDomain(result) : null));
-    } catch (error) {
-      this.logger.error(`Error creating ${this.modelName} entity`);
-      throw new InternalServerErrorException(error);
-    }
+  findById(id: string): Promise<Aggregate | null> {
+    return this.prismaService[this.modelName]
+      .findUnique({
+        where: { id },
+      })
+      .then((result) => (result ? this.mapper.toDomain(result) : null));
   }
 
   delete(id: string): Promise<boolean> {
-    try {
-      return this.prismaService[this.modelName]
-        .delete({
-          where: { id },
-        })
-        .then((result) => !!result);
-    } catch (error) {
-      this.logger.error(`Error creating ${this.modelName} entity`);
-      throw new InternalServerErrorException(error);
-    }
+    return this.prismaService[this.modelName]
+      .delete({
+        where: { id },
+      })
+      .then((result) => !!result);
   }
 
   /**

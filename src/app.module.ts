@@ -10,11 +10,16 @@ import { UserModule } from './modules/user/user.module';
 import { PostModule } from './modules/post/post.module';
 import { CommentModule } from './modules/comment/comment.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ExceptionInterceptor } from '@libs/application/interceptors/exception.interceptor';
 
 const interceptors: Provider[] = [
   {
     provide: APP_INTERCEPTOR,
     useClass: ContextInterceptor,
+  },
+  {
+    provide: APP_INTERCEPTOR,
+    useClass: ExceptionInterceptor,
   },
 ];
 

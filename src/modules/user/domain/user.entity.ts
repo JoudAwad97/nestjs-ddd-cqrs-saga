@@ -79,7 +79,11 @@ export class UserEntity extends AggregateRoot<UserProps> {
     return this.props.role.getRole();
   }
 
-  changeStatus(status: UserStatuses) {
+  get email(): Email {
+    return this.props.email;
+  }
+
+  public changeStatus(status: UserStatuses) {
     const oldUser = { ...this };
     this.props.status = new UserStatus({ status });
     this.generateUpdateUserEvent(oldUser, UserChangeTypes.STATUS);

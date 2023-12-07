@@ -1,5 +1,3 @@
-import { Option } from 'oxide.ts';
-
 /*  Most of repositories will probably need generic 
     save/find/delete operations, so it's easier
     to have some shared interfaces.
@@ -10,6 +8,6 @@ import { Option } from 'oxide.ts';
 export interface RepositoryPort<Entity> {
   // add more methods depending on the implementations
   create(entity: Entity): Promise<Entity>;
-  findById(id: string): Promise<Option<Entity>>;
+  findById(id: string): Promise<Entity | null>;
   delete(id: string): Promise<boolean>;
 }
