@@ -12,8 +12,10 @@ import { EventEmitter } from '@src/infrastructure/publisher';
 import { UserCreatedSaga } from './sagas/user.saga';
 import { SendWelcomeEmailApplicationService } from './actions/commands/send-welcome-email/send-welcome-email.application.service';
 import { UserAccountValidationApplicationService } from './actions/commands/user-account-validation/user-account-validation.application.service';
+import { DeleteUserApplicationService } from './actions/commands/delete-user/delete-user.application.service';
+import { DeleteUserHttpController } from './actions/commands/delete-user/delete-user.controller';
 
-const httpControllers = [CreateUserHttpController];
+const httpControllers = [CreateUserHttpController, DeleteUserHttpController];
 const messageControllers = [];
 const graphqlResolvers: Provider[] = [];
 
@@ -25,6 +27,7 @@ const commandHandlers: Provider[] = [
   CreateUserApplicationService,
   SendWelcomeEmailApplicationService,
   UserAccountValidationApplicationService,
+  DeleteUserApplicationService,
 ];
 const queryHandlers: Provider[] = [];
 
