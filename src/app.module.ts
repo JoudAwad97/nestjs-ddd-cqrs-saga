@@ -11,6 +11,12 @@ import { PostModule } from './modules/post/post.module';
 import { CommentModule } from './modules/comment/comment.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ExceptionInterceptor } from '@libs/application/interceptors/exception.interceptor';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import {
+  RABBITMQ_CONNECTION,
+  RABBITMQ_INJECTION_NAME,
+  RABBITMQ_QUEUE,
+} from './constants';
 
 const interceptors: Provider[] = [
   {
@@ -31,6 +37,21 @@ const interceptors: Provider[] = [
     }),
     CqrsModule.forRoot(),
     EventEmitterModule.forRoot(),
+    ClientsModule.register({
+      clients: [
+        {
+          name: RABBITMQ_INJECTION_NAME,
+          transport: Transport.RMQ,
+          options: {
+            urls: [RABBITMQ_CONNECTION],
+            queue: RABBITMQ_QUEUE,
+            noAck: false,
+            queueOptions: { durable: false },
+          },
+        },
+      ],
+      isGlobal: true,
+    }),
     // modules
     UserModule,
     PostModule,

@@ -1,19 +1,27 @@
 import { IEventPublisherPort } from '@libs/ports/event-publisher.port';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
+import { ClientProxy } from '@nestjs/microservices';
+import { RABBITMQ_INJECTION_NAME } from '@src/constants';
+import { IntegrationEvent } from '@src/libs/application/integration/integration-event.base';
 import { DomainEvent } from '@src/libs/ddd';
 
 @Injectable()
 export class EventEmitter implements IEventPublisherPort {
-  constructor(private readonly eventBus: EventBus) {}
+  constructor(
+    private readonly eventBus: EventBus,
+    @Inject(RABBITMQ_INJECTION_NAME) private readonly client: ClientProxy,
+  ) {}
 
   // we can have two different approaches to handle the event publishing
   // one for pushing domain specific events
   // and another for pushing integration events (system events)
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  publishIntegrationEvent(_eventPayload: any): void {
-    throw new Error('Method not implemented.');
+  publishIntegrationEvent(
+    eventName: string,
+    eventPayload: IntegrationEvent,
+  ): void {
+    this.client.emit(eventName, eventPayload);
   }
 
   publishDomainEvent(eventPayload: DomainEvent): void {

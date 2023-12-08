@@ -11,6 +11,19 @@ services:
       - '5433:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  rabbitmq:
+    image: rabbitmq:latest
+    volumes:
+      - rabbit_data:/var/lib/rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - backend
 
+networks:
+  backend:
+    driver: bridge
 volumes:
   postgres_data:
+  rabbit_data:

@@ -37,6 +37,8 @@ export class DeleteUserApplicationService
     user.delete();
     await this.userRepository.delete(id);
 
+    // TODO: Add a listener for this event to trigger an Integration Event to other part of the system
+    // this event will be published with in-memory bus, while the integration event will be published with MessageBroker
     user.publishEvents(this.eventPublisher, this.logger);
   }
 }

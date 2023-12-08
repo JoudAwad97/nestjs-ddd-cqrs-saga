@@ -20,6 +20,7 @@ import { FindUsersHttpController } from './actions/queries/find-users/find-users
 import { FindUsersQueryApplicationService } from './actions/queries/find-users/find-users.application.service';
 import { FindUserHttpController } from './actions/queries/find-user/find-user.controller';
 import { FindUserQueryApplicationService } from './actions/queries/find-user/find-user.application.service';
+import { UserCreatedEventHandler } from './actions/event-handlers/user-created-event.handler';
 
 const httpControllers = [
   CreateUserHttpController,
@@ -31,7 +32,7 @@ const httpControllers = [
 const messageControllers = [];
 const graphqlResolvers: Provider[] = [];
 
-const eventHandlers: Provider[] = [];
+const eventHandlers: Provider[] = [UserCreatedEventHandler];
 
 const sagas: Provider[] = [UserCreatedSaga];
 
