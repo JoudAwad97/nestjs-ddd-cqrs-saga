@@ -27,13 +27,13 @@ model User {
 
 model Post {
   id         String     @id @default(uuid())
-  user_id    String
+  author_id  String
   title      String
   content    String
   status     PostStatus // Assuming 'PostStatus' is an enum
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
-  user       User       @relation(fields: [user_id], references: [id])
+  user       User       @relation(fields: [author_id], references: [id])
   comments   Comment[]
 }
 

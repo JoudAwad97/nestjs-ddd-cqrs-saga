@@ -14,6 +14,7 @@ import { Email } from './value-objects/email.value-objects';
 import { UserCreatedEvent } from './events/user-created.event';
 import { UserDeletedEvent } from './events/user-deleted.event';
 import { UserUpdatedEvent } from './events/user-updated.event';
+import { UserErrors } from './user.errors';
 
 export class UserEntity extends AggregateRoot<UserProps> {
   protected _id: AggregateID;
@@ -57,7 +58,7 @@ export class UserEntity extends AggregateRoot<UserProps> {
     return user;
   }
 
-  public update(input: UpdateUserProps) {
+  public update(input: UpdateUserProps): void {
     const oldUser = { ...this };
 
     this.props.firstName = input.firstName;
@@ -158,11 +159,11 @@ export class UserEntity extends AggregateRoot<UserProps> {
     // entity business rules validation to protect it's invariant before saving entity to a database
 
     if (!Object.values(UserStatuses).includes(this.props.status.getStatus())) {
-      throw new Error('Invalid user status.');
+      UserErrors.InvalidStatus();
     }
 
     if (!Object.values(UserRoles).includes(this.props.role.getRole())) {
-      throw new Error('Invalid user role.');
+      UserErrors.InvalidRole();
     }
   }
 }

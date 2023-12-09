@@ -4,7 +4,7 @@ import { BaseEntityRepository } from '@src/libs/databases/prisma/base-entity.rep
 import { UserMapper } from '@src/modules/user/database/mapper/user.mapper';
 import { UserEntity } from '@src/modules/user/domain/user.entity';
 import { PrismaService } from '@src/infrastructure/database-providers/prisma/prisma';
-import { UserModel } from '../schema/user.schema';
+import { UserDatabaseModel } from '../schema/user.database.schema';
 import { UserRepositoryPort } from './user.repository.port';
 import { ILoggerPort } from '@src/libs/ports/logger.port';
 import { USER_LOGGER } from '../../user.di-tokens';
@@ -14,7 +14,7 @@ import { orderByFieldExtractor } from '@src/libs/utils';
 
 @Injectable()
 export class UserRepository
-  extends BaseEntityRepository<UserEntity, UserModel>
+  extends BaseEntityRepository<UserEntity, UserDatabaseModel>
   implements UserRepositoryPort
 {
   protected modelName: Prisma.ModelName = 'User';

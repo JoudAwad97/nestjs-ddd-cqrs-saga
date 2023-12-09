@@ -45,7 +45,6 @@ const interceptors: Provider[] = [
           options: {
             urls: [RABBITMQ_CONNECTION],
             queue: RABBITMQ_QUEUE,
-            noAck: false,
             queueOptions: { durable: false },
           },
         },

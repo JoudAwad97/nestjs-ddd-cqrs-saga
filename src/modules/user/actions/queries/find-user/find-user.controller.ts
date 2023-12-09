@@ -3,7 +3,7 @@ import { QueryBus } from '@nestjs/cqrs';
 import { UserEntity } from '@src/modules/user/domain/user.entity';
 import { UserMapper } from '@src/modules/user/database/mapper/user.mapper';
 import { FindUserQuery } from './find-user.query';
-import { UserResponseDto } from '@src/modules/user/dtos/user.dto';
+import { UserResponseDto } from '@src/modules/user/dtos/user.db.dto';
 
 @Controller('user')
 export class FindUserHttpController {

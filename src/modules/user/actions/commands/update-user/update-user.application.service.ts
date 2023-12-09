@@ -27,13 +27,13 @@ export class UpdateUserApplicationService
 
     const user = await this.repository.findById(userId);
     if (!user) {
-      throw UserErrors.UserNotFound();
+      UserErrors.UserNotFound();
     }
 
     if (email !== user.email.getEmail()) {
       const userWithSameEmail = await this.repository.findOneByEmail(email);
       if (userWithSameEmail && userWithSameEmail.id !== userId) {
-        throw UserErrors.EmailAlreadyInUse();
+        UserErrors.EmailAlreadyInUse();
       }
     }
 

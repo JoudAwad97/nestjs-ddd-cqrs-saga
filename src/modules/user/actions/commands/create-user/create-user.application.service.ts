@@ -32,7 +32,7 @@ export class CreateUserApplicationService
     const userExists = await this.userRepository.findOneByEmail(email);
 
     if (userExists) {
-      throw UserErrors.EmailAlreadyInUse();
+      UserErrors.EmailAlreadyInUse();
     }
 
     // create a new user entity

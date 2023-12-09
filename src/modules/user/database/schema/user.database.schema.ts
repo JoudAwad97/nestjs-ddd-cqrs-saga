@@ -15,7 +15,7 @@ import {
  * https://github.com/gajus/slonik#runtime-validation
  * If you prefer to avoid performance penalty of validation, use interfaces instead.
  */
-export const userSchema = z.object({
+export const userDatabaseSchema = z.object({
   id: z.string().uuid(),
   created_at: z.preprocess((val: any) => new Date(val), z.date()),
   updated_at: z.preprocess((val: any) => new Date(val), z.date()),
@@ -37,4 +37,4 @@ export const userSchema = z.object({
 });
 
 // user Schema model in the database
-export type UserModel = z.TypeOf<typeof userSchema>;
+export type UserDatabaseModel = z.TypeOf<typeof userDatabaseSchema>;

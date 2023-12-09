@@ -1,13 +1,17 @@
 import { Mapper } from '@src/libs/ddd/mapper.interface';
 import { Injectable } from '@nestjs/common';
 import { UserEntity } from '../../domain/user.entity';
-import { UserModel, userSchema } from '../schema/user.schema';
-import { UserResponseDto } from '../../dtos/user.dto';
+import {
+  UserDatabaseModel,
+  userDatabaseSchema,
+} from '../schema/user.database.schema';
+import { UserResponseDto } from '../../dtos/user.db.dto';
 import { Email } from '../../domain/value-objects/email.value-objects';
 import { UserRole } from '../../domain/value-objects/user-role.value-objects';
 import { UserStatus } from '../../domain/value-objects/status.value-objects';
 import { UserRoles, UserStatuses } from '../../domain/user.types';
 import { UserMapperPort } from './user.mapper.port';
+import { UserListenerResponseDto } from '../../../../shared/dto/user.listener.dto';
 
 /**
  * Mapper constructs objects that are used in different layers:
@@ -17,14 +21,16 @@ import { UserMapperPort } from './user.mapper.port';
  */
 @Injectable()
 export class UserMapper
-  implements Mapper<UserEntity, UserModel, UserResponseDto>, UserMapperPort
+  implements
+    Mapper<UserEntity, UserDatabaseModel, UserResponseDto>,
+    UserMapperPort
 {
   /**
    * Convert Domain Entity into Database Record
    */
-  toPersistence(entity: UserEntity): UserModel {
+  toPersistence(entity: UserEntity): UserDatabaseModel {
     const copy = entity.getProps();
-    const record: UserModel = {
+    const record: UserDatabaseModel = {
       created_at: copy.createdAt,
       email: copy.email.getEmail(),
       first_name: copy.firstName,
@@ -36,13 +42,13 @@ export class UserMapper
       status: copy.status.getStatus(),
       updated_at: copy.updatedAt,
     };
-    return userSchema.parse(record);
+    return userDatabaseSchema.parse(record);
   }
 
   /**
    * Convert Database Record into Domain Entity
    */
-  toDomain(record: UserModel): UserEntity {
+  toDomain(record: UserDatabaseModel): UserEntity {
     const entity = new UserEntity({
       id: record.id,
       createdAt: record.created_at,
@@ -75,6 +81,17 @@ export class UserMapper
     response.firstName = props.firstName;
     response.lastName = props.lastName;
     response.nickName = props.nickName;
+    return response;
+  }
+
+  toListenerResponse(entity: UserEntity): UserListenerResponseDto {
+    const props = entity.getProps();
+    const response = new UserListenerResponseDto(entity);
+    response.firstName = props.firstName;
+    response.lastName = props.lastName;
+    response.nickName = props.nickName;
+    response.role = props.role.getRole();
+    response.status = props.status.getStatus();
     return response;
   }
 }

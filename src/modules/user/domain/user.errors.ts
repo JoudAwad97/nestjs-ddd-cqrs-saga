@@ -1,4 +1,8 @@
-import { ConflictException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 
 export class UserErrors {
   static UserAlreadyExists(): void {
@@ -11,5 +15,13 @@ export class UserErrors {
 
   static UserNotFound(): void {
     throw new NotFoundException('User not found');
+  }
+
+  static InvalidStatus(): void {
+    throw new BadRequestException('Invalid status');
+  }
+
+  static InvalidRole(): void {
+    throw new BadRequestException('Invalid role');
   }
 }

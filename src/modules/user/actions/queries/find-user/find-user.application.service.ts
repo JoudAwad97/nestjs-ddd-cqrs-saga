@@ -24,7 +24,7 @@ export class FindUserQueryApplicationService
 
     if (!user) {
       this.logger.error(`User not found: ${JSON.stringify(query)}`);
-      throw UserErrors.UserNotFound();
+      UserErrors.UserNotFound();
     }
 
     return user;

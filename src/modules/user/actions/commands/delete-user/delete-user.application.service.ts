@@ -30,7 +30,7 @@ export class DeleteUserApplicationService
 
     const user = await this.userRepository.findById(id);
     if (!user) {
-      throw UserErrors.UserNotFound();
+      UserErrors.UserNotFound();
     }
 
     this.logger.log("Deleting user's account");

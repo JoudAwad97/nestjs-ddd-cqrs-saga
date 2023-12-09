@@ -30,7 +30,7 @@ export class UserAccountValidationApplicationService {
 
     if (!user) {
       this.logger.warn('User not found');
-      throw UserErrors.UserNotFound();
+      UserErrors.UserNotFound();
     }
 
     // do some logic for account validation like calling 3rd party services
