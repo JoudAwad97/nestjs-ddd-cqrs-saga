@@ -1,0 +1,39 @@
+import { Inject, Injectable } from '@nestjs/common';
+import { POST_PROJECTION_REPOSITORY, POST_LOGGER } from '../post.di-tokens';
+import { ILoggerPort } from '@src/libs/ports/logger.port';
+import { PostEntity } from '../domain/post.entity';
+import { PostProjectionPort } from './post.projection.port';
+import { PostProjectionRepositoryPort } from '../database/repository/read/post.dynamo.repository.port';
+
+@Injectable()
+export class PostProjection implements PostProjectionPort {
+  constructor(
+    @Inject(POST_LOGGER) private readonly logger: ILoggerPort,
+    @Inject(POST_PROJECTION_REPOSITORY)
+    private readonly postProjectionRepository: PostProjectionRepositoryPort,
+  ) {}
+
+  async projectPostToReadDB(post: PostEntity): Promise<void> {
+    this.logger.log('projectPostToReadDB: writing from write DB to Read DB');
+    try {
+      await this.postProjectionRepository.create(post);
+    } catch (err) {
+      this.logger.error(err);
+    }
+  }
+
+  async projectPostDeleteFromReadDB(
+    postId: string,
+    authorId: string,
+  ): Promise<void> {
+    this.logger.log(
+      'projectPostDeleteFromReadDB: deleting record from the Read DB',
+    );
+
+    try {
+      await this.postProjectionRepository.delete(postId, authorId);
+    } catch (err) {
+      this.logger.error(err);
+    }
+  }
+}

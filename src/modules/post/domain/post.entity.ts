@@ -9,6 +9,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { PostStatus } from './value-objects/status.value-objects';
 import { PostErrors } from './post.errors';
 import { PostUpdatedEvent } from './events/post-updated.event';
+import { PostCreatedEvent } from './events/post-created.event';
+import { PostDeletedEvent } from './events/post-deleted.event';
 
 export class PostEntity extends AggregateRoot<PostProps> {
   protected _id: AggregateID;
@@ -30,7 +32,25 @@ export class PostEntity extends AggregateRoot<PostProps> {
       updatedAt: new Date(),
     });
 
+    // add event of creation
+    post.addEvent(
+      new PostCreatedEvent({
+        aggregateId: post.id,
+        post,
+      }),
+    );
+
     return post;
+  }
+
+  public delete() {
+    this.addEvent(
+      new PostDeletedEvent({
+        aggregateId: this.id,
+        postId: this.id,
+        authorId: this.props.authorId,
+      }),
+    );
   }
 
   public canCommentOnPost(): boolean {

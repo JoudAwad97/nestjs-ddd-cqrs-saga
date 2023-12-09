@@ -5,7 +5,7 @@ import {
   POST_LOGGER,
   POST_REPOSITORY,
 } from '@src/modules/post/post.di-tokens';
-import { PostRepositoryPort } from '@src/modules/post/database/repository/post.repository.port';
+import { PostRepositoryPort } from '@src/modules/post/database/repository/write/post.repository.port';
 import { IEventPublisherPort } from '@src/libs/ports/event-publisher.port';
 import { ILoggerPort } from '@src/libs/ports/logger.port';
 import { Inject } from '@nestjs/common';
@@ -49,7 +49,7 @@ export class CreatePostApplicationService
       );
 
     // check the status
-    if (user.status === UserStatuses.INACTIVE) {
+    if (!user || user.status === UserStatuses.INACTIVE) {
       PostErrors.UserNotAllowedToPublishAPost();
     }
 

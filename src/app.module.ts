@@ -17,6 +17,7 @@ import {
   RABBITMQ_INJECTION_NAME,
   RABBITMQ_QUEUE,
 } from './constants';
+import { DynamoDBService } from './infrastructure/database-providers/dynamodb/dynamodb';
 
 const interceptors: Provider[] = [
   {
@@ -28,6 +29,8 @@ const interceptors: Provider[] = [
     useClass: ExceptionInterceptor,
   },
 ];
+
+const services: Provider[] = [PrismaService, Logger, DynamoDBService];
 
 @Module({
   imports: [
@@ -57,6 +60,6 @@ const interceptors: Provider[] = [
     CommentModule,
   ],
   controllers: [AppController],
-  providers: [...interceptors, PrismaService, Logger],
+  providers: [...interceptors, ...services],
 })
 export class AppModule {}

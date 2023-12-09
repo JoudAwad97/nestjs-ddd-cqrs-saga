@@ -20,9 +20,9 @@ import { FindUsersHttpController } from './actions/queries/find-users/find-users
 import { FindUsersQueryApplicationService } from './actions/queries/find-users/find-users.application.service';
 import { FindUserHttpController } from './actions/queries/find-user/find-user.controller';
 import { FindUserQueryApplicationService } from './actions/queries/find-user/find-user.application.service';
-import { UserCreatedEventHandler } from './actions/event-handlers/user-created-event.handler';
+import { UserCreatedEventHandler } from './actions/event-handlers/user-created.event.handler';
 import { UserFetchListener } from './actions/listeners/fetch-user.controller';
-import { UserDeletedEventHandler } from './actions/event-handlers/user-deleted-event.handler';
+import { UserDeletedEventHandler } from './actions/event-handlers/user-deleted.event.handler';
 
 const httpControllers = [
   CreateUserHttpController,

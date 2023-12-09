@@ -1,7 +1,7 @@
 import { Controller, Inject } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
 import { POST_LOGGER, POST_REPOSITORY } from '../../post.di-tokens';
-import { PostRepositoryPort } from '../../database/repository/post.repository.port';
+import { PostRepositoryPort } from '../../database/repository/write/post.repository.port';
 import { ILoggerPort } from '@src/libs/ports/logger.port';
 import { UserDeletedIntegrationEvent } from '@src/shared/events/user-deleted.integration.event';
 
