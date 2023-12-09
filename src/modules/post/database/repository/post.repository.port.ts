@@ -9,4 +9,6 @@ export interface PostRepositoryPort extends RepositoryPort<PostEntity> {
   ): Promise<Paginated<PostEntity>>;
 
   updatePost(post: PostEntity): Promise<PostEntity>;
+
+  deleteAuthorPosts(authorId: string): Promise<void>;
 }

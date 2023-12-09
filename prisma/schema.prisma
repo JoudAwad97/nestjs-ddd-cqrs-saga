@@ -33,7 +33,7 @@ model Post {
   status     PostStatus // Assuming 'PostStatus' is an enum
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
-  user       User       @relation(fields: [author_id], references: [id])
+  user       User       @relation(fields: [author_id], references: [id], onDelete: Cascade)
   comments   Comment[]
 }
 
@@ -47,8 +47,8 @@ model Comment {
   flagged    Boolean
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  user       User     @relation(fields: [user_id], references: [id])
-  post       Post     @relation(fields: [post_id], references: [id])
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  post       Post     @relation(fields: [post_id], references: [id], onDelete: Cascade)
 }
 
 // Enum definitions (you will need to define these based on your requirements)

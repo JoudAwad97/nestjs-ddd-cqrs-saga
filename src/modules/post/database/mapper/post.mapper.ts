@@ -27,6 +27,8 @@ export class PostMapper
       id: copy.id,
       title: copy.title,
       content: copy.content,
+      author_id: copy.authorId,
+      status: copy.status.getStatus() as PostStatuses,
       updated_at: copy.updatedAt,
     };
     return postSchema.parse(record);

@@ -9,9 +9,10 @@ import { PostMapper } from './database/mapper/post.mapper';
 import { CreatePostApplicationService } from './actions/commands/create-post/create-post.application.service';
 import { PostRepository } from './database/repository/post.repository';
 import { CreatePostHttpController } from './actions/commands/create-post/create-post.controller';
+import { DeleteAuthorPostsListener } from './actions/listeners/user-deleted.listener';
 
 const httpControllers = [CreatePostHttpController];
-const messageControllers = [];
+const messageControllers = [DeleteAuthorPostsListener];
 const graphqlResolvers: Provider[] = [];
 
 const eventHandlers: Provider[] = [];

@@ -62,4 +62,12 @@ export class PostRepository
       })
       .then(this.mapper.toDomain);
   }
+
+  async deleteAuthorPosts(authorId: string): Promise<void> {
+    await this.prismaService.post.deleteMany({
+      where: {
+        author_id: authorId,
+      },
+    });
+  }
 }
