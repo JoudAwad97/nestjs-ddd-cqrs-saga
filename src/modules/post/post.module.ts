@@ -5,6 +5,7 @@ import {
   POST_EVENT_PUBLISHER,
   POST_REPOSITORY,
   POST_PROJECTION,
+  POST_MAPPER,
 } from './post.di-tokens';
 import { EventEmitter } from '@src/infrastructure/publisher';
 import { PostMapper } from './database/mapper/post.mapper';
@@ -43,7 +44,13 @@ const commandHandlers: Provider[] = [
 ];
 const queryHandlers: Provider[] = [FindPostsQueryApplicationService];
 
-const mappers: Provider[] = [PostMapper];
+const mappers: Provider[] = [
+  {
+    provide: POST_MAPPER,
+    useClass: PostMapper,
+  },
+  PostMapper,
+];
 
 const repositories: Provider[] = [
   {

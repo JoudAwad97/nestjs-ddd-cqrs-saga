@@ -1,4 +1,3 @@
-import { Mapper } from '@src/libs/ddd/mapper.interface';
 import { Injectable } from '@nestjs/common';
 import { PostEntity } from '../../domain/post.entity';
 import { PostModel, postSchema } from '../schema/post.schema';
@@ -18,9 +17,7 @@ import {
  * and a ResponseDTO is an object returned to a user (usually as json).
  */
 @Injectable()
-export class PostMapper
-  implements Mapper<PostEntity, PostModel, PostResponseDto>, PostMapperPort
-{
+export class PostMapper implements PostMapperPort {
   /**
    * Convert Domain Entity into Database Record
    */

@@ -1,10 +1,11 @@
 import { Controller, Inject } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { UserMapper } from '@src/modules/user/database/mapper/user.mapper';
 import { UserRepositoryPort } from '@src/modules/user/database/repository/user.repository.port';
 import { UserListenerResponseDto } from '@src/shared/dto/user.listener.dto';
 import { USER_REPOSITORY } from '@src/modules/user/user.di-tokens';
 import { USER_FETCH_MESSAGE_PATTERN } from '@src/shared/constants/user-events.constants';
+import { UserMapperPort } from '../../database/mapper/user.mapper.port';
+import { USER_MAPPER } from '@src/modules/comment/comment.di-tokens';
 
 interface FetchUserPayload {
   id: string;
@@ -15,7 +16,7 @@ export class UserFetchListener {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepositoryPort,
-    private readonly userMapper: UserMapper,
+    @Inject(USER_MAPPER) private readonly userMapper: UserMapperPort,
   ) {}
 
   @MessagePattern(USER_FETCH_MESSAGE_PATTERN)

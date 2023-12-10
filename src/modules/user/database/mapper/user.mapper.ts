@@ -1,4 +1,3 @@
-import { Mapper } from '@src/libs/ddd/mapper.interface';
 import { Injectable } from '@nestjs/common';
 import { UserEntity } from '../../domain/user.entity';
 import {
@@ -20,11 +19,7 @@ import { UserListenerResponseDto } from '../../../../shared/dto/user.listener.dt
  * and a ResponseDTO is an object returned to a user (usually as json).
  */
 @Injectable()
-export class UserMapper
-  implements
-    Mapper<UserEntity, UserDatabaseModel, UserResponseDto>,
-    UserMapperPort
-{
+export class UserMapper implements UserMapperPort {
   /**
    * Convert Domain Entity into Database Record
    */

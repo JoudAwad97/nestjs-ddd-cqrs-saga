@@ -1,20 +1,20 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { CreateCommentCommand } from './create-comment.command';
+import { CreateCommentCommand } from '../create-comment/create-comment.command';
 import { Inject } from '@nestjs/common';
 import {
   COMMENT_EVENT_PUBLISHER,
   COMMENT_REPOSITORY,
-} from '../../comment.di-tokens';
-import { CommentRepositoryPort } from '../../database/repository/comment.repository.port';
+} from '../../../comment.di-tokens';
+import { CommentRepositoryPort } from '../../../database/repository/comment.repository.port';
 import { ILoggerPort } from '@src/libs/ports/logger.port';
 import { IEventPublisherPort } from '@src/libs/ports/event-publisher.port';
 import { AggregateID } from '@src/libs/ddd';
-import { CommentEntity } from '../../domain/comment.entity';
+import { CommentEntity } from '../../../domain/comment.entity';
 import { LOGGER } from '@src/constants';
 import { POST_REPOSITORY } from '@src/modules/post/post.di-tokens';
 import { UserRepositoryPort } from '@src/modules/user/database/repository/user.repository.port';
 import { PostRepositoryPort } from '@src/modules/post/database/repository/write/post.repository.port';
-import { commentDomainService } from '../../domain/comment.service';
+import { commentDomainService } from '../../../domain/comment.service';
 import { USER_REPOSITORY } from '@src/modules/user/user.di-tokens';
 
 @CommandHandler(CreateCommentCommand)

@@ -20,6 +20,7 @@ import { UserCreatedEventHandler } from './actions/event-handlers/user-created.e
 import { UserFetchListener } from './actions/listeners/fetch-user.controller';
 import { UserDeletedEventHandler } from './actions/event-handlers/user-deleted.event.handler';
 import { LOGGER } from '@src/constants';
+import { USER_MAPPER } from '../comment/comment.di-tokens';
 
 const httpControllers = [
   CreateUserHttpController,
@@ -50,7 +51,13 @@ const queryHandlers: Provider[] = [
   FindUserQueryApplicationService,
 ];
 
-const mappers: Provider[] = [UserMapper];
+const mappers: Provider[] = [
+  {
+    provide: USER_MAPPER,
+    useClass: UserMapper,
+  },
+  UserMapper,
+];
 
 const repositories: Provider[] = [
   {
