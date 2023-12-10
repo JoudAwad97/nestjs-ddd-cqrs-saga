@@ -20,7 +20,7 @@ export class CommentRepository
   extends BaseEntityRepository<CommentEntity, CommentModel>
   implements CommentRepositoryPort
 {
-  protected modelName: Prisma.ModelName = 'Post';
+  protected modelName: Prisma.ModelName = 'Comment';
   protected prismaService: PrismaService;
 
   constructor(

@@ -39,15 +39,12 @@ model Post {
 
 model Comment {
   id         String   @id @default(uuid())
-  user_id    String
+  author_id  String
   post_id    String
   content    String
-  active     Boolean
-  edited     Boolean
-  flagged    Boolean
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [author_id], references: [id], onDelete: Cascade)
   post       Post     @relation(fields: [post_id], references: [id], onDelete: Cascade)
 }
 

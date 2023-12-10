@@ -11,6 +11,11 @@ import { IEventPublisherPort } from '@src/libs/ports/event-publisher.port';
 import { AggregateID } from '@src/libs/ddd';
 import { CommentEntity } from '../../domain/comment.entity';
 import { LOGGER } from '@src/constants';
+import { POST_REPOSITORY } from '@src/modules/post/post.di-tokens';
+import { UserRepositoryPort } from '@src/modules/user/database/repository/user.repository.port';
+import { PostRepositoryPort } from '@src/modules/post/database/repository/write/post.repository.port';
+import { commentDomainService } from '../../domain/comment.service';
+import { USER_REPOSITORY } from '@src/modules/user/user.di-tokens';
 
 @CommandHandler(CreateCommentCommand)
 export class CreateCommentApplicationService
@@ -22,6 +27,10 @@ export class CreateCommentApplicationService
     @Inject(LOGGER) private readonly logger: ILoggerPort,
     @Inject(COMMENT_EVENT_PUBLISHER)
     private readonly eventPublisher: IEventPublisherPort,
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: UserRepositoryPort,
+    @Inject(POST_REPOSITORY)
+    private readonly postRepository: PostRepositoryPort,
   ) {}
 
   async execute(command: CreateCommentCommand): Promise<AggregateID> {
@@ -46,6 +55,13 @@ export class CreateCommentApplicationService
     /**
      * validation for both post and author
      */
+    const [author, post] = await Promise.all([
+      this.userRepository.findById(authorId),
+      this.postRepository.findById(postId),
+    ]);
+
+    // use domain service to check for complicated logic for validation
+    commentDomainService.canCommentOnPost(comment, author, post);
 
     const result = await this.commentRepository.create(comment);
     comment.publishEvents(this.eventPublisher, this.logger);
