@@ -1,9 +1,10 @@
 import { Controller, Inject } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
-import { POST_LOGGER, POST_REPOSITORY } from '../../post.di-tokens';
+import { POST_REPOSITORY } from '../../post.di-tokens';
 import { PostRepositoryPort } from '../../database/repository/write/post.repository.port';
 import { ILoggerPort } from '@src/libs/ports/logger.port';
 import { UserDeletedIntegrationEvent } from '@src/shared/events/user-deleted.integration.event';
+import { LOGGER } from '@src/constants';
 
 interface DeleteAuthorPostsPayload {
   id: string;
@@ -14,7 +15,7 @@ export class DeleteAuthorPostsListener {
   constructor(
     @Inject(POST_REPOSITORY)
     private readonly postRepository: PostRepositoryPort,
-    @Inject(POST_LOGGER) private readonly logger: ILoggerPort,
+    @Inject(LOGGER) private readonly logger: ILoggerPort,
   ) {}
 
   @EventPattern(UserDeletedIntegrationEvent.name)

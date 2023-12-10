@@ -1,10 +1,6 @@
 import { Logger, Module, Provider } from '@nestjs/common';
 import { UserMapper } from './database/mapper/user.mapper';
-import {
-  USER_EVENT_PUBLISHER,
-  USER_LOGGER,
-  USER_REPOSITORY,
-} from './user.di-tokens';
+import { USER_EVENT_PUBLISHER, USER_REPOSITORY } from './user.di-tokens';
 import { UserRepository } from './database/repository/user.repository';
 import { CreateUserHttpController } from './actions/commands/create-user/create-user.controller';
 import { CreateUserApplicationService } from './actions/commands/create-user/create-user.application.service';
@@ -23,6 +19,7 @@ import { FindUserQueryApplicationService } from './actions/queries/find-user/fin
 import { UserCreatedEventHandler } from './actions/event-handlers/user-created.event.handler';
 import { UserFetchListener } from './actions/listeners/fetch-user.controller';
 import { UserDeletedEventHandler } from './actions/event-handlers/user-deleted.event.handler';
+import { LOGGER } from '@src/constants';
 
 const httpControllers = [
   CreateUserHttpController,
@@ -64,7 +61,7 @@ const repositories: Provider[] = [
 
 const libraries: Provider[] = [
   {
-    provide: USER_LOGGER,
+    provide: LOGGER,
     useClass: Logger,
   },
   {

@@ -7,16 +7,16 @@ import { ILoggerPort } from '@src/libs/ports/logger.port';
 import { IEventPublisherPort } from '@src/libs/ports/event-publisher.port';
 import {
   USER_EVENT_PUBLISHER,
-  USER_LOGGER,
   USER_REPOSITORY,
 } from '@src/modules/user/user.di-tokens';
+import { LOGGER } from '@src/constants';
 
 @CommandHandler(UserAccountValidationCommand)
 export class UserAccountValidationApplicationService {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepositoryPort,
-    @Inject(USER_LOGGER) private readonly logger: ILoggerPort,
+    @Inject(LOGGER) private readonly logger: ILoggerPort,
     @Inject(USER_EVENT_PUBLISHER)
     private readonly eventPublisher: IEventPublisherPort,
   ) {}

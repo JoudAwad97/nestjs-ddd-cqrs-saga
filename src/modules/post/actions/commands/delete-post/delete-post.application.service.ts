@@ -4,11 +4,11 @@ import { Inject } from '@nestjs/common';
 import { PostRepositoryPort } from '@src/modules/post/database/repository/write/post.repository.port';
 import {
   POST_EVENT_PUBLISHER,
-  POST_LOGGER,
   POST_REPOSITORY,
 } from '@src/modules/post/post.di-tokens';
 import { ILoggerPort } from '@src/libs/ports/logger.port';
 import { IEventPublisherPort } from '@src/libs/ports/event-publisher.port';
+import { LOGGER } from '@src/constants';
 
 @CommandHandler(DeletePostCommand)
 export class DeletePostApplicationService
@@ -17,7 +17,7 @@ export class DeletePostApplicationService
   constructor(
     @Inject(POST_REPOSITORY)
     private readonly postRepository: PostRepositoryPort,
-    @Inject(POST_LOGGER) private readonly logger: ILoggerPort,
+    @Inject(LOGGER) private readonly logger: ILoggerPort,
     @Inject(POST_EVENT_PUBLISHER)
     private readonly eventPublisher: IEventPublisherPort,
   ) {}

@@ -1,14 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { POST_PROJECTION_REPOSITORY, POST_LOGGER } from '../post.di-tokens';
+import { POST_PROJECTION_REPOSITORY } from '../post.di-tokens';
 import { ILoggerPort } from '@src/libs/ports/logger.port';
 import { PostEntity } from '../domain/post.entity';
 import { PostProjectionPort } from './post.projection.port';
 import { PostProjectionRepositoryPort } from '../database/repository/read/post.dynamo.repository.port';
+import { LOGGER } from '@src/constants';
 
 @Injectable()
 export class PostProjection implements PostProjectionPort {
   constructor(
-    @Inject(POST_LOGGER) private readonly logger: ILoggerPort,
+    @Inject(LOGGER) private readonly logger: ILoggerPort,
     @Inject(POST_PROJECTION_REPOSITORY)
     private readonly postProjectionRepository: PostProjectionRepositoryPort,
   ) {}

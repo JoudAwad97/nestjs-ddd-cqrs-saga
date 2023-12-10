@@ -3,7 +3,6 @@ import { Logger, Module, Provider } from '@nestjs/common';
 import {
   POST_PROJECTION_REPOSITORY,
   POST_EVENT_PUBLISHER,
-  POST_LOGGER,
   POST_REPOSITORY,
   POST_PROJECTION,
 } from './post.di-tokens';
@@ -21,6 +20,7 @@ import { PostCreatedEventHandler } from './actions/event-handlers/post-created.e
 import { PostDeletedEventHandler } from './actions/event-handlers/post-deleted.event.handler';
 import { FetchPostsHttpController } from './actions/queries/fetch-posts/fetch-post.controller';
 import { FindPostsQueryApplicationService } from './actions/queries/fetch-posts/fetch-post.application.service';
+import { LOGGER } from '@src/constants';
 
 const httpControllers = [
   CreatePostHttpController,
@@ -65,7 +65,7 @@ const projections: Provider[] = [
 
 const libraries: Provider[] = [
   {
-    provide: POST_LOGGER,
+    provide: LOGGER,
     useClass: Logger,
   },
   {

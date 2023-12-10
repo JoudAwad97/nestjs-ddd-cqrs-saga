@@ -2,7 +2,6 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreatePostCommand } from './create-post.command';
 import {
   POST_EVENT_PUBLISHER,
-  POST_LOGGER,
   POST_REPOSITORY,
 } from '@src/modules/post/post.di-tokens';
 import { PostRepositoryPort } from '@src/modules/post/database/repository/write/post.repository.port';
@@ -15,6 +14,7 @@ import { UserStatuses } from '@src/modules/user/domain/user.types';
 import { PostErrors } from '@src/modules/post/domain/post.errors';
 import { PostEntity } from '@src/modules/post/domain/post.entity';
 import { AggregateID } from '@src/libs/ddd';
+import { LOGGER } from '@src/constants';
 
 @CommandHandler(CreatePostCommand)
 export class CreatePostApplicationService
@@ -25,7 +25,7 @@ export class CreatePostApplicationService
     private readonly postRepository: PostRepositoryPort,
     @Inject(POST_EVENT_PUBLISHER)
     private readonly eventPublisher: IEventPublisherPort,
-    @Inject(POST_LOGGER) private readonly logger: ILoggerPort,
+    @Inject(LOGGER) private readonly logger: ILoggerPort,
   ) {}
 
   async execute(command: CreatePostCommand): Promise<AggregateID> {

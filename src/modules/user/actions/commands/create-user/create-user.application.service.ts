@@ -4,7 +4,6 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Inject } from '@nestjs/common';
 import {
   USER_EVENT_PUBLISHER,
-  USER_LOGGER,
   USER_REPOSITORY,
 } from '@src/modules/user/user.di-tokens';
 import { AggregateID } from '@src/libs/ddd';
@@ -12,6 +11,7 @@ import { UserEntity } from '@src/modules/user/domain/user.entity';
 import { ILoggerPort } from '@src/libs/ports/logger.port';
 import { IEventPublisherPort } from '@src/libs/ports/event-publisher.port';
 import { UserErrors } from '@src/modules/user/domain/user.errors';
+import { LOGGER } from '@src/constants';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserApplicationService
@@ -22,7 +22,7 @@ export class CreateUserApplicationService
     private readonly userRepository: UserRepositoryPort,
     @Inject(USER_EVENT_PUBLISHER)
     private readonly eventPublisher: IEventPublisherPort,
-    @Inject(USER_LOGGER) private readonly logger: ILoggerPort,
+    @Inject(LOGGER) private readonly logger: ILoggerPort,
   ) {}
 
   async execute(command: CreateUserCommand): Promise<AggregateID> {

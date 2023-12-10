@@ -1,5 +1,5 @@
 export const POST_REPOSITORY = Symbol('POST_REPOSITORY');
-export const POST_LOGGER = Symbol('POST_LOGGER');
 export const POST_EVENT_PUBLISHER = Symbol('POST_EVENT_PUBLISHER');
 export const POST_PROJECTION_REPOSITORY = Symbol('POST_PROJECTION_REPOSITORY');
 export const POST_PROJECTION = Symbol('POST_PROJECTION');
+export const POST_MAPPER = Symbol('POST_MAPPER');

@@ -6,11 +6,11 @@ import { ILoggerPort } from '@src/libs/ports/logger.port';
 import { PaginatedQueryBase } from '@src/libs/ddd/query.base';
 import { Paginated } from '@src/libs/ports/repository.port';
 import { orderByFieldExtractor } from '@src/libs/utils';
-import { POST_LOGGER } from '../../../post.di-tokens';
 import { PostEntity } from '../../../domain/post.entity';
 import { PostModel } from '../../schema/post.schema';
 import { PostRepositoryPort } from './post.repository.port';
 import { PostMapper } from '../../mapper/post.mapper';
+import { LOGGER } from '@src/constants';
 
 @Injectable()
 export class PostRepository
@@ -22,7 +22,7 @@ export class PostRepository
 
   constructor(
     protected readonly mapper: PostMapper,
-    @Inject(POST_LOGGER) protected readonly logger: ILoggerPort,
+    @Inject(LOGGER) protected readonly logger: ILoggerPort,
   ) {
     super(mapper, logger);
     this.prismaService = new PrismaService(this.logger);

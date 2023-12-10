@@ -7,10 +7,10 @@ import { PrismaService } from '@src/infrastructure/database-providers/prisma/pri
 import { UserDatabaseModel } from '../schema/user.database.schema';
 import { UserRepositoryPort } from './user.repository.port';
 import { ILoggerPort } from '@src/libs/ports/logger.port';
-import { USER_LOGGER } from '../../user.di-tokens';
 import { PaginatedQueryBase } from '@src/libs/ddd/query.base';
 import { Paginated } from '@src/libs/ports/repository.port';
 import { orderByFieldExtractor } from '@src/libs/utils';
+import { LOGGER } from '@src/constants';
 
 @Injectable()
 export class UserRepository
@@ -22,7 +22,7 @@ export class UserRepository
 
   constructor(
     protected readonly mapper: UserMapper,
-    @Inject(USER_LOGGER) protected readonly logger: ILoggerPort,
+    @Inject(LOGGER) protected readonly logger: ILoggerPort,
   ) {
     super(mapper, logger);
     this.prismaService = new PrismaService(this.logger);
