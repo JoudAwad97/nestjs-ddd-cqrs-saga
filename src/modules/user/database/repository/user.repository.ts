@@ -29,6 +29,18 @@ export class UserRepository
     this.prismaService = new PrismaService(this.logger);
   }
 
+  async findUsersByIds(ids: string[]): Promise<UserEntity[]> {
+    const users = await this.prismaService.user.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+
+    return users.map(this.mapper.toDomain);
+  }
+
   async fetchPaginatedUsers(
     input: PaginatedQueryBase,
   ): Promise<Paginated<UserEntity>> {

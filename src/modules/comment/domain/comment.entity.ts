@@ -25,6 +25,10 @@ export class CommentEntity extends AggregateRoot<CommentProps> {
     return comment;
   }
 
+  get authorId(): string {
+    return this.props.authorId;
+  }
+
   public commentIsValid() {
     return this.props.content && this.props.content.length > 0;
   }

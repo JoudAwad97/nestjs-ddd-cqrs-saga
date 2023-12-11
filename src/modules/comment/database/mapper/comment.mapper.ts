@@ -48,17 +48,19 @@ export class CommentMapper implements CommentMapperPort {
     user: UserEntity,
   ): CommentWithAuthorResponseDto {
     const commentCopy = comment.getProps();
-    const userCopy = user.getProps();
+    const userCopy = user?.getProps();
 
     const response = new CommentWithAuthorResponseDto(comment);
     response.content = commentCopy.content;
 
-    const userResponse = new UserResponseDto(user);
-    userResponse.firstName = userCopy.firstName;
-    userResponse.lastName = userCopy.lastName;
-    userResponse.nickName = userCopy.nickName;
+    if (userCopy) {
+      const userResponse = new UserResponseDto(user);
+      userResponse.firstName = userCopy.firstName;
+      userResponse.lastName = userCopy.lastName;
+      userResponse.nickName = userCopy.nickName;
 
-    response.user = userResponse;
+      response.user = userResponse;
+    }
 
     return response;
   }
