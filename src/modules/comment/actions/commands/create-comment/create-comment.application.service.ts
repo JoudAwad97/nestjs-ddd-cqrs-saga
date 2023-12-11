@@ -12,10 +12,10 @@ import { AggregateID } from '@src/libs/ddd';
 import { CommentEntity } from '../../../domain/comment.entity';
 import { LOGGER } from '@src/constants';
 import { POST_REPOSITORY } from '@src/modules/post/post.di-tokens';
-import { UserRepositoryPort } from '@src/modules/user/database/repository/user.repository.port';
-import { PostRepositoryPort } from '@src/modules/post/database/repository/write/post.repository.port';
 import { commentDomainService } from '../../../domain/comment.service';
 import { USER_REPOSITORY } from '@src/modules/user/user.di-tokens';
+import { UserRepositoryContract } from '@src/shared/contract/user.contract';
+import { PostRepositoryContract } from '@src/shared/contract/post.contract';
 
 @CommandHandler(CreateCommentCommand)
 export class CreateCommentApplicationService
@@ -27,10 +27,13 @@ export class CreateCommentApplicationService
     @Inject(LOGGER) private readonly logger: ILoggerPort,
     @Inject(COMMENT_EVENT_PUBLISHER)
     private readonly eventPublisher: IEventPublisherPort,
+    /**
+     * Notice how we share the contracts and not the actual implementation or ports
+     */
     @Inject(USER_REPOSITORY)
-    private readonly userRepository: UserRepositoryPort,
+    private readonly userRepository: UserRepositoryContract,
     @Inject(POST_REPOSITORY)
-    private readonly postRepository: PostRepositoryPort,
+    private readonly postRepository: PostRepositoryContract,
   ) {}
 
   async execute(command: CreateCommentCommand): Promise<AggregateID> {
@@ -41,7 +44,7 @@ export class CreateCommentApplicationService
      * this will be shared between modules it is easy and fast
      * but add coupling to your code at run-time
      * keep in mind that using this approach is totally fine
-     * but you still need to always use the "Port" and the interfaces
+     * but you still need to always use the "Port/Contract" and the interfaces
      * instead of using the actual implementation
      */
     const { authorId, content, postId } = command;

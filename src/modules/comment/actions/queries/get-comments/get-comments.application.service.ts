@@ -5,7 +5,7 @@ import { LOGGER } from '@src/constants';
 import { ILoggerPort } from '@src/libs/ports/logger.port';
 import { COMMENT_REPOSITORY } from '@src/modules/comment/comment.di-tokens';
 import { CommentRepositoryPort } from '@src/modules/comment/database/repository/comment.repository.port';
-import { CommentWithAuthor } from '@src/modules/comment/comment.types';
+import { CommentWithAuthor } from '@src/modules/comment/interfaces/comment.types';
 
 @QueryHandler(FindCommentsQuery)
 export class FindCommentsQueryApplicationService

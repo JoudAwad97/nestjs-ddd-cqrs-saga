@@ -11,11 +11,12 @@ import { PostModel } from '../../schema/post.schema';
 import { PostRepositoryPort } from './post.repository.port';
 import { PostMapper } from '../../mapper/post.mapper';
 import { LOGGER } from '@src/constants';
+import { PostRepositoryContract } from '@src/shared/contract/post.contract';
 
 @Injectable()
 export class PostRepository
   extends BaseEntityRepository<PostEntity, PostModel>
-  implements PostRepositoryPort
+  implements PostRepositoryPort, PostRepositoryContract
 {
   protected modelName: Prisma.ModelName = 'Post';
   protected prismaService: PrismaService;

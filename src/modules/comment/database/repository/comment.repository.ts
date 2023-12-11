@@ -9,7 +9,7 @@ import { CommentModel } from '../schema/comment.schema';
 import { CommentRepositoryPort } from './comment.repository.port';
 import { CommentMapperPort } from '../mapper/comment.mapper.port';
 import { LOGGER } from '@src/constants';
-import { CommentWithAuthor } from '../../comment.types';
+import { CommentWithAuthor } from '../../interfaces/comment.types';
 import { UserMapperPort } from '@src/modules/user/database/mapper/user.mapper.port';
 
 @Injectable()

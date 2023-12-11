@@ -11,11 +11,12 @@ import { PaginatedQueryBase } from '@src/libs/ddd/query.base';
 import { Paginated } from '@src/libs/ports/repository.port';
 import { orderByFieldExtractor } from '@src/libs/utils';
 import { LOGGER } from '@src/constants';
+import { UserRepositoryContract } from '@src/shared/contract/user.contract';
 
 @Injectable()
 export class UserRepository
   extends BaseEntityRepository<UserEntity, UserDatabaseModel>
-  implements UserRepositoryPort
+  implements UserRepositoryPort, UserRepositoryContract
 {
   protected modelName: Prisma.ModelName = 'User';
   protected prismaService: PrismaService;
