@@ -62,5 +62,6 @@ const libraries: Provider[] = [
     ...mappers,
     ...repositories,
   ],
+  exports: [...mappers],
 })
 export class AuthorModule {}

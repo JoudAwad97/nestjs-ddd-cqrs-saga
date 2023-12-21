@@ -4,4 +4,6 @@ import { AuthorDatabaseModel } from '../schema/author.database.schema';
 import { AuthorResponseDto } from '../../dtos/author.db.dto';
 
 export interface AuthorMapperPort
-  extends Mapper<AuthorEntity, AuthorDatabaseModel, AuthorResponseDto> {}
+  extends Mapper<AuthorEntity, AuthorDatabaseModel, AuthorResponseDto> {
+  toResponseFromPersistence(record: AuthorDatabaseModel): AuthorResponseDto;
+}

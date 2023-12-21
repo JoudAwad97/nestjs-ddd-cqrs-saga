@@ -2,3 +2,4 @@ export const COMMENT_REPOSITORY = Symbol('COMMENT_REPOSITORY');
 export const COMMENT_EVENT_PUBLISHER = Symbol('COMMENT_EVENT_PUBLISHER');
 export const USER_MAPPER = Symbol('USER_MAPPER');
 export const COMMENT_MAPPER = Symbol('COMMENT_MAPPER');
+export const AUTHOR_REPOSITORY = Symbol('AUTHOR_REPOSITORY');

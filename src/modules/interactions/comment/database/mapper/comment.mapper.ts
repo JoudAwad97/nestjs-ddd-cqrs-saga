@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CommentEntity } from '../../domain/comment.entity';
 import { CommentModel } from '../schema/comment.schema';
 import { CommentWithAuthorResponseDto } from '../../dtos/comment-with-author.dto';
@@ -6,9 +6,16 @@ import { CommentMapperPort } from './comment.mapper.port';
 import { UserEntity } from '@src/modules/user-management/user/domain/user.entity';
 import { CommentResponseDto } from '../../dtos/comment.dto';
 import { UserResponseDto } from '@src/modules/user-management/user/dtos/user.db.dto';
+import { AUTHOR_MAPPER } from '@src/shared-kernels/author/author.di-tokens';
+import { AuthorMapperPort } from '@src/shared-kernels/author/database/mapper/author.mapper.port';
+import { AuthorDatabaseModel } from '@src/shared-kernels/author/database/schema/author.database.schema';
 
 @Injectable()
 export class CommentMapper implements CommentMapperPort {
+  constructor(
+    @Inject(AUTHOR_MAPPER) protected readonly authorMapper: AuthorMapperPort,
+  ) {}
+
   toPersistence(entity: CommentEntity): CommentModel {
     const copy = entity.getProps();
     const record: CommentModel = {
@@ -41,6 +48,19 @@ export class CommentMapper implements CommentMapperPort {
     const response = new CommentResponseDto(entity);
     response.content = copy.content;
     return response;
+  }
+
+  databaseModelToResponseDto(
+    comment: CommentModel,
+    author: AuthorDatabaseModel,
+  ): CommentWithAuthorResponseDto {
+    return {
+      content: comment.content,
+      id: comment.id,
+      createdAt: new Date(comment.created_at).toISOString(),
+      updatedAt: new Date(comment.updated_at).toISOString(),
+      user: this.authorMapper.toResponseFromPersistence(author),
+    };
   }
 
   toResponseWithAuthor(

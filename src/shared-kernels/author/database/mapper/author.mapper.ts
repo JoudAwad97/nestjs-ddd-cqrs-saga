@@ -10,6 +10,16 @@ import {
 
 @Injectable()
 export class AuthorMapper implements AuthorMapperPort {
+  toResponseFromPersistence(record: AuthorDatabaseModel): AuthorResponseDto {
+    return {
+      id: record.id,
+      createdAt: record.created_at.toISOString(),
+      updatedAt: record.updated_at.toISOString(),
+      firstName: record.first_name,
+      lastName: record.last_name,
+      nickName: record.nick_name,
+    };
+  }
   toPersistence(entity: AuthorEntity): UserDatabaseModel {
     const copy = entity.getProps();
     const record: AuthorDatabaseModel = {

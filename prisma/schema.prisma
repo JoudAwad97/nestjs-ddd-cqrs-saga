@@ -52,7 +52,7 @@ model Comment {
   content    String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  user       Author   @relation(fields: [author_id], references: [id], onDelete: Cascade)
+  user       Author   @relation(fields: [author_id], references: [user_id], onDelete: Cascade)
 }
 
 // Enum definitions (you will need to define these based on your requirements)

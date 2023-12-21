@@ -1,10 +1,9 @@
 2. Create a Common Domains that holds the "Author" in it and then use that entity in the "Post", "Comment"
-3. Group Modules by there bounded context "directory"
-4. create an example of Bounded Context Anti-corruption Layer (ACL) / Use Adaptor (Request Sending) and Translator (Translate data to local bounded context understanding) to fix the problem of converting the records
-5. create a "Factory" Example to hide a complex implementation of an Aggregate (Comment With Author)
-6. Create a domain service for user that allow us to Authenticate the user with the User Entity
-7. Global Error handlers for modular monolithic
-8. How to model the Post with Author as an aggregate
+3. create an example of Bounded Context Anti-corruption Layer (ACL) / Use Adaptor (Request Sending) and Translator (Translate data to local bounded context understanding) to fix the problem of converting the records
+4. create a "Factory" Example to hide a complex implementation of an Aggregate (Comment With Author)
+5. Create a domain service for user that allow us to Authenticate the user with the User Entity
+6. Global Error handlers for modular monolithic
+7. How to model the Post with Author as an aggregate (no need to model it, directly convert from Repository into DTO in case no need to pass the entity level)
 
 ---
 

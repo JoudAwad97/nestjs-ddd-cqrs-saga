@@ -1,5 +1,6 @@
 import { Logger, Module, Provider } from '@nestjs/common';
 import {
+  AUTHOR_REPOSITORY,
   COMMENT_EVENT_PUBLISHER,
   COMMENT_MAPPER,
   COMMENT_REPOSITORY,
@@ -24,10 +25,15 @@ import { GetCommentsHttpController } from './actions/queries/get-comments/get-co
 import { FindCommentsQueryApplicationService } from './actions/queries/get-comments/get-comments.application.service';
 import { ClientsModule } from '@nestjs/microservices';
 import { generateRabbitMQConfigurations } from '@src/libs/utils';
+import { AuthorRepository } from '@src/shared-kernels/author/database/repository/author.repository';
+import { AuthorModule } from '@src/shared-kernels/author/author.module';
+import { GetPostCommentsHttpController } from './actions/queries/get-post-comments/get-post-comments.controller';
+import { FindPostCommentsQueryApplicationService } from './actions/queries/get-post-comments/get-post-comments.application.service';
 
 const httpControllers = [
   CreateCommentHttpController,
   GetCommentsHttpController,
+  GetPostCommentsHttpController,
 ];
 const messageControllers = [];
 const graphqlResolvers: Provider[] = [];
@@ -37,7 +43,10 @@ const eventHandlers: Provider[] = [];
 const sagas: Provider[] = [];
 
 const commandHandlers: Provider[] = [CreateCommentApplicationService];
-const queryHandlers: Provider[] = [FindCommentsQueryApplicationService];
+const queryHandlers: Provider[] = [
+  FindCommentsQueryApplicationService,
+  FindPostCommentsQueryApplicationService,
+];
 
 const mappers: Provider[] = [
   {
@@ -69,6 +78,10 @@ const repositories: Provider[] = [
     provide: USER_REPOSITORY,
     useClass: UserRepository,
   },
+  {
+    provide: AUTHOR_REPOSITORY,
+    useClass: AuthorRepository,
+  },
 ];
 
 const libraries: Provider[] = [
@@ -96,6 +109,7 @@ const services: Provider[] = [];
         },
       ],
     }),
+    AuthorModule,
   ],
   controllers: [...httpControllers, ...messageControllers],
   providers: [
