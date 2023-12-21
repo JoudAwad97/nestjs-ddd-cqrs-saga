@@ -13,6 +13,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ExceptionInterceptor } from '@libs/application/interceptors/exception.interceptor';
 import { DynamoDBService } from './infrastructure/database-providers/dynamodb/dynamodb';
 import { AuthorModule } from './shared-kernels/author/author.module';
+import { NotificationModule } from './modules/notification/notification.module';
 
 const interceptors: Provider[] = [
   {
@@ -40,6 +41,7 @@ const services: Provider[] = [PrismaService, Logger, DynamoDBService];
     PostModule,
     CommentModule,
     AuthorModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [...interceptors, ...services],
