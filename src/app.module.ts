@@ -6,9 +6,9 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { ContextInterceptor } from './libs/application/context/ContextInterceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { PrismaService } from './infrastructure/database-providers/prisma/prisma';
-import { UserModule } from './modules/user/user.module';
-import { PostModule } from './modules/post/post.module';
-import { CommentModule } from './modules/comment/comment.module';
+import { UserModule } from './modules/user-management/user/user.module';
+import { PostModule } from './modules/content-management/post/post.module';
+import { CommentModule } from './modules/interactions/comment/comment.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ExceptionInterceptor } from '@libs/application/interceptors/exception.interceptor';
 import { ClientsModule, Transport } from '@nestjs/microservices';
@@ -18,6 +18,7 @@ import {
   RABBITMQ_QUEUE,
 } from './constants';
 import { DynamoDBService } from './infrastructure/database-providers/dynamodb/dynamodb';
+import { AuthorModule } from './shared-kernels/author/author.module';
 
 const interceptors: Provider[] = [
   {
@@ -41,6 +42,9 @@ const services: Provider[] = [PrismaService, Logger, DynamoDBService];
     CqrsModule.forRoot(),
     EventEmitterModule.forRoot(),
     ClientsModule.register({
+      /**
+       * TODO: IMPLEMENT DIFFERENT QUEUES FOR EACH USE CASE
+       */
       clients: [
         {
           name: RABBITMQ_INJECTION_NAME,
@@ -58,6 +62,7 @@ const services: Provider[] = [PrismaService, Logger, DynamoDBService];
     UserModule,
     PostModule,
     CommentModule,
+    AuthorModule,
   ],
   controllers: [AppController],
   providers: [...interceptors, ...services],

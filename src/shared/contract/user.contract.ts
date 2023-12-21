@@ -1,4 +1,4 @@
-import { UserEntity } from '@src/modules/user/domain/user.entity';
+import { UserEntity } from '@src/modules/user-management/user/domain/user.entity';
 
 /**
  * if you are interacting within the same bounded context and need to leverage the full behavior of the domain model,

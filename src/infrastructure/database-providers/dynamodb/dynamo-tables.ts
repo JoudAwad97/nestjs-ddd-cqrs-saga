@@ -2,7 +2,7 @@ import { CreateTableCommandInput } from '@aws-sdk/client-dynamodb';
 import {
   POST_GSI_BY_USER,
   POST_TABLE_NAME,
-} from '@src/modules/post/constants/dynamo.constants';
+} from '@src/modules/content-management/post/constants/dynamo.constants';
 
 export const postTable: CreateTableCommandInput = {
   TableName: POST_TABLE_NAME,

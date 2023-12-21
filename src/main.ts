@@ -6,6 +6,10 @@ import { RABBITMQ_CONNECTION, RABBITMQ_QUEUE } from './constants';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  /**
+   * TODO: IMPLEMENT DIFFERENT QUEUES FOR EACH USE CASE
+   */
   app.connectMicroservice({
     transport: Transport.RMQ,
     options: {
@@ -18,6 +22,9 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
 
   await app.startAllMicroservices();
-  await app.listen(3000);
+
+  const port = process.env.PORT || 3000;
+
+  await app.listen(port);
 }
 bootstrap();

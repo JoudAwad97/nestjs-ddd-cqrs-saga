@@ -1,4 +1,4 @@
-import { PostEntity } from '@src/modules/post/domain/post.entity';
+import { PostEntity } from '@src/modules/content-management/post/domain/post.entity';
 
 /**
  *  if you are interacting within the same bounded context and need to leverage the full behavior of the domain model,

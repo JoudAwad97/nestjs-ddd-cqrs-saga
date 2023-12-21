@@ -5,11 +5,15 @@ import {
 
 export class UserCreatedIntegrationEvent extends IntegrationEvent {
   public userId: string;
-  public email: string;
+  public firstName: string;
+  public lastName: string;
+  public nickName: string;
 
   constructor(props: IntegrationEventProps<UserCreatedIntegrationEvent>) {
     super(props, 'UserCreatedIntegrationEvent');
     this.userId = props.userId;
-    this.email = props.email;
+    this.firstName = props.firstName;
+    this.lastName = props.lastName;
+    this.nickName = props.nickName;
   }
 }
