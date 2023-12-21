@@ -11,12 +11,6 @@ import { PostModule } from './modules/content-management/post/post.module';
 import { CommentModule } from './modules/interactions/comment/comment.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ExceptionInterceptor } from '@libs/application/interceptors/exception.interceptor';
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import {
-  RABBITMQ_CONNECTION,
-  RABBITMQ_INJECTION_NAME,
-  RABBITMQ_QUEUE,
-} from './constants';
 import { DynamoDBService } from './infrastructure/database-providers/dynamodb/dynamodb';
 import { AuthorModule } from './shared-kernels/author/author.module';
 
@@ -41,23 +35,6 @@ const services: Provider[] = [PrismaService, Logger, DynamoDBService];
     }),
     CqrsModule.forRoot(),
     EventEmitterModule.forRoot(),
-    ClientsModule.register({
-      /**
-       * TODO: IMPLEMENT DIFFERENT QUEUES FOR EACH USE CASE
-       */
-      clients: [
-        {
-          name: RABBITMQ_INJECTION_NAME,
-          transport: Transport.RMQ,
-          options: {
-            urls: [RABBITMQ_CONNECTION],
-            queue: RABBITMQ_QUEUE,
-            queueOptions: { durable: false },
-          },
-        },
-      ],
-      isGlobal: true,
-    }),
     // modules
     UserModule,
     PostModule,

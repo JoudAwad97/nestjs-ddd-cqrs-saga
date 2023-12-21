@@ -22,6 +22,8 @@ import { PostMapper } from '../../content-management/post/database/mapper/post.m
 import { LOGGER } from '@src/constants';
 import { GetCommentsHttpController } from './actions/queries/get-comments/get-comments.controller';
 import { FindCommentsQueryApplicationService } from './actions/queries/get-comments/get-comments.application.service';
+import { ClientsModule } from '@nestjs/microservices';
+import { generateRabbitMQConfigurations } from '@src/libs/utils';
 
 const httpControllers = [
   CreateCommentHttpController,
@@ -83,7 +85,18 @@ const libraries: Provider[] = [
 const services: Provider[] = [];
 
 @Module({
-  imports: [],
+  imports: [
+    ClientsModule.register({
+      /**
+       * TODO: IMPLEMENT DIFFERENT QUEUES FOR EACH USE CASE
+       */
+      clients: [
+        {
+          ...generateRabbitMQConfigurations(),
+        },
+      ],
+    }),
+  ],
   controllers: [...httpControllers, ...messageControllers],
   providers: [
     ...sagas,

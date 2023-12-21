@@ -1,5 +1,5 @@
 import { Controller, Inject } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
+import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import { AUTHOR_REPOSITORY } from '../../author.di-tokens';
 import { AuthorRepositoryPort } from '../../database/repository/author.repository.port';
 import { LOGGER } from '@src/constants';
@@ -15,7 +15,13 @@ export class UpdateAuthorListener {
   ) {}
 
   @EventPattern(UserUpdatedIntegrationEvent.name)
-  async updateAuthor(event: UserUpdatedIntegrationEvent) {
+  async updateAuthor(
+    @Payload() event: UserUpdatedIntegrationEvent,
+    @Ctx() context: RmqContext,
+  ) {
+    const channel = context.getChannelRef();
+    const originalMsg = context.getMessage();
+
     this.logger.log('UserUpdatedIntegrationEvent received');
     const {
       firstName,
@@ -39,6 +45,7 @@ export class UpdateAuthorListener {
           author,
           new Date(timestamp),
         );
+        channel.ack(originalMsg);
       } catch (error) {
         // handle validation if it is from type unique constraint then we do not throw an error else we throw an error
         this.logger.error(

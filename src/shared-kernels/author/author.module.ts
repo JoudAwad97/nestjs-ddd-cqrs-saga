@@ -5,6 +5,8 @@ import { AUTHOR_MAPPER, AUTHOR_REPOSITORY } from './author.di-tokens';
 import { AuthorRepository } from './database/repository/author.repository';
 import { CreateAuthorListener } from './actions/listeners/create-author.controller';
 import { UpdateAuthorListener } from './actions/listeners/update-author.controller';
+import { ClientsModule } from '@nestjs/microservices';
+import { generateRabbitMQConfigurations } from '@src/libs/utils';
 
 const httpControllers = [];
 const messageControllers = [CreateAuthorListener, UpdateAuthorListener];
@@ -38,7 +40,18 @@ const libraries: Provider[] = [
 ];
 
 @Module({
-  imports: [],
+  imports: [
+    ClientsModule.register({
+      /**
+       * TODO: IMPLEMENT DIFFERENT QUEUES FOR EACH USE CASE
+       */
+      clients: [
+        {
+          ...generateRabbitMQConfigurations(false),
+        },
+      ],
+    }),
+  ],
   controllers: [...httpControllers, ...messageControllers],
   providers: [
     ...sagas,

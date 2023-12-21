@@ -22,6 +22,8 @@ import { UserDeletedEventHandler } from './actions/event-handlers/user-deleted.e
 import { LOGGER } from '@src/constants';
 import { USER_MAPPER } from '@src/modules/interactions/comment/comment.di-tokens';
 import { UserUpdatedEventHandler } from './actions/event-handlers/user-updated.event.handler';
+import { generateRabbitMQConfigurations } from '@src/libs/utils';
+import { ClientsModule } from '@nestjs/microservices';
 
 const httpControllers = [
   CreateUserHttpController,
@@ -80,7 +82,18 @@ const libraries: Provider[] = [
 ];
 
 @Module({
-  imports: [],
+  imports: [
+    ClientsModule.register({
+      /**
+       * TODO: IMPLEMENT DIFFERENT QUEUES FOR EACH USE CASE
+       */
+      clients: [
+        {
+          ...generateRabbitMQConfigurations(),
+        },
+      ],
+    }),
+  ],
   controllers: [...httpControllers, ...messageControllers],
   providers: [
     ...sagas,

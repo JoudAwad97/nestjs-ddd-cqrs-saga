@@ -1,5 +1,5 @@
 import { Controller, Inject } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
+import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import { UserCreatedIntegrationEvent } from '@src/shared/events/user-created.integration.event';
 import { AUTHOR_REPOSITORY } from '../../author.di-tokens';
 import { AuthorRepositoryPort } from '../../database/repository/author.repository.port';
@@ -16,8 +16,14 @@ export class CreateAuthorListener {
   ) {}
 
   @EventPattern(UserCreatedIntegrationEvent.name)
-  async createAuthor(event: UserCreatedIntegrationEvent) {
+  async createAuthor(
+    @Payload() event: UserCreatedIntegrationEvent,
+    @Ctx() context: RmqContext,
+  ) {
     this.logger.log('UserCreatedIntegrationEvent received');
+    const channel = context.getChannelRef();
+    const originalMsg = context.getMessage();
+
     const { firstName, lastName, nickName, userId } = event;
     const author = await this.authorRepository.findAuthorByUserId(event.userId);
     // if no author is found create one
@@ -31,11 +37,13 @@ export class CreateAuthorListener {
 
       try {
         await this.authorRepository.create(authorEntity);
+        channel.ack(originalMsg);
       } catch (error) {
         // handle validation if it is from type unique constraint then we do not throw an error else we throw an error
         if (error?.name === 'UniqueConstraintError') {
           // Handle unique constraint error differently
           this.logger.warn('Unique constraint error occurred');
+          channel.ack(originalMsg);
         } else {
           // Rethrow the error if it's not a unique constraint error
           throw error;

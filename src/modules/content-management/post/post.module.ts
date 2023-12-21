@@ -22,6 +22,8 @@ import { PostDeletedEventHandler } from './actions/event-handlers/post-deleted.e
 import { FetchPostsHttpController } from './actions/queries/fetch-posts/fetch-post.controller';
 import { FindPostsQueryApplicationService } from './actions/queries/fetch-posts/fetch-post.application.service';
 import { LOGGER } from '@src/constants';
+import { ClientsModule } from '@nestjs/microservices';
+import { generateRabbitMQConfigurations } from '@src/libs/utils';
 
 const httpControllers = [
   CreatePostHttpController,
@@ -84,7 +86,18 @@ const libraries: Provider[] = [
 const services: Provider[] = [DynamoDBService];
 
 @Module({
-  imports: [],
+  imports: [
+    ClientsModule.register({
+      /**
+       * TODO: IMPLEMENT DIFFERENT QUEUES FOR EACH USE CASE
+       */
+      clients: [
+        {
+          ...generateRabbitMQConfigurations(),
+        },
+      ],
+    }),
+  ],
   controllers: [...httpControllers, ...messageControllers],
   providers: [
     ...sagas,
