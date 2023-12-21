@@ -1,9 +1,8 @@
 import { ResponseBase } from '@src/libs/api/response/response.rest-response.base';
-import { UserDto } from './user.dto';
+import { AuthorResponseDto } from '@src/shared-kernels/author/dtos/author.db.dto';
 
 export class PostResponseDto extends ResponseBase {
   content: string;
   title: string;
-
-  user: UserDto;
+  author: AuthorResponseDto;
 }

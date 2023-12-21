@@ -1,6 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DynamoDBService } from '@src/infrastructure/database-providers/dynamodb/dynamodb';
 import {
+  BatchGetCommand,
+  BatchGetCommandInput,
   DeleteCommand,
   DeleteCommandInput,
   GetCommand,
@@ -22,6 +24,27 @@ export class AuthorProjectionRepository
     private readonly dynamoDBService: DynamoDBService,
     @Inject(AUTHOR_MAPPER) private readonly authorMapper: AuthorMapperContract,
   ) {}
+
+  async findAuthorsByIds(authorIds: string[]): Promise<AuthorEntity[]> {
+    const params: BatchGetCommandInput = {
+      RequestItems: {
+        [AUTHOR_TABLE_NAME]: {
+          // this needs to be a unique list as there can be no duplicate keys
+          Keys: [...new Set(authorIds)].map((authorId) => ({
+            author_id: authorId,
+          })),
+        },
+      },
+    };
+
+    const res = await this.dynamoDBService.ddbDocClient.send(
+      new BatchGetCommand(params),
+    );
+
+    return res.Responses[AUTHOR_TABLE_NAME].map(
+      this.authorMapper.toDomainFromDynamoDB,
+    );
+  }
 
   async findById(authorId: string): Promise<AuthorEntity> {
     const params: GetCommandInput = {
