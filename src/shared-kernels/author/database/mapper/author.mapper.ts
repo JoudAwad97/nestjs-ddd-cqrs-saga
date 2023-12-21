@@ -7,9 +7,40 @@ import {
   AuthorDatabaseModel,
   authorDatabaseSchema,
 } from '../schema/author.database.schema';
+import { AuthorDynamoDBModel } from '@src/modules/content-management/post/database/schema/author.dynamo.schema';
 
 @Injectable()
 export class AuthorMapper implements AuthorMapperPort {
+  toDomainFromDynamoDB(record: AuthorDynamoDBModel): AuthorEntity {
+    const entity = new AuthorEntity({
+      id: record.author_id,
+      createdAt: new Date(record.created_at),
+      updatedAt: new Date(record.updated_at),
+      props: {
+        firstName: record.first_name,
+        lastName: record.last_name,
+        nickName: record.nick_name,
+        userId: record.author_id,
+        // need to add versioning in the future for dynamoDB
+        version: 0,
+      },
+    });
+    return entity;
+  }
+
+  toPersistenceDynamoDB(entity: AuthorEntity): AuthorDynamoDBModel {
+    const copy = entity.getProps();
+    const record: AuthorDynamoDBModel = {
+      created_at: copy.createdAt.toISOString(),
+      author_id: copy.id,
+      first_name: copy.firstName,
+      last_name: copy.lastName,
+      nick_name: copy.nickName,
+      updated_at: copy.updatedAt.toISOString(),
+    };
+    return record;
+  }
+
   toResponseFromPersistence(record: AuthorDatabaseModel): AuthorResponseDto {
     return {
       id: record.id,

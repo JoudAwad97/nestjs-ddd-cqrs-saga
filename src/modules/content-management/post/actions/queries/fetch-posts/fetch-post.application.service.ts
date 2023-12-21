@@ -3,7 +3,7 @@ import { FindPostsQuery } from './fetch-post.query';
 import { Inject } from '@nestjs/common';
 import { POST_PROJECTION_REPOSITORY } from '@src/modules/content-management/post/post.di-tokens';
 import { ILoggerPort } from '@src/libs/ports/logger.port';
-import { PostProjectionRepositoryPort } from '@src/modules/content-management/post/database/repository/read/post.dynamo.repository.port';
+import { PostProjectionRepositoryPort } from '@src/modules/content-management/post/database/repository/read/post/post.dynamo.repository.port';
 import { PostEntity } from '@src/modules/content-management/post/domain/post.entity';
 import { LOGGER } from '@src/constants';
 

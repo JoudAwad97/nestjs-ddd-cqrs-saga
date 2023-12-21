@@ -6,6 +6,8 @@ import {
   POST_REPOSITORY,
   POST_PROJECTION,
   POST_MAPPER,
+  AUTHOR_PROJECTION,
+  AUTHOR_PROJECTION_REPOSITORY,
 } from './post.di-tokens';
 import { EventEmitter } from '@src/infrastructure/publisher';
 import { PostMapper } from './database/mapper/post.mapper';
@@ -14,9 +16,9 @@ import { PostRepository } from './database/repository/write/post.repository';
 import { CreatePostHttpController } from './actions/commands/create-post/create-post.controller';
 import { DeleteAuthorPostsListener } from './actions/listeners/user-deleted.listener';
 import { DeletePostApplicationService } from './actions/commands/delete-post/delete-post.application.service';
-import { PostProjectionRepository } from './database/repository/read/post.dynamo.repository';
+import { PostProjectionRepository } from './database/repository/read/post/post.dynamo.repository';
 import { DynamoDBService } from '@src/infrastructure/database-providers/dynamodb/dynamodb';
-import { PostProjection } from './projection/post.projection';
+import { PostProjection } from './projection/post/post.projection';
 import { PostCreatedEventHandler } from './actions/event-handlers/post-created.event.handler';
 import { PostDeletedEventHandler } from './actions/event-handlers/post-deleted.event.handler';
 import { FetchPostsHttpController } from './actions/queries/fetch-posts/fetch-post.controller';
@@ -24,13 +26,20 @@ import { FindPostsQueryApplicationService } from './actions/queries/fetch-posts/
 import { LOGGER } from '@src/constants';
 import { ClientsModule } from '@nestjs/microservices';
 import { generateRabbitMQConfigurations } from '@src/libs/utils';
+import { AuthorProjection } from './projection/author/author.projection';
+import { AuthorProjectionRepository } from './database/repository/read/author/author.dynamo.repository';
+import { AuthorModule } from '@src/shared-kernels/author/author.module';
+import { CreateAuthorPostsListener } from './actions/listeners/user-created.listener';
 
 const httpControllers = [
   CreatePostHttpController,
   DeletePostHttpController,
   FetchPostsHttpController,
 ];
-const messageControllers = [DeleteAuthorPostsListener];
+const messageControllers = [
+  DeleteAuthorPostsListener,
+  CreateAuthorPostsListener,
+];
 const graphqlResolvers: Provider[] = [];
 
 const eventHandlers: Provider[] = [
@@ -63,12 +72,21 @@ const repositories: Provider[] = [
     provide: POST_PROJECTION_REPOSITORY,
     useClass: PostProjectionRepository,
   },
+  // Author Related informations
+  {
+    provide: AUTHOR_PROJECTION_REPOSITORY,
+    useClass: AuthorProjectionRepository,
+  },
 ];
 
 const projections: Provider[] = [
   {
     provide: POST_PROJECTION,
     useClass: PostProjection,
+  },
+  {
+    provide: AUTHOR_PROJECTION,
+    useClass: AuthorProjection,
   },
 ];
 
@@ -97,6 +115,7 @@ const services: Provider[] = [DynamoDBService];
         },
       ],
     }),
+    AuthorModule,
   ],
   controllers: [...httpControllers, ...messageControllers],
   providers: [

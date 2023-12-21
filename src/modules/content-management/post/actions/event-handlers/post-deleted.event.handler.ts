@@ -2,7 +2,7 @@ import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { Inject } from '@nestjs/common';
 import { ILoggerPort } from '@src/libs/ports/logger.port';
 import { POST_PROJECTION } from '../../post.di-tokens';
-import { PostProjection } from '../../projection/post.projection';
+import { PostProjection } from '../../projection/post/post.projection';
 import { PostDeletedEvent } from '../../domain/events/post-deleted.event';
 import { LOGGER } from '@src/constants';
 

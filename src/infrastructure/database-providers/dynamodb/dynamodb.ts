@@ -16,9 +16,9 @@ export class DynamoDBService {
     //  */
     try {
       // this.ddbClient.send(
-      //   new DeleteTableCommand({ TableName: POST_TABLE_NAME }),
+      //   new DeleteTableCommand({ TableName: AUTHOR_TABLE_NAME }),
       // );
-      // this.ddbClient.send(new CreateTableCommand(postTable));
+      // this.ddbClient.send(new CreateTableCommand(authorTable));
     } catch (_) {}
   }
 

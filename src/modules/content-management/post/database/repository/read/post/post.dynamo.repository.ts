@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { PostProjectionRepositoryPort } from './post.dynamo.repository.port';
-import { PostEntity } from '../../../domain/post.entity';
+import { PostProjectionRepositoryPort } from '../post/post.dynamo.repository.port';
+import { PostEntity } from '../../../../domain/post.entity';
 import { DynamoDBService } from '@src/infrastructure/database-providers/dynamodb/dynamodb';
 import {
   DeleteCommand,
@@ -12,7 +12,7 @@ import {
 } from '@aws-sdk/lib-dynamodb';
 import { POST_TABLE_NAME } from '@src/modules/content-management/post/constants/dynamo.constants';
 import { POST_MAPPER } from '@src/modules/content-management/post/post.di-tokens';
-import { PostMapperPort } from '../../mapper/post.mapper.port';
+import { PostMapperPort } from '../../../mapper/post.mapper.port';
 
 @Injectable()
 export class PostProjectionRepository implements PostProjectionRepositoryPort {

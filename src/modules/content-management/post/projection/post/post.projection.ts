@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { POST_PROJECTION_REPOSITORY } from '../post.di-tokens';
+import { POST_PROJECTION_REPOSITORY } from '../../post.di-tokens';
 import { ILoggerPort } from '@src/libs/ports/logger.port';
-import { PostEntity } from '../domain/post.entity';
-import { PostProjectionPort } from './post.projection.port';
-import { PostProjectionRepositoryPort } from '../database/repository/read/post.dynamo.repository.port';
+import { PostEntity } from '../../domain/post.entity';
+import { PostProjectionPort } from '../post/post.projection.port';
+import { PostProjectionRepositoryPort } from '../../database/repository/read/post/post.dynamo.repository.port';
 import { LOGGER } from '@src/constants';
 
 @Injectable()

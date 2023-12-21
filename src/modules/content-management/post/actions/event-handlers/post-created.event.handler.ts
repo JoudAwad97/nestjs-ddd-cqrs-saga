@@ -4,7 +4,7 @@ import { IEventPublisherPort } from '@src/libs/ports/event-publisher.port';
 import { ILoggerPort } from '@src/libs/ports/logger.port';
 import { PostCreatedEvent } from '../../domain/events/post-created.event';
 import { POST_EVENT_PUBLISHER, POST_PROJECTION } from '../../post.di-tokens';
-import { PostProjection } from '../../projection/post.projection';
+import { PostProjection } from '../../projection/post/post.projection';
 import { LOGGER } from '@src/constants';
 
 @EventsHandler(PostCreatedEvent)

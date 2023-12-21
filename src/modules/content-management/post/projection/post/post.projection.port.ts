@@ -1,4 +1,4 @@
-import { PostEntity } from '../domain/post.entity';
+import { PostEntity } from '../../domain/post.entity';
 
 export interface PostProjectionPort {
   projectPostToReadDB(post: PostEntity): Promise<void>;
