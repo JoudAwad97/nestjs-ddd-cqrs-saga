@@ -3,6 +3,14 @@ import { generateRabbitMQConfigurations } from '@src/libs/utils';
 import { ClientsModule } from '@nestjs/microservices';
 import { LOGGER } from '@src/constants';
 import { SendWelcomeEmailListener } from './features/listeners/send-welcome-email';
+import { UserRepository } from '../user-management/user/database/repository/user.repository';
+import {
+  NOTIFICATION_TRANSLATOR_SERVICE,
+  USER_REPOSITORY,
+} from './notification.di-tokens';
+import { UserMapper } from '../user-management/user/database/mapper/user.mapper';
+import { TranslatorService } from './anti-corruption-layer/translator.service';
+import { UserNotificationAdaptor } from './anti-corruption-layer/user/adaptar';
 
 const httpControllers = [];
 const messageControllers = [SendWelcomeEmailListener];
@@ -15,9 +23,14 @@ const sagas: Provider[] = [];
 const commandHandlers: Provider[] = [];
 const queryHandlers: Provider[] = [];
 
-const mappers: Provider[] = [];
+const mappers: Provider[] = [UserMapper];
 
-const repositories: Provider[] = [];
+const repositories: Provider[] = [
+  {
+    provide: USER_REPOSITORY,
+    useClass: UserRepository,
+  },
+];
 
 const libraries: Provider[] = [
   {
@@ -25,6 +38,15 @@ const libraries: Provider[] = [
     useClass: Logger,
   },
 ];
+
+const translators: Provider[] = [
+  {
+    provide: NOTIFICATION_TRANSLATOR_SERVICE,
+    useClass: TranslatorService,
+  },
+];
+
+const adapters: Provider[] = [UserNotificationAdaptor];
 
 @Module({
   imports: [
@@ -46,6 +68,8 @@ const libraries: Provider[] = [
     ...queryHandlers,
     ...mappers,
     ...repositories,
+    ...translators,
+    ...adapters,
   ],
 })
 export class NotificationModule {}

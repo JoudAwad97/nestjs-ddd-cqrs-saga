@@ -12,6 +12,7 @@ import { Paginated } from '@src/libs/ports/repository.port';
 import { orderByFieldExtractor } from '@src/libs/utils';
 import { LOGGER } from '@src/constants';
 import { UserRepositoryContract } from '@src/shared/contract/user.contract';
+import { INotificationUserResponseDTO } from '@src/modules/notification/contracts/user.repository.contract';
 
 @Injectable()
 export class UserRepository
@@ -27,6 +28,16 @@ export class UserRepository
   ) {
     super(mapper, logger);
     this.prismaService = new PrismaService(this.logger);
+  }
+
+  async fetchUserInformationForNotificationHandler(
+    userId: string,
+  ): Promise<INotificationUserResponseDTO> {
+    return this.prismaService.user
+      .findUnique({
+        where: { id: userId },
+      })
+      .then(this.mapper.toNotificationAdaptorResponse);
   }
 
   async findUsersByIds(ids: string[]): Promise<UserEntity[]> {

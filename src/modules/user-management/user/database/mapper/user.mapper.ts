@@ -11,6 +11,7 @@ import { UserStatus } from '../../domain/value-objects/status.value-objects';
 import { UserRoles, UserStatuses } from '../../domain/user.types';
 import { UserMapperPort } from './user.mapper.port';
 import { UserListenerResponseDto } from '../../../../../shared/dto/user.listener.dto';
+import { INotificationUserResponseDTO } from '@src/modules/notification/contracts/user.repository.contract';
 
 /**
  * Mapper constructs objects that are used in different layers:
@@ -20,6 +21,16 @@ import { UserListenerResponseDto } from '../../../../../shared/dto/user.listener
  */
 @Injectable()
 export class UserMapper implements UserMapperPort {
+  toNotificationAdaptorResponse(
+    record: UserDatabaseModel,
+  ): INotificationUserResponseDTO {
+    return {
+      email: record.email,
+      firstName: record.first_name,
+      lastName: record.last_name,
+      id: record.id,
+    };
+  }
   /**
    * Convert Domain Entity into Database Record
    */
