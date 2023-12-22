@@ -14,6 +14,7 @@ import { ExceptionInterceptor } from '@libs/application/interceptors/exception.i
 import { DynamoDBService } from './infrastructure/database-providers/dynamodb/dynamodb';
 import { AuthorModule } from './shared-kernels/author/author.module';
 import { NotificationModule } from './modules/notification/notification.module';
+import { GlobalGuardModule } from './infrastructure/guards/guards.module';
 
 const interceptors: Provider[] = [
   {
@@ -42,6 +43,7 @@ const services: Provider[] = [PrismaService, Logger, DynamoDBService];
     CommentModule,
     AuthorModule,
     NotificationModule,
+    GlobalGuardModule,
   ],
   controllers: [AppController],
   providers: [...interceptors, ...services],

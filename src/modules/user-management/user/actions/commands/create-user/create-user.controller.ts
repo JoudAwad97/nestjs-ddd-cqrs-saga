@@ -4,7 +4,9 @@ import { IdResponse } from '@src/libs/api/response/id.response.dto';
 import { CreateUserRequestDto } from './create-user.request.dto';
 import { CreateUserCommand } from './create-user.command';
 import { AggregateID } from '@src/libs/ddd';
+import { SkipGlobalAuthGuard } from '@src/infrastructure/guards/decorators/skip-global-auth-guard.decorator';
 
+@SkipGlobalAuthGuard()
 @Controller('user')
 export class CreateUserHttpController {
   constructor(private readonly commandBus: CommandBus) {}
