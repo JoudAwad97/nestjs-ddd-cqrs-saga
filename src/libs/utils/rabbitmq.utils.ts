@@ -3,7 +3,7 @@ import {
   RABBITMQ_CONNECTION,
   RABBITMQ_INJECTION_NAME,
   RABBITMQ_QUEUE,
-} from '@src/constants/rabitqm.constant';
+} from '@src/shared/constants/rabitqm.constant';
 
 export function generateRabbitMQConfigurations(
   noAck: boolean = true,

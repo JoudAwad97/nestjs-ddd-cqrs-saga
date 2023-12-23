@@ -6,9 +6,9 @@ import {
   POST_EVENT_PUBLISHER,
   POST_REPOSITORY,
 } from '@src/modules/content-management/post/post.di-tokens';
-import { ILoggerPort } from '@src/libs/ports/logger.port';
-import { IEventPublisherPort } from '@src/libs/ports/event-publisher.port';
-import { LOGGER } from '@src/constants';
+import { LoggerPort } from '@src/libs/ports/logger.port';
+import { EventPublisher } from '@src/libs/ports/event-publisher.port';
+import { LOGGER } from '@src/shared/constants';
 
 @CommandHandler(DeletePostCommand)
 export class DeletePostApplicationService
@@ -17,9 +17,9 @@ export class DeletePostApplicationService
   constructor(
     @Inject(POST_REPOSITORY)
     private readonly postRepository: PostRepositoryPort,
-    @Inject(LOGGER) private readonly logger: ILoggerPort,
+    @Inject(LOGGER) private readonly logger: LoggerPort,
     @Inject(POST_EVENT_PUBLISHER)
-    private readonly eventPublisher: IEventPublisherPort,
+    private readonly eventPublisher: EventPublisher,
   ) {}
 
   async execute(command: DeletePostCommand): Promise<void> {

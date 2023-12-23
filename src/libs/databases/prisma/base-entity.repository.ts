@@ -1,7 +1,7 @@
 import { RepositoryPort } from 'src/libs/ports/repository.port';
-import { PrismaService } from 'src/infrastructure/database-providers/prisma/prisma';
+import { PrismaService } from 'src/shared/infrastructure/database-providers/prisma/prisma';
 import { ObjectLiteral } from 'src/libs/types';
-import { ILoggerPort } from 'src/libs/ports/logger.port';
+import { LoggerPort } from 'src/libs/ports/logger.port';
 import { Mapper } from 'src/libs/ddd/mapper.interface';
 import { Prisma } from '@prisma/client';
 import { AggregateRoot } from 'src/libs/ddd';
@@ -16,7 +16,7 @@ export abstract class BaseEntityRepository<
 
   constructor(
     protected readonly mapper: Mapper<Aggregate, DbModel>,
-    protected readonly logger: ILoggerPort,
+    protected readonly logger: LoggerPort,
   ) {}
 
   create(entity: Aggregate): Promise<Aggregate> {

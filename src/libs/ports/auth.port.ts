@@ -13,16 +13,16 @@ export type AuthServiceUserRecord = {
   email: string;
 };
 
-export interface IAuthServicePort {
+export abstract class IAuthServicePort {
   /**
    * create an account in the 3rd party system and return the user ID
    * @param email
    * @param password
    * @returns the created user ID
    */
-  signup(email: string, password: string): Promise<string>;
+  abstract signup(email: string, password: string): Promise<string>;
 
-  login(email: string, password: string): Promise<AuthTokens>;
+  abstract login(email: string, password: string): Promise<AuthTokens>;
 
-  findAccountByEmail(email: string): Promise<AuthServiceUserRecord>;
+  abstract findAccountByEmail(email: string): Promise<AuthServiceUserRecord>;
 }

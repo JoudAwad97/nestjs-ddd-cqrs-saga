@@ -6,29 +6,29 @@ import {
   COMMENT_REPOSITORY,
   USER_MAPPER,
 } from './comment.di-tokens';
-import { EventEmitter } from '@src/infrastructure/publisher';
-import { CommentRepository } from './database/repository/comment.repository';
-import { CommentMapper } from './database/mapper/comment.mapper';
-import { UserMapper } from '../../user-management/user/database/mapper/user.mapper';
+import { EventEmitter } from '@src/shared/infrastructure/publisher';
+import { CommentRepository } from './infrastructure/prisma/repository/comment.repository';
+import { CommentMapper } from './infrastructure/prisma/mapper/comment.mapper';
+import { UserMapper } from '../../user-management/user/infrastructure/prisma/mapper/user.mapper';
 import {
   POST_MAPPER,
   POST_REPOSITORY,
 } from '../../content-management/post/post.di-tokens';
 import { PostRepository } from '../../content-management/post/database/repository/write/post.repository';
 import { USER_REPOSITORY } from '../../user-management/user/user.di-tokens';
-import { UserRepository } from '../../user-management/user/database/repository/user.repository';
-import { CreateCommentHttpController } from './actions/commands/create-comment/create-comment.controller';
-import { CreateCommentApplicationService } from './actions/commands/create-comment/create-comment.application.service';
+import { UserRepository } from '../../user-management/user/infrastructure/prisma/repository/user.repository';
 import { PostMapper } from '../../content-management/post/database/mapper/post.mapper';
-import { LOGGER } from '@src/constants';
-import { GetCommentsHttpController } from './actions/queries/get-comments/get-comments.controller';
-import { FindCommentsQueryApplicationService } from './actions/queries/get-comments/get-comments.application.service';
+import { LOGGER } from '@src/shared/constants';
+import { GetCommentsHttpController } from './presenters/queries/get-comments/get-comments.controller';
+import { FindCommentsQueryApplicationService } from './presenters/queries/get-comments/get-comments.application.service';
 import { ClientsModule } from '@nestjs/microservices';
 import { generateRabbitMQConfigurations } from '@src/libs/utils';
-import { AuthorRepository } from '@src/shared-kernels/author/database/repository/author.repository';
+import { AuthorRepository } from '@src/shared-kernels/author/database/prisma/repository/author.repository';
 import { AuthorModule } from '@src/shared-kernels/author/author.module';
-import { GetPostCommentsHttpController } from './actions/queries/get-post-comments/get-post-comments.controller';
-import { FindPostCommentsQueryApplicationService } from './actions/queries/get-post-comments/get-post-comments.application.service';
+import { GetPostCommentsHttpController } from './presenters/queries/get-post-comments/get-post-comments.controller';
+import { FindPostCommentsQueryApplicationService } from './presenters/queries/get-post-comments/get-post-comments.application.service';
+import { CreateCommentHttpController } from './presenters/commands/create-comment/create-comment.controller';
+import { CreateCommentApplicationService } from './presenters/commands/create-comment/create-comment.application.service';
 
 const httpControllers = [
   CreateCommentHttpController,

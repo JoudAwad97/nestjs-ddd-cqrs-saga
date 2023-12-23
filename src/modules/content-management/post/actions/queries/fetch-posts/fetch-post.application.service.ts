@@ -6,9 +6,9 @@ import {
   POST_MAPPER,
   POST_PROJECTION_REPOSITORY,
 } from '@src/modules/content-management/post/post.di-tokens';
-import { ILoggerPort } from '@src/libs/ports/logger.port';
+import { LoggerPort } from '@src/libs/ports/logger.port';
 import { PostProjectionRepositoryPort } from '@src/modules/content-management/post/database/repository/read/post/post.dynamo.repository.port';
-import { LOGGER } from '@src/constants';
+import { LOGGER } from '@src/shared/constants';
 import { PostResponseDto } from '../../../dtos/post.dto';
 import { AuthorProjectionRepositoryPort } from '../../../database/repository/read/author/author.dynamo.repository.port';
 import { PostMapper } from '../../../database/mapper/post.mapper';
@@ -18,7 +18,7 @@ export class FindPostsQueryApplicationService
   implements IQueryHandler<FindPostsQuery>
 {
   constructor(
-    @Inject(LOGGER) private readonly logger: ILoggerPort,
+    @Inject(LOGGER) private readonly logger: LoggerPort,
     @Inject(POST_PROJECTION_REPOSITORY)
     private readonly postProjectionReadRepository: PostProjectionRepositoryPort,
     @Inject(AUTHOR_PROJECTION_REPOSITORY)

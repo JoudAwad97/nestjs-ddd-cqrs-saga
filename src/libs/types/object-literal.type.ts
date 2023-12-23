@@ -1,6 +1,6 @@
 /**
  * Interface of the simple literal object with any string keys.
  */
-export interface ObjectLiteral {
+export abstract class ObjectLiteral {
   [key: string]: unknown;
 }

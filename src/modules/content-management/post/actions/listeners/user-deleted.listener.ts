@@ -5,9 +5,9 @@ import {
   POST_REPOSITORY,
 } from '../../post.di-tokens';
 import { PostRepositoryPort } from '../../database/repository/write/post.repository.port';
-import { ILoggerPort } from '@src/libs/ports/logger.port';
-import { UserDeletedIntegrationEvent } from '@src/shared/events/user-deleted.integration.event';
-import { LOGGER } from '@src/constants';
+import { LoggerPort } from '@src/libs/ports/logger.port';
+import { UserDeletedIntegrationEvent } from '@src/shared/infrastructure/integration-events/user-deleted.integration.event';
+import { LOGGER } from '@src/shared/constants';
 import { AuthorProjectionRepositoryPort } from '../../database/repository/read/author/author.dynamo.repository.port';
 
 interface DeleteAuthorPostsPayload {
@@ -21,7 +21,7 @@ export class DeleteAuthorPostsListener {
     private readonly postRepository: PostRepositoryPort,
     @Inject(AUTHOR_PROJECTION_REPOSITORY)
     private readonly authorProjectionRepository: AuthorProjectionRepositoryPort,
-    @Inject(LOGGER) private readonly logger: ILoggerPort,
+    @Inject(LOGGER) private readonly logger: LoggerPort,
   ) {}
 
   @EventPattern(UserDeletedIntegrationEvent.name)

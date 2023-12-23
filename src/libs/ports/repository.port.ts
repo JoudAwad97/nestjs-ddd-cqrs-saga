@@ -28,9 +28,9 @@ export type PaginatedQueryParams = {
   orderBy: OrderBy;
 };
 
-export interface RepositoryPort<Entity> {
+export abstract class RepositoryPort<Entity> {
   // add more methods depending on the implementations
-  create(entity: Entity): Promise<Entity>;
-  findById(id: string): Promise<Entity | null>;
-  delete(id: string): Promise<boolean>;
+  abstract create(entity: Entity): Promise<Entity>;
+  abstract findById(id: string): Promise<Entity | null>;
+  abstract delete(id: string): Promise<boolean>;
 }

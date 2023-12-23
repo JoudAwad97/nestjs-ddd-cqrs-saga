@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PostProjectionRepositoryPort } from '../post/post.dynamo.repository.port';
 import { PostEntity } from '../../../../domain/post.entity';
-import { DynamoDBService } from '@src/infrastructure/database-providers/dynamodb/dynamodb';
+import { DynamoDBService } from '@src/shared/infrastructure/database-providers/dynamodb/dynamodb';
 import {
   DeleteCommand,
   DeleteCommandInput,

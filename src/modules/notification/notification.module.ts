@@ -1,16 +1,16 @@
 import { Logger, Module, Provider } from '@nestjs/common';
 import { generateRabbitMQConfigurations } from '@src/libs/utils';
 import { ClientsModule } from '@nestjs/microservices';
-import { LOGGER } from '@src/constants';
-import { SendWelcomeEmailListener } from './features/listeners/send-welcome-email';
-import { UserRepository } from '../user-management/user/database/repository/user.repository';
+import { LOGGER } from '@src/shared/constants';
+import { SendWelcomeEmailListener } from './presenters/listeners/send-welcome-email';
+import { UserRepository } from '../user-management/user/infrastructure/prisma/repository/user.repository';
 import {
   NOTIFICATION_TRANSLATOR_SERVICE,
   USER_REPOSITORY,
 } from './notification.di-tokens';
-import { UserMapper } from '../user-management/user/database/mapper/user.mapper';
-import { TranslatorService } from './anti-corruption-layer/translator.service';
-import { UserNotificationAdaptor } from './anti-corruption-layer/user/adaptar';
+import { UserMapper } from '../user-management/user/infrastructure/prisma/mapper/user.mapper';
+import { TranslatorService } from './infrastructure/anti-corruption-layer/translator.service';
+import { UserNotificationAdaptor } from './infrastructure/anti-corruption-layer/user/adaptar';
 
 const httpControllers = [];
 const messageControllers = [SendWelcomeEmailListener];

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DynamoDBService } from '@src/infrastructure/database-providers/dynamodb/dynamodb';
+import { DynamoDBService } from '@src/shared/infrastructure/database-providers/dynamodb/dynamodb';
 import {
   BatchGetCommand,
   BatchGetCommandInput,

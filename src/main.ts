@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { Transport } from '@nestjs/microservices';
-import { RABBITMQ_CONNECTION, RABBITMQ_QUEUE } from './constants';
+import { RABBITMQ_CONNECTION, RABBITMQ_QUEUE } from './shared/constants';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

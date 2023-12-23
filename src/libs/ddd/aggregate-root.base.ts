@@ -1,8 +1,8 @@
 import { DomainEvent } from './domain-event.base';
 import { Entity } from './entity.base';
-import { ILoggerPort } from '../ports/logger.port';
+import { LoggerPort } from '../ports/logger.port';
 import { RequestContextService } from '../application/context/AppRequestContext';
-import { IEventPublisherPort } from '../ports/event-publisher.port';
+import { EventPublisher } from '../ports/event-publisher.port';
 
 export abstract class AggregateRoot<EntityProps> extends Entity<EntityProps> {
   private _domainEvents: DomainEvent[] = [];
@@ -29,8 +29,8 @@ export abstract class AggregateRoot<EntityProps> extends Entity<EntityProps> {
    * @param logger
    */
   public publishEvents(
-    eventPublisher: IEventPublisherPort,
-    logger: ILoggerPort,
+    eventPublisher: EventPublisher,
+    logger: LoggerPort,
   ): void {
     this.domainEvents.map(async (event) => {
       logger.debug(

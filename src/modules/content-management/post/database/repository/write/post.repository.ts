@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { BaseEntityRepository } from '@src/libs/databases/prisma/base-entity.repository';
-import { PrismaService } from '@src/infrastructure/database-providers/prisma/prisma';
-import { ILoggerPort } from '@src/libs/ports/logger.port';
+import { PrismaService } from '@src/shared/infrastructure/database-providers/prisma/prisma';
+import { LoggerPort } from '@src/libs/ports/logger.port';
 import { PaginatedQueryBase } from '@src/libs/ddd/query.base';
 import { Paginated } from '@src/libs/ports/repository.port';
 import { orderByFieldExtractor } from '@src/libs/utils';
@@ -10,8 +10,8 @@ import { PostEntity } from '../../../domain/post.entity';
 import { PostModel } from '../../schema/post.schema';
 import { PostRepositoryPort } from './post.repository.port';
 import { PostMapper } from '../../mapper/post.mapper';
-import { LOGGER } from '@src/constants';
-import { PostRepositoryContract } from '@src/shared/contract/post.contract';
+import { LOGGER } from '@src/shared/constants';
+import { PostRepositoryContract } from '@src/shared/application/contracts/post.contract';
 
 @Injectable()
 export class PostRepository
@@ -23,7 +23,7 @@ export class PostRepository
 
   constructor(
     protected readonly mapper: PostMapper,
-    @Inject(LOGGER) protected readonly logger: ILoggerPort,
+    @Inject(LOGGER) protected readonly logger: LoggerPort,
   ) {
     super(mapper, logger);
     this.prismaService = new PrismaService(this.logger);

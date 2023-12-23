@@ -5,16 +5,17 @@ import { ConfigModule } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ContextInterceptor } from './libs/application/context/ContextInterceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { PrismaService } from './infrastructure/database-providers/prisma/prisma';
+import { PrismaService } from './shared/infrastructure/database-providers/prisma/prisma';
 import { UserModule } from './modules/user-management/user/user.module';
 import { PostModule } from './modules/content-management/post/post.module';
 import { CommentModule } from './modules/interactions/comment/comment.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ExceptionInterceptor } from '@libs/application/interceptors/exception.interceptor';
-import { DynamoDBService } from './infrastructure/database-providers/dynamodb/dynamodb';
+import { DynamoDBService } from './shared/infrastructure/database-providers/dynamodb/dynamodb';
 import { AuthorModule } from './shared-kernels/author/author.module';
 import { NotificationModule } from './modules/notification/notification.module';
-import { GlobalGuardModule } from './infrastructure/guards/guards.module';
+import { GlobalGuardModule } from './shared/infrastructure/web/guards/guards.module';
+import { LOGGER } from './shared/constants';
 
 const interceptors: Provider[] = [
   {
@@ -28,6 +29,13 @@ const interceptors: Provider[] = [
 ];
 
 const services: Provider[] = [PrismaService, Logger, DynamoDBService];
+
+const libraries: Provider[] = [
+  {
+    provide: LOGGER,
+    useClass: Logger,
+  },
+];
 
 @Module({
   imports: [
@@ -46,6 +54,6 @@ const services: Provider[] = [PrismaService, Logger, DynamoDBService];
     GlobalGuardModule,
   ],
   controllers: [AppController],
-  providers: [...interceptors, ...services],
+  providers: [...interceptors, ...services, ...libraries],
 })
 export class AppModule {}

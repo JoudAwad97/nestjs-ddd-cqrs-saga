@@ -1,11 +1,11 @@
 import { Entity } from '../ddd';
 
-export interface Mapper<
+export abstract class Mapper<
   DomainEntity extends Entity<any>,
   DbRecord,
   Response = any,
 > {
-  toPersistence(entity: DomainEntity): DbRecord;
-  toDomain(record: DbRecord): DomainEntity;
-  toResponse(entity: DomainEntity): Response;
+  abstract toPersistence(entity: DomainEntity): DbRecord;
+  abstract toDomain(record: DbRecord): DomainEntity;
+  abstract toResponse(entity: DomainEntity): Response;
 }

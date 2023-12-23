@@ -1,8 +1,8 @@
-export interface ILoggerPort {
-  log(message: any): void;
-  error(message: any): void;
-  warn(message: any): void;
-  debug(message: any): void;
-  verbose(message: any): void;
-  fatal(message: any): void;
+export abstract class LoggerPort {
+  abstract log(message: any): void;
+  abstract error(message: any): void;
+  abstract warn(message: any): void;
+  abstract debug(message: any): void;
+  abstract verbose(message: any): void;
+  abstract fatal(message: any): void;
 }

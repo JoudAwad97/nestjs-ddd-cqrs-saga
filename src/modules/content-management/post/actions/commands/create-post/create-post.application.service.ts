@@ -5,16 +5,16 @@ import {
   POST_REPOSITORY,
 } from '@src/modules/content-management/post/post.di-tokens';
 import { PostRepositoryPort } from '@src/modules/content-management/post/database/repository/write/post.repository.port';
-import { IEventPublisherPort } from '@src/libs/ports/event-publisher.port';
-import { ILoggerPort } from '@src/libs/ports/logger.port';
+import { EventPublisher } from '@src/libs/ports/event-publisher.port';
+import { LoggerPort } from '@src/libs/ports/logger.port';
 import { Inject } from '@nestjs/common';
 import { USER_FETCH_MESSAGE_PATTERN } from '@src/shared/constants/user-events.constants';
-import { UserListenerResponseDto } from '@src/shared/dto/user.listener.dto';
+import { UserListenerResponseDto } from '@src/shared/application/dto/user.listener.dto';
 import { UserStatuses } from '@src/modules/user-management/user/domain/user.types';
 import { PostErrors } from '@src/modules/content-management/post/domain/post.errors';
 import { PostEntity } from '@src/modules/content-management/post/domain/post.entity';
 import { AggregateID } from '@src/libs/ddd';
-import { LOGGER } from '@src/constants';
+import { LOGGER } from '@src/shared/constants';
 
 @CommandHandler(CreatePostCommand)
 export class CreatePostApplicationService
@@ -24,8 +24,8 @@ export class CreatePostApplicationService
     @Inject(POST_REPOSITORY)
     private readonly postRepository: PostRepositoryPort,
     @Inject(POST_EVENT_PUBLISHER)
-    private readonly eventPublisher: IEventPublisherPort,
-    @Inject(LOGGER) private readonly logger: ILoggerPort,
+    private readonly eventPublisher: EventPublisher,
+    @Inject(LOGGER) private readonly logger: LoggerPort,
   ) {}
 
   async execute(command: CreatePostCommand): Promise<AggregateID> {

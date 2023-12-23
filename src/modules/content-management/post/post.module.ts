@@ -9,7 +9,7 @@ import {
   AUTHOR_PROJECTION,
   AUTHOR_PROJECTION_REPOSITORY,
 } from './post.di-tokens';
-import { EventEmitter } from '@src/infrastructure/publisher';
+import { EventEmitter } from '@src/shared/infrastructure/publisher';
 import { PostMapper } from './database/mapper/post.mapper';
 import { CreatePostApplicationService } from './actions/commands/create-post/create-post.application.service';
 import { PostRepository } from './database/repository/write/post.repository';
@@ -17,13 +17,13 @@ import { CreatePostHttpController } from './actions/commands/create-post/create-
 import { DeleteAuthorPostsListener } from './actions/listeners/user-deleted.listener';
 import { DeletePostApplicationService } from './actions/commands/delete-post/delete-post.application.service';
 import { PostProjectionRepository } from './database/repository/read/post/post.dynamo.repository';
-import { DynamoDBService } from '@src/infrastructure/database-providers/dynamodb/dynamodb';
+import { DynamoDBService } from '@src/shared/infrastructure/database-providers/dynamodb/dynamodb';
 import { PostProjection } from './projection/post/post.projection';
 import { PostCreatedEventHandler } from './actions/event-handlers/post-created.event.handler';
 import { PostDeletedEventHandler } from './actions/event-handlers/post-deleted.event.handler';
 import { FetchPostsHttpController } from './actions/queries/fetch-posts/fetch-post.controller';
 import { FindPostsQueryApplicationService } from './actions/queries/fetch-posts/fetch-post.application.service';
-import { LOGGER } from '@src/constants';
+import { LOGGER } from '@src/shared/constants';
 import { ClientsModule } from '@nestjs/microservices';
 import { generateRabbitMQConfigurations } from '@src/libs/utils';
 import { AuthorProjection } from './projection/author/author.projection';

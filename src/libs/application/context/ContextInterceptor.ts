@@ -3,19 +3,19 @@ import {
   ExecutionContext,
   Inject,
   Injectable,
-  Logger,
   NestInterceptor,
 } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 import { RequestContextService } from './AppRequestContext';
 import { v4 as uuidv4 } from 'uuid';
-import { ILoggerPort } from 'src/libs/ports/logger.port';
+import { LoggerPort } from 'src/libs/ports/logger.port';
+import { LOGGER } from '@src/shared/constants';
 
 @Injectable()
 export class ContextInterceptor implements NestInterceptor {
   constructor(
-    @Inject(Logger)
-    private readonly logger: ILoggerPort,
+    @Inject(LOGGER)
+    private readonly logger: LoggerPort,
   ) {}
 
   intercept(

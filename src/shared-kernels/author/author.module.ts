@@ -1,12 +1,12 @@
 import { Logger, Module, Provider } from '@nestjs/common';
-import { LOGGER } from '@src/constants';
-import { AuthorMapper } from './database/mapper/author.mapper';
+import { AuthorMapper } from './database/prisma/mapper/author.mapper';
 import { AUTHOR_MAPPER, AUTHOR_REPOSITORY } from './author.di-tokens';
-import { AuthorRepository } from './database/repository/author.repository';
-import { CreateAuthorListener } from './actions/listeners/create-author.controller';
-import { UpdateAuthorListener } from './actions/listeners/update-author.controller';
+import { AuthorRepository } from './database/prisma/repository/author.repository';
+import { CreateAuthorListener } from './persistence/listeners/create-author.controller';
+import { UpdateAuthorListener } from './persistence/listeners/update-author.controller';
 import { ClientsModule } from '@nestjs/microservices';
 import { generateRabbitMQConfigurations } from '@src/libs/utils';
+import { LOGGER } from '@src/shared/constants';
 
 const httpControllers = [];
 const messageControllers = [CreateAuthorListener, UpdateAuthorListener];
