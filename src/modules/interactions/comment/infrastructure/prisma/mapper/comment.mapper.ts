@@ -7,8 +7,8 @@ import { UserEntity } from '@src/modules/user-management/user/domain/user.entity
 import { CommentResponseDto } from '../../../presenters/dtos/comment.dto';
 import { UserResponseDto } from '@src/modules/user-management/user/presenters/dtos/user.db.dto';
 import { AUTHOR_MAPPER } from '@src/shared-kernels/author/author.di-tokens';
-import { AuthorMapperPort } from '@src/shared-kernels/author/database/prisma/mapper/author.mapper.port';
-import { AuthorDatabaseModel } from '@src/shared-kernels/author/database/prisma/schema/author.database.schema';
+import { AuthorMapperPort } from '@src/shared-kernels/author/infrastructure/prisma/mapper/author.mapper.port';
+import { AuthorDatabaseModel } from '@src/shared-kernels/author/infrastructure/prisma/schema/author.database.schema';
 
 @Injectable()
 export class CommentMapper implements CommentMapperPort {

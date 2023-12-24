@@ -4,7 +4,7 @@ import { CommentWithAuthorResponseDto } from '../../../presenters/dtos/comment-w
 import { CommentModel } from '../schema/comment.schema';
 import { UserEntity } from '@src/modules/user-management/user/domain/user.entity';
 import { CommentResponseDto } from '../../../presenters/dtos/comment.dto';
-import { AuthorDatabaseModel } from '@src/shared-kernels/author/database/prisma/schema/author.database.schema';
+import { AuthorDatabaseModel } from '@src/shared-kernels/author/infrastructure/prisma/schema/author.database.schema';
 
 export interface CommentMapperPort
   extends Mapper<CommentEntity, CommentModel, CommentResponseDto> {

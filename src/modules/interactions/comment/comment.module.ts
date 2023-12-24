@@ -23,7 +23,7 @@ import { GetCommentsHttpController } from './presenters/queries/get-comments/get
 import { FindCommentsQueryApplicationService } from './presenters/queries/get-comments/get-comments.application.service';
 import { ClientsModule } from '@nestjs/microservices';
 import { generateRabbitMQConfigurations } from '@src/libs/utils';
-import { AuthorRepository } from '@src/shared-kernels/author/database/prisma/repository/author.repository';
+import { AuthorRepository } from '@src/shared-kernels/author/infrastructure/prisma/repository/author.repository';
 import { AuthorModule } from '@src/shared-kernels/author/author.module';
 import { GetPostCommentsHttpController } from './presenters/queries/get-post-comments/get-post-comments.controller';
 import { FindPostCommentsQueryApplicationService } from './presenters/queries/get-post-comments/get-post-comments.application.service';

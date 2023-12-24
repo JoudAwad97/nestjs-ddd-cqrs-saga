@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AuthorMapperPort } from './author.mapper.port';
 import { AuthorEntity } from '../../../domain/author.entity';
-import { AuthorResponseDto } from '../../../dtos/author.db.dto';
+import { AuthorResponseDto } from '../../../persistence/dtos/author.db.dto';
 import { UserDatabaseModel } from '@src/modules/user-management/user/infrastructure/prisma/schema/user.database.schema';
 import {
   AuthorDatabaseModel,

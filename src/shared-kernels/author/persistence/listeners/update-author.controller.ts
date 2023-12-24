@@ -1,7 +1,7 @@
 import { Controller, Inject } from '@nestjs/common';
 import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import { AUTHOR_REPOSITORY } from '../../author.di-tokens';
-import { AuthorRepositoryPort } from '../../database/prisma/repository/author.repository.port';
+import { AuthorRepositoryPort } from '../../infrastructure/prisma/repository/author.repository.port';
 import { LOGGER } from '@src/shared/constants';
 import { LoggerPort } from '@src/libs/ports/logger.port';
 import { UserUpdatedIntegrationEvent } from '@src/shared/infrastructure/integration-events/user-updated.integration.event';

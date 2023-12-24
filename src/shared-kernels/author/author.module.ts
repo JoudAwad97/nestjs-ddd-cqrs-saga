@@ -1,7 +1,7 @@
 import { Logger, Module, Provider } from '@nestjs/common';
-import { AuthorMapper } from './database/prisma/mapper/author.mapper';
+import { AuthorMapper } from './infrastructure/prisma/mapper/author.mapper';
 import { AUTHOR_MAPPER, AUTHOR_REPOSITORY } from './author.di-tokens';
-import { AuthorRepository } from './database/prisma/repository/author.repository';
+import { AuthorRepository } from './infrastructure/prisma/repository/author.repository';
 import { CreateAuthorListener } from './persistence/listeners/create-author.controller';
 import { UpdateAuthorListener } from './persistence/listeners/update-author.controller';
 import { ClientsModule } from '@nestjs/microservices';
