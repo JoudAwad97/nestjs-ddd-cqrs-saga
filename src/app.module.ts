@@ -16,6 +16,7 @@ import { AuthorModule } from './shared-kernels/author/author.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { GlobalGuardModule } from './shared/infrastructure/web/guards/guards.module';
 import { LOGGER } from './shared/constants';
+import { LikeModule } from './modules/interactions/likes/likes.module';
 
 const interceptors: Provider[] = [
   {
@@ -50,6 +51,7 @@ const libraries: Provider[] = [
     PostModule,
     CommentModule,
     AuthorModule,
+    LikeModule,
     NotificationModule,
     GlobalGuardModule,
   ],

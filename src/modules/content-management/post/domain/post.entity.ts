@@ -57,6 +57,10 @@ export class PostEntity extends AggregateRoot<PostProps> {
     return this.props.status.getStatus() === PostStatuses.PUBLISHED;
   }
 
+  public canLikePost(): boolean {
+    return this.props.status.getStatus() === PostStatuses.PUBLISHED;
+  }
+
   private generateUpdatePostEvent(oldPost: PostEntity) {
     this.addEvent(
       new PostUpdatedEvent({
@@ -85,7 +89,7 @@ export class PostEntity extends AggregateRoot<PostProps> {
     this.generateUpdatePostEvent(oldPost);
   }
 
-  public publicPost(): void {
+  public publichPost(): void {
     this.changePostStatus(PostStatuses.PUBLISHED);
   }
 
