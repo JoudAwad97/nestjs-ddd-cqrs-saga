@@ -19,16 +19,16 @@ import { USER_REPOSITORY } from '../../user-management/user/user.di-tokens';
 import { UserRepository } from '../../user-management/user/infrastructure/prisma/repository/user.repository';
 import { PostMapper } from '../../content-management/post/infrastructure/prisma/mapper/post.mapper';
 import { LOGGER } from '@src/shared/constants';
-import { GetCommentsHttpController } from './presenters/queries/get-comments/get-comments.controller';
-import { FindCommentsQueryApplicationService } from './presenters/queries/get-comments/get-comments.application.service';
+import { GetCommentsHttpController } from './presenters/http/queries/get-comments/get-comments.controller';
+import { FindCommentsQueryApplicationService } from './presenters/http/queries/get-comments/get-comments.application.service';
 import { ClientsModule } from '@nestjs/microservices';
 import { generateRabbitMQConfigurations } from '@src/libs/utils';
 import { AuthorRepository } from '@src/shared-kernels/author/infrastructure/prisma/repository/author.repository';
 import { AuthorModule } from '@src/shared-kernels/author/author.module';
-import { GetPostCommentsHttpController } from './presenters/queries/get-post-comments/get-post-comments.controller';
-import { FindPostCommentsQueryApplicationService } from './presenters/queries/get-post-comments/get-post-comments.application.service';
-import { CreateCommentHttpController } from './presenters/commands/create-comment/create-comment.controller';
-import { CreateCommentApplicationService } from './presenters/commands/create-comment/create-comment.application.service';
+import { GetPostCommentsHttpController } from './presenters/http/queries/get-post-comments/get-post-comments.controller';
+import { FindPostCommentsQueryApplicationService } from './presenters/http/queries/get-post-comments/get-post-comments.application.service';
+import { CreateCommentHttpController } from './presenters/http/commands/create-comment/create-comment.controller';
+import { CreateCommentApplicationService } from './presenters/http/commands/create-comment/create-comment.application.service';
 
 const httpControllers = [
   CreateCommentHttpController,

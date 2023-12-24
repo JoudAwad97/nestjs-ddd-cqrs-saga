@@ -9,6 +9,7 @@ import { UserResponseDto } from '@src/modules/user-management/user/presenters/dt
 import { AUTHOR_MAPPER } from '@src/shared-kernels/author/author.di-tokens';
 import { AuthorMapperPort } from '@src/shared-kernels/author/infrastructure/prisma/mapper/author.mapper.port';
 import { AuthorDatabaseModel } from '@src/shared-kernels/author/infrastructure/prisma/schema/author.database.schema';
+import { CommentWithAuthorReadModel } from '../../../domain/read-models/comment.read-model';
 
 @Injectable()
 export class CommentMapper implements CommentMapperPort {
@@ -53,13 +54,13 @@ export class CommentMapper implements CommentMapperPort {
   databaseModelToResponseDto(
     comment: CommentModel,
     author: AuthorDatabaseModel,
-  ): CommentWithAuthorResponseDto {
+  ): CommentWithAuthorReadModel {
     return {
       content: comment.content,
       id: comment.id,
-      createdAt: new Date(comment.created_at).toISOString(),
-      updatedAt: new Date(comment.updated_at).toISOString(),
-      user: this.authorMapper.toResponseFromPersistence(author),
+      createdAt: new Date(comment.created_at).toDateString(),
+      updatedAt: new Date(comment.updated_at).toDateString(),
+      author: this.authorMapper.toResponseFromPersistence(author),
     };
   }
 
@@ -79,7 +80,7 @@ export class CommentMapper implements CommentMapperPort {
       userResponse.lastName = userCopy.lastName;
       userResponse.nickName = userCopy.nickName;
 
-      response.user = userResponse;
+      response.author = userResponse;
     }
 
     return response;

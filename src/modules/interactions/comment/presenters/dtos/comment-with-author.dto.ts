@@ -4,7 +4,7 @@ import { AuthorResponseDto } from '@src/shared-kernels/author/persistence/dtos/a
 
 export class CommentWithAuthorResponseDto extends ResponseBase {
   content: string;
-  user: AuthorResponseDto;
+  author: AuthorResponseDto;
 }
 
 export class CommentsForPostResponseDto extends PaginatedResponseDto<CommentWithAuthorResponseDto> {

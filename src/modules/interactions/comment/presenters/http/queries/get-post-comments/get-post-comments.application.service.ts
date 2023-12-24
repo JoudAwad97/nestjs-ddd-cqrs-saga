@@ -1,10 +1,10 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindPostCommentsQuery } from './get-post-comments.query';
-import { COMMENT_REPOSITORY } from '../../../comment.di-tokens';
-import { CommentRepositoryPort } from '../../../infrastructure/prisma/repository/comment.repository.port';
+import { COMMENT_REPOSITORY } from '../../../../comment.di-tokens';
+import { CommentRepositoryPort } from '../../../../infrastructure/prisma/repository/comment.repository.port';
 import { Inject } from '@nestjs/common';
 import { Paginated } from '@src/libs/ports/repository.port';
-import { CommentWithAuthorResponseDto } from '../../dtos/comment-with-author.dto';
+import { CommentWithAuthorResponseDto } from '../../../dtos/comment-with-author.dto';
 
 @QueryHandler(FindPostCommentsQuery)
 export class FindPostCommentsQueryApplicationService

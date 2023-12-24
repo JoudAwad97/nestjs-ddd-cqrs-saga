@@ -4,18 +4,18 @@ import { Inject } from '@nestjs/common';
 import {
   COMMENT_EVENT_PUBLISHER,
   COMMENT_REPOSITORY,
-} from '../../../comment.di-tokens';
+} from '../../../../comment.di-tokens';
 import { LoggerPort } from '@src/libs/ports/logger.port';
 import { EventPublisher } from '@src/libs/ports/event-publisher.port';
 import { AggregateID } from '@src/libs/ddd';
-import { CommentEntity } from '../../../domain/comment.entity';
+import { CommentEntity } from '../../../../domain/comment.entity';
 import { LOGGER } from '@src/shared/constants';
 import { POST_REPOSITORY } from '@src/modules/content-management/post/post.di-tokens';
-import { commentDomainService } from '../../../domain/comment.service';
+import { commentDomainService } from '../../../../domain/comment.service';
 import { USER_REPOSITORY } from '@src/modules/user-management/user/user.di-tokens';
 import { UserRepositoryContract } from '@src/shared/application/contracts/user.contract';
 import { PostRepositoryContract } from '@src/shared/application/contracts/post.contract';
-import { CommentRepositoryPort } from '../../../infrastructure/prisma/repository/comment.repository.port';
+import { CommentRepositoryPort } from '../../../../infrastructure/prisma/repository/comment.repository.port';
 
 @CommandHandler(CreateCommentCommand)
 export class CreateCommentApplicationService

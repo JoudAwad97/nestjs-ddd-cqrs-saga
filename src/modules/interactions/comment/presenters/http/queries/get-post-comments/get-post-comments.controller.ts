@@ -1,12 +1,12 @@
 import { Controller, Get, Inject, Param, Query } from '@nestjs/common';
-import { COMMENT_MAPPER } from '../../../comment.di-tokens';
-import { CommentMapperPort } from '../../../infrastructure/prisma/mapper/comment.mapper.port';
+import { COMMENT_MAPPER } from '../../../../comment.di-tokens';
+import { CommentMapperPort } from '../../../../infrastructure/prisma/mapper/comment.mapper.port';
 import { QueryBus } from '@nestjs/cqrs';
 import { FindPostCommentsQuery } from './get-post-comments.query';
 import {
   CommentWithAuthorResponseDto,
   CommentsForPostResponseDto,
-} from '../../dtos/comment-with-author.dto';
+} from '../../../dtos/comment-with-author.dto';
 import { PaginatedQueryRequestDto } from '@src/libs/api/request/paginated-query.request.dto';
 import { Paginated } from '@src/libs/ports/repository.port';
 

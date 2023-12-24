@@ -9,10 +9,10 @@ import { CommentModel } from '../schema/comment.schema';
 import { CommentRepositoryPort } from './comment.repository.port';
 import { CommentMapperPort } from '../mapper/comment.mapper.port';
 import { LOGGER } from '@src/shared/constants';
-import { CommentWithAuthorResponseDto } from '../../../presenters/dtos/comment-with-author.dto';
 import { Paginated } from '@src/libs/ports/repository.port';
-import { FindPostCommentsQuery } from '../../../presenters/queries/get-post-comments/get-post-comments.query';
+import { FindPostCommentsQuery } from '../../../presenters/http/queries/get-post-comments/get-post-comments.query';
 import { orderByFieldExtractor } from '@src/libs/utils';
+import { CommentWithAuthorReadModel } from '../../../domain/read-models/comment.read-model';
 
 @Injectable()
 export class CommentRepository
@@ -32,7 +32,7 @@ export class CommentRepository
 
   async fetchPostComments(
     query: FindPostCommentsQuery,
-  ): Promise<Paginated<CommentWithAuthorResponseDto>> {
+  ): Promise<Paginated<CommentWithAuthorReadModel>> {
     const { limit, offset, page, orderBy, postId } = query;
 
     const [comments, count] = await Promise.all([
@@ -64,9 +64,17 @@ export class CommentRepository
     };
   }
 
-  fetchComments(): Promise<CommentEntity[]> {
+  async fetchComments(): Promise<CommentWithAuthorReadModel[]> {
     return this.prismaService.comment
-      .findMany()
-      .then((result) => result.map(this.mapper.toDomain));
+      .findMany({
+        include: {
+          user: true,
+        },
+      })
+      .then((result) =>
+        result.map((res) =>
+          this.mapper.databaseModelToResponseDto(res, res.user),
+        ),
+      );
   }
 }
