@@ -15,6 +15,7 @@ import { UserCreatedEvent } from './events/user-created.event';
 import { UserDeletedEvent } from './events/user-deleted.event';
 import { UserUpdatedEvent } from './events/user-updated.event';
 import { UserErrors } from './user.errors';
+import { UserAckEvent } from './events/user-ack.event';
 
 export class UserEntity extends AggregateRoot<UserProps> {
   protected _id: AggregateID;
@@ -56,6 +57,15 @@ export class UserEntity extends AggregateRoot<UserProps> {
     );
 
     return user;
+  }
+
+  public ackUser() {
+    this.addEvent(
+      new UserAckEvent({
+        userId: this.getProps().id,
+        aggregateId: this.getProps().id,
+      }),
+    );
   }
 
   public update(input: UpdateUserProps): void {

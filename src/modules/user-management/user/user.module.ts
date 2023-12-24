@@ -24,6 +24,8 @@ import { USER_MAPPER } from '@src/modules/interactions/comment/comment.di-tokens
 import { UserUpdatedEventHandler } from './application/event-handlers/user-updated.event.handler';
 import { generateRabbitMQConfigurations } from '@src/libs/utils';
 import { ClientsModule } from '@nestjs/microservices';
+import { NotifySupervisorApplicationService } from './presenters/http/commands/notify-supervisor/notify-supervisor.application.service';
+import { UserAckEventHandler } from './application/event-handlers/user-ack.event.handler';
 
 const httpControllers = [
   CreateUserHttpController,
@@ -39,6 +41,7 @@ const eventHandlers: Provider[] = [
   UserCreatedEventHandler,
   UserUpdatedEventHandler,
   UserDeletedEventHandler,
+  UserAckEventHandler,
 ];
 
 const sagas: Provider[] = [UserCreatedSaga];
@@ -49,6 +52,7 @@ const commandHandlers: Provider[] = [
   UserAccountValidationApplicationService,
   DeleteUserApplicationService,
   UpdateUserApplicationService,
+  NotifySupervisorApplicationService,
 ];
 const queryHandlers: Provider[] = [
   FindUsersQueryApplicationService,
