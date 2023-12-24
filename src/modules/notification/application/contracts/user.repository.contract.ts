@@ -5,8 +5,8 @@ export interface INotificationUserResponseDTO {
   email: string;
 }
 
-export abstract class NotificationUserRepositoryContract {
-  abstract fetchUserInformationForNotificationHandler(
+export interface NotificationUserRepositoryContract {
+  fetchUserInformationForNotificationHandler(
     userId: string,
   ): Promise<INotificationUserResponseDTO>;
 }

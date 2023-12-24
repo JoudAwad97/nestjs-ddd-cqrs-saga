@@ -58,7 +58,7 @@ const queryHandlers: Provider[] = [
 const mappers: Provider[] = [
   {
     provide: USER_MAPPER,
-    useClass: UserMapper,
+    useExisting: UserMapper,
   },
   UserMapper,
 ];

@@ -14,10 +14,10 @@ import {
   POST_MAPPER,
   POST_REPOSITORY,
 } from '../../content-management/post/post.di-tokens';
-import { PostRepository } from '../../content-management/post/database/repository/write/post.repository';
+import { PostRepository } from '../../content-management/post/infrastructure/prisma/repository/post.repository';
 import { USER_REPOSITORY } from '../../user-management/user/user.di-tokens';
 import { UserRepository } from '../../user-management/user/infrastructure/prisma/repository/user.repository';
-import { PostMapper } from '../../content-management/post/database/mapper/post.mapper';
+import { PostMapper } from '../../content-management/post/infrastructure/prisma/mapper/post.mapper';
 import { LOGGER } from '@src/shared/constants';
 import { GetCommentsHttpController } from './presenters/queries/get-comments/get-comments.controller';
 import { FindCommentsQueryApplicationService } from './presenters/queries/get-comments/get-comments.application.service';

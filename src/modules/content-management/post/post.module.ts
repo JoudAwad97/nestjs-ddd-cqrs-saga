@@ -1,4 +1,4 @@
-import { DeletePostHttpController } from './actions/commands/delete-post/delete-post.controller';
+import { DeletePostHttpController } from './presenters/http/commands/delete-post/delete-post.controller';
 import { Logger, Module, Provider } from '@nestjs/common';
 import {
   POST_PROJECTION_REPOSITORY,
@@ -10,26 +10,26 @@ import {
   AUTHOR_PROJECTION_REPOSITORY,
 } from './post.di-tokens';
 import { EventEmitter } from '@src/shared/infrastructure/publisher';
-import { PostMapper } from './database/mapper/post.mapper';
-import { CreatePostApplicationService } from './actions/commands/create-post/create-post.application.service';
-import { PostRepository } from './database/repository/write/post.repository';
-import { CreatePostHttpController } from './actions/commands/create-post/create-post.controller';
-import { DeleteAuthorPostsListener } from './actions/listeners/user-deleted.listener';
-import { DeletePostApplicationService } from './actions/commands/delete-post/delete-post.application.service';
-import { PostProjectionRepository } from './database/repository/read/post/post.dynamo.repository';
+import { PostMapper } from './infrastructure/prisma/mapper/post.mapper';
+import { CreatePostApplicationService } from './presenters/http/commands/create-post/create-post.application.service';
+import { PostRepository } from './infrastructure/prisma/repository/post.repository';
+import { CreatePostHttpController } from './presenters/http/commands/create-post/create-post.controller';
+import { DeleteAuthorPostsListener } from './presenters/listeners/user-deleted.listener';
+import { DeletePostApplicationService } from './presenters/http/commands/delete-post/delete-post.application.service';
+import { PostProjectionRepository } from './infrastructure/dynamodb/repository/post/post.dynamo.repository';
 import { DynamoDBService } from '@src/shared/infrastructure/database-providers/dynamodb/dynamodb';
-import { PostProjection } from './projection/post/post.projection';
-import { PostCreatedEventHandler } from './actions/event-handlers/post-created.event.handler';
-import { PostDeletedEventHandler } from './actions/event-handlers/post-deleted.event.handler';
-import { FetchPostsHttpController } from './actions/queries/fetch-posts/fetch-post.controller';
-import { FindPostsQueryApplicationService } from './actions/queries/fetch-posts/fetch-post.application.service';
+import { PostProjection } from './application/projection/post/post.projection';
+import { PostCreatedEventHandler } from './application/event-handlers/post-created.event.handler';
+import { PostDeletedEventHandler } from './application/event-handlers/post-deleted.event.handler';
+import { FetchPostsHttpController } from './presenters/http/queries/fetch-posts/fetch-post.controller';
+import { FindPostsQueryApplicationService } from './presenters/http/queries/fetch-posts/fetch-post.application.service';
 import { LOGGER } from '@src/shared/constants';
 import { ClientsModule } from '@nestjs/microservices';
 import { generateRabbitMQConfigurations } from '@src/libs/utils';
-import { AuthorProjection } from './projection/author/author.projection';
-import { AuthorProjectionRepository } from './database/repository/read/author/author.dynamo.repository';
+import { AuthorProjection } from './application/projection/author/author.projection';
+import { AuthorProjectionRepository } from './infrastructure/dynamodb/repository/author/author.dynamo.repository';
 import { AuthorModule } from '@src/shared-kernels/author/author.module';
-import { CreateAuthorPostsListener } from './actions/listeners/user-created.listener';
+import { CreateAuthorPostsListener } from './presenters/listeners/user-created.listener';
 
 const httpControllers = [
   CreatePostHttpController,
@@ -72,7 +72,7 @@ const repositories: Provider[] = [
     provide: POST_PROJECTION_REPOSITORY,
     useClass: PostProjectionRepository,
   },
-  // Author Related informations
+  // Author Related information
   {
     provide: AUTHOR_PROJECTION_REPOSITORY,
     useClass: AuthorProjectionRepository,

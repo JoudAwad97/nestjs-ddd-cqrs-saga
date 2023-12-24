@@ -7,7 +7,7 @@ import {
   AuthorDatabaseModel,
   authorDatabaseSchema,
 } from '../schema/author.database.schema';
-import { AuthorDynamoDBModel } from '@src/modules/content-management/post/database/schema/author.dynamo.schema';
+import { AuthorDynamoDBModel } from '@src/modules/content-management/post/infrastructure/dynamodb/schema/author.schema';
 
 @Injectable()
 export class AuthorMapper implements AuthorMapperPort {

@@ -6,6 +6,7 @@ import { CommentEntity } from '../comment.entity';
  * where we do not have to convert data from repository into domain entities
  * with that we can create a Read-Only interfaces that can be used for queries
  */
+// TODO: GET BACK TO THIS TOMORROW
 export interface CommentWithAuthorReadModel {
   comment: CommentEntity;
   author: UserEntity;
