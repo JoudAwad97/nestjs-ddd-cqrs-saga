@@ -54,10 +54,6 @@ const queryHandlers: Provider[] = [
   FindUserQueryApplicationService,
 ];
 
-const mappers: Provider[] = [];
-
-const repositories: Provider[] = [];
-
 const libraries: Provider[] = [];
 
 @Module({
@@ -70,8 +66,6 @@ const libraries: Provider[] = [];
     ...graphqlResolvers,
     ...commandHandlers,
     ...queryHandlers,
-    ...mappers,
-    ...repositories,
   ],
 })
 export class UserModule {}
