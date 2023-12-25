@@ -1,7 +1,6 @@
-import { Logger, Module, Provider } from '@nestjs/common';
+import { Module, Provider } from '@nestjs/common';
 import { generateRabbitMQConfigurations } from '@src/libs/utils';
 import { ClientsModule } from '@nestjs/microservices';
-import { LOGGER } from '@src/shared/constants';
 import { SendWelcomeEmailListener } from './presenters/listeners/send-welcome-email';
 import { UserRepository } from '../user-management/user/infrastructure/prisma/repository/user.repository';
 import {
@@ -11,6 +10,7 @@ import {
 import { UserMapper } from '../user-management/user/infrastructure/prisma/mapper/user.mapper';
 import { TranslatorService } from './infrastructure/anti-corruption-layer/translator.service';
 import { UserNotificationAdaptor } from './infrastructure/anti-corruption-layer/user/adaptar';
+import { LoggerModule } from '@src/shared/infrastructure/logger/logger.module';
 
 const httpControllers = [];
 const messageControllers = [SendWelcomeEmailListener];
@@ -32,12 +32,7 @@ const repositories: Provider[] = [
   },
 ];
 
-const libraries: Provider[] = [
-  {
-    provide: LOGGER,
-    useClass: Logger,
-  },
-];
+const libraries: Provider[] = [];
 
 const translators: Provider[] = [
   {
@@ -50,6 +45,7 @@ const adapters: Provider[] = [UserNotificationAdaptor];
 
 @Module({
   imports: [
+    LoggerModule,
     ClientsModule.register({
       clients: [
         {

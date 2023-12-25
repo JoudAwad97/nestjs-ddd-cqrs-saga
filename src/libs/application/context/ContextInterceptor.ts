@@ -13,10 +13,7 @@ import { LOGGER } from '@src/shared/constants';
 
 @Injectable()
 export class ContextInterceptor implements NestInterceptor {
-  constructor(
-    @Inject(LOGGER)
-    private readonly logger: LoggerPort,
-  ) {}
+  constructor(private readonly logger: LoggerPort) {}
 
   intercept(
     context: ExecutionContext,

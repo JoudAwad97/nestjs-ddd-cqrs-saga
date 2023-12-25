@@ -17,7 +17,7 @@ export class DeletePostApplicationService
   constructor(
     @Inject(POST_REPOSITORY)
     private readonly postRepository: PostRepositoryPort,
-    @Inject(LOGGER) private readonly logger: LoggerPort,
+    private readonly logger: LoggerPort,
     @Inject(POST_EVENT_PUBLISHER)
     private readonly eventPublisher: EventPublisher,
   ) {}

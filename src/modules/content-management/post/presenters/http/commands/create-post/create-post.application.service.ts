@@ -25,7 +25,7 @@ export class CreatePostApplicationService
     private readonly postRepository: PostRepositoryPort,
     @Inject(POST_EVENT_PUBLISHER)
     private readonly eventPublisher: EventPublisher,
-    @Inject(LOGGER) private readonly logger: LoggerPort,
+    private readonly logger: LoggerPort,
   ) {}
 
   async execute(command: CreatePostCommand): Promise<AggregateID> {

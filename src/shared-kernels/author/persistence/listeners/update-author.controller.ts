@@ -11,7 +11,7 @@ export class UpdateAuthorListener {
   constructor(
     @Inject(AUTHOR_REPOSITORY)
     private readonly authorRepository: AuthorRepositoryPort,
-    @Inject(LOGGER) private readonly logger: LoggerPort,
+    private readonly logger: LoggerPort,
   ) {}
 
   @EventPattern(UserUpdatedIntegrationEvent.name)

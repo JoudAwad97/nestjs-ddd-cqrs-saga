@@ -1,10 +1,6 @@
-import { Logger, Module, Provider } from '@nestjs/common';
-import { UserMapper } from './infrastructure/prisma/mapper/user.mapper';
-import { USER_EVENT_PUBLISHER, USER_REPOSITORY } from './user.di-tokens';
-import { UserRepository } from './infrastructure/prisma/repository/user.repository';
+import { Module, Provider } from '@nestjs/common';
 import { CreateUserHttpController } from './presenters/http/commands/create-user/create-user.controller';
 import { CreateUserApplicationService } from './presenters/http/commands/create-user/create-user.application.service';
-import { EventEmitter } from '@src/shared/infrastructure/publisher';
 import { UserCreatedSaga } from './application/sagas/user.saga';
 import { SendWelcomeEmailApplicationService } from './presenters/http/commands/send-welcome-email/send-welcome-email.application.service';
 import { UserAccountValidationApplicationService } from './presenters/http/commands/user-account-validation/user-account-validation.application.service';
@@ -19,13 +15,12 @@ import { FindUserQueryApplicationService } from './presenters/http/queries/find-
 import { UserCreatedEventHandler } from './application/event-handlers/user-created.event.handler';
 import { UserFetchListener } from './presenters/listeners/fetch-user.controller';
 import { UserDeletedEventHandler } from './application/event-handlers/user-deleted.event.handler';
-import { LOGGER } from '@src/shared/constants';
-import { USER_MAPPER } from '@src/modules/interactions/comment/comment.di-tokens';
 import { UserUpdatedEventHandler } from './application/event-handlers/user-updated.event.handler';
-import { generateRabbitMQConfigurations } from '@src/libs/utils';
-import { ClientsModule } from '@nestjs/microservices';
 import { NotifySupervisorApplicationService } from './presenters/http/commands/notify-supervisor/notify-supervisor.application.service';
 import { UserAckEventHandler } from './application/event-handlers/user-ack.event.handler';
+import { UserInfrastructureModule } from './infrastructure/user-infrastructure.module';
+import { LoggerModule } from '@src/shared/infrastructure/logger/logger.module';
+import { PublisherModule } from '@src/shared/infrastructure/publisher/publisher.module';
 
 const httpControllers = [
   CreateUserHttpController,
@@ -59,45 +54,14 @@ const queryHandlers: Provider[] = [
   FindUserQueryApplicationService,
 ];
 
-const mappers: Provider[] = [
-  {
-    provide: USER_MAPPER,
-    useExisting: UserMapper,
-  },
-  UserMapper,
-];
+const mappers: Provider[] = [];
 
-const repositories: Provider[] = [
-  {
-    provide: USER_REPOSITORY,
-    useClass: UserRepository,
-  },
-];
+const repositories: Provider[] = [];
 
-const libraries: Provider[] = [
-  {
-    provide: LOGGER,
-    useClass: Logger,
-  },
-  {
-    provide: USER_EVENT_PUBLISHER,
-    useClass: EventEmitter,
-  },
-];
+const libraries: Provider[] = [];
 
 @Module({
-  imports: [
-    ClientsModule.register({
-      /**
-       * TODO: IMPLEMENT DIFFERENT QUEUES FOR EACH USE CASE
-       */
-      clients: [
-        {
-          ...generateRabbitMQConfigurations(),
-        },
-      ],
-    }),
-  ],
+  imports: [UserInfrastructureModule, LoggerModule, PublisherModule],
   controllers: [...httpControllers, ...messageControllers],
   providers: [
     ...sagas,

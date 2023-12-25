@@ -8,7 +8,7 @@ import { LOGGER } from '@src/shared/constants';
 export class SendWelcomeEmailApplicationService
   implements ICommandHandler<SendWelcomeEmailCommand>
 {
-  constructor(@Inject(LOGGER) private readonly logger: LoggerPort) {}
+  constructor(private readonly logger: LoggerPort) {}
 
   async execute(command: SendWelcomeEmailCommand): Promise<void> {
     this.logger.log('Sending welcome email...');

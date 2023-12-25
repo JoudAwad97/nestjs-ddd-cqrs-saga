@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { BaseEntityRepository } from '@src/libs/databases/prisma/base-entity.repository';
 import { UserMapper } from '@src/modules/user-management/user/infrastructure/prisma/mapper/user.mapper';
@@ -10,7 +10,6 @@ import { LoggerPort } from '@src/libs/ports/logger.port';
 import { PaginatedQueryBase } from '@src/libs/ddd/query.base';
 import { Paginated } from '@src/libs/ports/repository.port';
 import { orderByFieldExtractor } from '@src/libs/utils';
-import { LOGGER } from '@src/shared/constants';
 import { UserRepositoryContract } from '@src/shared/application/contracts/user.contract';
 import { INotificationUserResponseDTO } from '@src/modules/notification/application/contracts/user.repository.contract';
 
@@ -24,7 +23,7 @@ export class UserRepository
 
   constructor(
     protected readonly mapper: UserMapper,
-    @Inject(LOGGER) protected readonly logger: LoggerPort,
+    protected readonly logger: LoggerPort,
   ) {
     super(mapper, logger);
     this.prismaService = new PrismaService(this.logger);

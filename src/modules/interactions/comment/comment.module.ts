@@ -1,4 +1,4 @@
-import { Logger, Module, Provider } from '@nestjs/common';
+import { Module, Provider } from '@nestjs/common';
 import {
   AUTHOR_REPOSITORY,
   COMMENT_EVENT_PUBLISHER,
@@ -18,7 +18,6 @@ import { PostRepository } from '../../content-management/post/infrastructure/pri
 import { USER_REPOSITORY } from '../../user-management/user/user.di-tokens';
 import { UserRepository } from '../../user-management/user/infrastructure/prisma/repository/user.repository';
 import { PostMapper } from '../../content-management/post/infrastructure/prisma/mapper/post.mapper';
-import { LOGGER } from '@src/shared/constants';
 import { GetCommentsHttpController } from './presenters/http/queries/get-comments/get-comments.controller';
 import { FindCommentsQueryApplicationService } from './presenters/http/queries/get-comments/get-comments.application.service';
 import { ClientsModule } from '@nestjs/microservices';
@@ -29,6 +28,7 @@ import { GetPostCommentsHttpController } from './presenters/http/queries/get-pos
 import { FindPostCommentsQueryApplicationService } from './presenters/http/queries/get-post-comments/get-post-comments.application.service';
 import { CreateCommentHttpController } from './presenters/http/commands/create-comment/create-comment.controller';
 import { CreateCommentApplicationService } from './presenters/http/commands/create-comment/create-comment.application.service';
+import { LoggerModule } from '@src/shared/infrastructure/logger/logger.module';
 
 const httpControllers = [
   CreateCommentHttpController,
@@ -86,10 +86,6 @@ const repositories: Provider[] = [
 
 const libraries: Provider[] = [
   {
-    provide: LOGGER,
-    useClass: Logger,
-  },
-  {
     provide: COMMENT_EVENT_PUBLISHER,
     useClass: EventEmitter,
   },
@@ -110,6 +106,7 @@ const services: Provider[] = [];
       ],
     }),
     AuthorModule,
+    LoggerModule,
   ],
   controllers: [...httpControllers, ...messageControllers],
   providers: [

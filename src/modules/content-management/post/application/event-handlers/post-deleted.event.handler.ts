@@ -11,7 +11,7 @@ export class PostDeletedEventHandler
   implements IEventHandler<PostDeletedEvent>
 {
   constructor(
-    @Inject(LOGGER) private readonly logger: LoggerPort,
+    private readonly logger: LoggerPort,
     @Inject(POST_PROJECTION) private readonly postProjection: PostProjection,
   ) {}
 

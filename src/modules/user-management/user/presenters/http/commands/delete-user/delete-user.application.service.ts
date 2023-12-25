@@ -1,26 +1,18 @@
-import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { LoggerPort } from '@src/libs/ports/logger.port';
 import { UserRepositoryPort } from '@src/modules/user-management/user/infrastructure/prisma/repository/user.repository.port';
-import {
-  USER_EVENT_PUBLISHER,
-  USER_REPOSITORY,
-} from '@src/modules/user-management/user/user.di-tokens';
 import { DeleteUserCommand } from './delete-user.command';
 import { CreateUserCommand } from '../create-user/create-user.command';
 import { UserErrors } from '@src/modules/user-management/user/domain/user.errors';
 import { EventPublisher } from '@src/libs/ports/event-publisher.port';
-import { LOGGER } from '@src/shared/constants';
 
 @CommandHandler(DeleteUserCommand)
 export class DeleteUserApplicationService
   implements ICommandHandler<CreateUserCommand>
 {
   constructor(
-    @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepositoryPort,
-    @Inject(LOGGER) private readonly logger: LoggerPort,
-    @Inject(USER_EVENT_PUBLISHER)
+    private readonly logger: LoggerPort,
     private readonly eventPublisher: EventPublisher,
   ) {}
 

@@ -8,7 +8,7 @@ import { LoggerPort } from '@src/libs/ports/logger.port';
 export class NotifySupervisorApplicationService
   implements ICommandHandler<NotifySupervisorCommand, void>
 {
-  constructor(@Inject(LOGGER) private readonly logger: LoggerPort) {}
+  constructor(private readonly logger: LoggerPort) {}
 
   async execute(command: NotifySupervisorCommand): Promise<void> {
     this.logger.log(`Handling notify supervisor command...`);

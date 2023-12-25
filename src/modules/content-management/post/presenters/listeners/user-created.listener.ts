@@ -12,7 +12,7 @@ export class CreateAuthorPostsListener {
   constructor(
     @Inject(AUTHOR_PROJECTION_REPOSITORY)
     private readonly authorProjectionRepository: AuthorRepositoryPort,
-    @Inject(LOGGER) private readonly logger: LoggerPort,
+    private readonly logger: LoggerPort,
   ) {}
 
   @EventPattern(UserCreatedIntegrationEvent.name)

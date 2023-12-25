@@ -24,7 +24,7 @@ export class LikeRepository
 
   constructor(
     @Inject(LIKE_MAPPER) protected readonly mapper: LikeMapperPort,
-    @Inject(LOGGER) protected readonly logger: LoggerPort,
+    protected readonly logger: LoggerPort,
   ) {
     super(mapper, logger);
     this.prismaService = new PrismaService(this.logger);

@@ -9,7 +9,7 @@ import { LOGGER } from '@src/shared/constants';
 @Injectable()
 export class PostProjection implements PostProjectionPort {
   constructor(
-    @Inject(LOGGER) private readonly logger: LoggerPort,
+    private readonly logger: LoggerPort,
     @Inject(POST_PROJECTION_REPOSITORY)
     private readonly postProjectionRepository: PostRepositoryPort,
   ) {}

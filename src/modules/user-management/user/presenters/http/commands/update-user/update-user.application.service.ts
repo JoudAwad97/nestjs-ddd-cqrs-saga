@@ -1,24 +1,17 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateUserCommand } from './update-user.command';
-import { UserRepository } from '@src/modules/user-management/user/infrastructure/prisma/repository/user.repository';
-import { Inject } from '@nestjs/common';
-import {
-  USER_EVENT_PUBLISHER,
-  USER_REPOSITORY,
-} from '@src/modules/user-management/user/user.di-tokens';
 import { UserErrors } from '@src/modules/user-management/user/domain/user.errors';
 import { LoggerPort } from '@src/libs/ports/logger.port';
 import { EventPublisher } from '@src/libs/ports/event-publisher.port';
-import { LOGGER } from '@src/shared/constants';
+import { UserRepositoryPort } from '@src/modules/user-management/user/infrastructure/prisma/repository/user.repository.port';
 
 @CommandHandler(UpdateUserCommand)
 export class UpdateUserApplicationService
   implements ICommandHandler<UpdateUserCommand>
 {
   constructor(
-    @Inject(USER_REPOSITORY) private readonly repository: UserRepository,
-    @Inject(LOGGER) private readonly logger: LoggerPort,
-    @Inject(USER_EVENT_PUBLISHER)
+    private readonly repository: UserRepositoryPort,
+    private readonly logger: LoggerPort,
     private readonly publisher: EventPublisher,
   ) {}
 

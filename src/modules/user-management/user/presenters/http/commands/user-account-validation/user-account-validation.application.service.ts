@@ -1,23 +1,15 @@
 import { CommandHandler } from '@nestjs/cqrs';
 import { UserAccountValidationCommand } from './user-account-validation.command';
-import { Inject } from '@nestjs/common';
 import { UserRepositoryPort } from '@src/modules/user-management/user/infrastructure/prisma/repository/user.repository.port';
 import { UserErrors } from '@src/modules//user-management/user/domain/user.errors';
 import { LoggerPort } from '@src/libs/ports/logger.port';
 import { EventPublisher } from '@src/libs/ports/event-publisher.port';
-import {
-  USER_EVENT_PUBLISHER,
-  USER_REPOSITORY,
-} from '@src/modules/user-management/user/user.di-tokens';
-import { LOGGER } from '@src/shared/constants';
 
 @CommandHandler(UserAccountValidationCommand)
 export class UserAccountValidationApplicationService {
   constructor(
-    @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepositoryPort,
-    @Inject(LOGGER) private readonly logger: LoggerPort,
-    @Inject(USER_EVENT_PUBLISHER)
+    private readonly logger: LoggerPort,
     private readonly eventPublisher: EventPublisher,
   ) {}
 

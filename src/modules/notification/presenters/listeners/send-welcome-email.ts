@@ -1,7 +1,6 @@
 import { Controller, Inject } from '@nestjs/common';
 import { EventPattern, Payload } from '@nestjs/microservices';
 import { UserCreatedIntegrationEvent } from '@src/shared/infrastructure/integration-events/user-created.integration.event';
-import { LOGGER } from '@src/shared/constants';
 import { LoggerPort } from '@src/libs/ports/logger.port';
 import { NOTIFICATION_TRANSLATOR_SERVICE } from '../../notification.di-tokens';
 import { TranslatorService } from '../../infrastructure/anti-corruption-layer/translator.service';
@@ -9,7 +8,7 @@ import { TranslatorService } from '../../infrastructure/anti-corruption-layer/tr
 @Controller()
 export class SendWelcomeEmailListener {
   constructor(
-    @Inject(LOGGER) private readonly logger: LoggerPort,
+    private readonly logger: LoggerPort,
     @Inject(NOTIFICATION_TRANSLATOR_SERVICE)
     private readonly notificationTranslatorService: TranslatorService,
   ) {}

@@ -1,11 +1,9 @@
-import { Controller, Inject } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { UserRepositoryPort } from '@src/modules/user-management/user/infrastructure/prisma/repository/user.repository.port';
 import { UserListenerResponseDto } from '@src/shared/application/dto/user.listener.dto';
-import { USER_REPOSITORY } from '@src/modules/user-management/user/user.di-tokens';
 import { USER_FETCH_MESSAGE_PATTERN } from '@src/shared/constants/user-events.constants';
 import { UserMapperPort } from '../../infrastructure/prisma/mapper/user.mapper.port';
-import { USER_MAPPER } from '@src/modules/interactions/comment/comment.di-tokens';
 
 interface FetchUserPayload {
   id: string;
@@ -14,9 +12,8 @@ interface FetchUserPayload {
 @Controller()
 export class UserFetchListener {
   constructor(
-    @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepositoryPort,
-    @Inject(USER_MAPPER) private readonly userMapper: UserMapperPort,
+    private readonly userMapper: UserMapperPort,
   ) {}
 
   @MessagePattern(USER_FETCH_MESSAGE_PATTERN)

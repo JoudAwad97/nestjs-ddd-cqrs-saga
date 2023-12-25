@@ -1,8 +1,7 @@
-import { Logger, Module, Provider } from '@nestjs/common';
+import { Module, Provider } from '@nestjs/common';
 import { ClientsModule } from '@nestjs/microservices';
 import { generateRabbitMQConfigurations } from '@src/libs/utils';
 import { AuthorModule } from '@src/shared-kernels/author/author.module';
-import { LOGGER } from '@src/shared/constants';
 import {
   LIKES_EVENT_PUBLISHER,
   LIKES_REPOSITORY,
@@ -24,6 +23,7 @@ import {
 } from '@src/modules/content-management/post/post.di-tokens';
 import { PostRepository } from '@src/modules/content-management/post/infrastructure/prisma/repository/post.repository';
 import { PostMapper } from '@src/modules/content-management/post/infrastructure/prisma/mapper/post.mapper';
+import { LoggerModule } from '@src/shared/infrastructure/logger/logger.module';
 
 const httpControllers = [
   GetPostLikesHttpController,
@@ -72,10 +72,6 @@ const repositories: Provider[] = [
 
 const libraries: Provider[] = [
   {
-    provide: LOGGER,
-    useClass: Logger,
-  },
-  {
     provide: LIKES_EVENT_PUBLISHER,
     useClass: EventEmitter,
   },
@@ -96,6 +92,7 @@ const services: Provider[] = [LikeService];
       ],
     }),
     AuthorModule,
+    LoggerModule,
   ],
   controllers: [...httpControllers, ...messageControllers],
   providers: [

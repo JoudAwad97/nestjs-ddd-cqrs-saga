@@ -1,4 +1,4 @@
-import { Logger, Module, Provider } from '@nestjs/common';
+import { Module, Provider } from '@nestjs/common';
 import { AuthorMapper } from './infrastructure/prisma/mapper/author.mapper';
 import { AUTHOR_MAPPER, AUTHOR_REPOSITORY } from './author.di-tokens';
 import { AuthorRepository } from './infrastructure/prisma/repository/author.repository';
@@ -6,7 +6,7 @@ import { CreateAuthorListener } from './persistence/listeners/create-author.cont
 import { UpdateAuthorListener } from './persistence/listeners/update-author.controller';
 import { ClientsModule } from '@nestjs/microservices';
 import { generateRabbitMQConfigurations } from '@src/libs/utils';
-import { LOGGER } from '@src/shared/constants';
+import { LoggerModule } from '@src/shared/infrastructure/logger/logger.module';
 
 const httpControllers = [];
 const messageControllers = [CreateAuthorListener, UpdateAuthorListener];
@@ -32,12 +32,7 @@ const repositories: Provider[] = [
   },
 ];
 
-const libraries: Provider[] = [
-  {
-    provide: LOGGER,
-    useClass: Logger,
-  },
-];
+const libraries: Provider[] = [];
 
 @Module({
   imports: [
@@ -51,6 +46,7 @@ const libraries: Provider[] = [
         },
       ],
     }),
+    LoggerModule,
   ],
   controllers: [...httpControllers, ...messageControllers],
   providers: [

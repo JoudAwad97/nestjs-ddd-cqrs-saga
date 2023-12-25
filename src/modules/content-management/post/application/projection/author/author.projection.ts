@@ -9,7 +9,7 @@ import { AuthorRepositoryPort } from '../../../infrastructure/dynamodb/repositor
 @Injectable()
 export class AuthorProjection implements AuthorProjectionPort {
   constructor(
-    @Inject(LOGGER) private readonly logger: LoggerPort,
+    private readonly logger: LoggerPort,
     @Inject(AUTHOR_PROJECTION_REPOSITORY)
     private readonly authorProjectionRepository: AuthorRepositoryPort,
   ) {}

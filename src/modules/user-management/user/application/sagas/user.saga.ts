@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ICommand, Saga, ofType } from '@nestjs/cqrs';
 import {
   EMPTY,
@@ -11,14 +11,13 @@ import {
   timer,
 } from 'rxjs';
 import { UserCreatedEvent } from '../../domain/events/user-created.event';
-import { LOGGER } from '@src/shared/constants';
 import { LoggerPort } from '@src/libs/ports/logger.port';
 import { NotifySupervisorCommand } from '../../presenters/http/commands/notify-supervisor/notify-supervisor.command';
 import { UserAckEvent } from '../../domain/events/user-ack.event';
 
 @Injectable()
 export class UserCreatedSaga {
-  constructor(@Inject(LOGGER) private readonly logger: LoggerPort) {}
+  constructor(private readonly logger: LoggerPort) {}
   /**
    * This example is a little advance in Saga as most the documentation contains a basic usage
    * what we do in here is to listen to all "UserCreatedEvent" and then we wait for 3s to head an ack

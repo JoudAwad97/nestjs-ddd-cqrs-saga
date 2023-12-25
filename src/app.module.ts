@@ -15,8 +15,8 @@ import { DynamoDBService } from './shared/infrastructure/database-providers/dyna
 import { AuthorModule } from './shared-kernels/author/author.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { GlobalGuardModule } from './shared/infrastructure/web/guards/guards.module';
-import { LOGGER } from './shared/constants';
 import { LikeModule } from './modules/interactions/likes/likes.module';
+import { LoggerModule } from './shared/infrastructure/logger/logger.module';
 
 const interceptors: Provider[] = [
   {
@@ -31,12 +31,7 @@ const interceptors: Provider[] = [
 
 const services: Provider[] = [PrismaService, Logger, DynamoDBService];
 
-const libraries: Provider[] = [
-  {
-    provide: LOGGER,
-    useClass: Logger,
-  },
-];
+const libraries: Provider[] = [];
 
 @Module({
   imports: [
@@ -54,6 +49,7 @@ const libraries: Provider[] = [
     LikeModule,
     NotificationModule,
     GlobalGuardModule,
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [...interceptors, ...services, ...libraries],

@@ -5,14 +5,13 @@ import { PaginatedQueryRequestDto } from '@src/libs/api/request/paginated-query.
 import { Paginated } from '@src/libs/ports/repository.port';
 import { UserEntity } from '@src/modules/user-management/user/domain/user.entity';
 import { UserPaginatedResponseDto } from '@src/modules/user-management/user/presenters/dtos/user.paginated.response.dto';
-import { USER_MAPPER } from '@src/modules/interactions/comment/comment.di-tokens';
 import { UserMapperPort } from '@src/modules/user-management/user/infrastructure/prisma/mapper/user.mapper.port';
 
 @Controller('user')
 export class FindUsersHttpController {
   constructor(
     private readonly queryBus: QueryBus,
-    @Inject(USER_MAPPER) private readonly mapper: UserMapperPort,
+    private readonly mapper: UserMapperPort,
   ) {}
 
   @Get('/')

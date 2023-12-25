@@ -9,7 +9,6 @@ import { LoggerPort } from '@src/libs/ports/logger.port';
 import { EventPublisher } from '@src/libs/ports/event-publisher.port';
 import { AggregateID } from '@src/libs/ddd';
 import { CommentEntity } from '../../../../domain/comment.entity';
-import { LOGGER } from '@src/shared/constants';
 import { POST_REPOSITORY } from '@src/modules/content-management/post/post.di-tokens';
 import { commentDomainService } from '../../../../domain/comment.service';
 import { USER_REPOSITORY } from '@src/modules/user-management/user/user.di-tokens';
@@ -24,7 +23,7 @@ export class CreateCommentApplicationService
   constructor(
     @Inject(COMMENT_REPOSITORY)
     private readonly commentRepository: CommentRepositoryPort,
-    @Inject(LOGGER) private readonly logger: LoggerPort,
+    private readonly logger: LoggerPort,
     @Inject(COMMENT_EVENT_PUBLISHER)
     private readonly eventPublisher: EventPublisher,
     /**

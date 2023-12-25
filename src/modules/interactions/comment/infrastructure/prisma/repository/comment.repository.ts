@@ -8,7 +8,6 @@ import { CommentEntity } from '../../../domain/comment.entity';
 import { CommentModel } from '../schema/comment.schema';
 import { CommentRepositoryPort } from './comment.repository.port';
 import { CommentMapperPort } from '../mapper/comment.mapper.port';
-import { LOGGER } from '@src/shared/constants';
 import { Paginated } from '@src/libs/ports/repository.port';
 import { FindPostCommentsQuery } from '../../../presenters/http/queries/get-post-comments/get-post-comments.query';
 import { orderByFieldExtractor } from '@src/libs/utils';
@@ -24,7 +23,7 @@ export class CommentRepository
 
   constructor(
     @Inject(COMMENT_MAPPER) protected readonly mapper: CommentMapperPort,
-    @Inject(LOGGER) protected readonly logger: LoggerPort,
+    protected readonly logger: LoggerPort,
   ) {
     super(mapper, logger);
     this.prismaService = new PrismaService(this.logger);

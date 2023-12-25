@@ -1,7 +1,6 @@
 import { ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-import { LOGGER } from '@src/shared/constants';
 import { LoggerPort } from '@src/libs/ports/logger.port';
 import { UserRepositoryPort } from '@src/modules/user-management/user/infrastructure/prisma/repository/user.repository.port';
 import { UserService } from '@src/modules/user-management/user/domain/user.service';
@@ -13,7 +12,7 @@ const BaseGuard = AuthGuard('jwt');
 @Injectable()
 export class AuthenticationGuard extends BaseGuard {
   constructor(
-    @Inject(LOGGER) private readonly logger: LoggerPort,
+    private readonly logger: LoggerPort,
     @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepositoryPort,
     private reflector: Reflector,

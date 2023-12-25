@@ -18,7 +18,7 @@ export class FindPostsQueryApplicationService
   implements IQueryHandler<FindPostsQuery>
 {
   constructor(
-    @Inject(LOGGER) private readonly logger: LoggerPort,
+    private readonly logger: LoggerPort,
     @Inject(POST_PROJECTION_REPOSITORY)
     private readonly postProjectionReadRepository: PostRepositoryPort,
     @Inject(AUTHOR_PROJECTION_REPOSITORY)

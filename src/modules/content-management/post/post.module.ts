@@ -1,5 +1,5 @@
 import { DeletePostHttpController } from './presenters/http/commands/delete-post/delete-post.controller';
-import { Logger, Module, Provider } from '@nestjs/common';
+import { Module, Provider } from '@nestjs/common';
 import {
   POST_PROJECTION_REPOSITORY,
   POST_EVENT_PUBLISHER,
@@ -23,13 +23,13 @@ import { PostCreatedEventHandler } from './application/event-handlers/post-creat
 import { PostDeletedEventHandler } from './application/event-handlers/post-deleted.event.handler';
 import { FetchPostsHttpController } from './presenters/http/queries/fetch-posts/fetch-post.controller';
 import { FindPostsQueryApplicationService } from './presenters/http/queries/fetch-posts/fetch-post.application.service';
-import { LOGGER } from '@src/shared/constants';
 import { ClientsModule } from '@nestjs/microservices';
 import { generateRabbitMQConfigurations } from '@src/libs/utils';
 import { AuthorProjection } from './application/projection/author/author.projection';
 import { AuthorProjectionRepository } from './infrastructure/dynamodb/repository/author/author.dynamo.repository';
 import { AuthorModule } from '@src/shared-kernels/author/author.module';
 import { CreateAuthorPostsListener } from './presenters/listeners/user-created.listener';
+import { LoggerModule } from '@src/shared/infrastructure/logger/logger.module';
 
 const httpControllers = [
   CreatePostHttpController,
@@ -92,10 +92,6 @@ const projections: Provider[] = [
 
 const libraries: Provider[] = [
   {
-    provide: LOGGER,
-    useClass: Logger,
-  },
-  {
     provide: POST_EVENT_PUBLISHER,
     useClass: EventEmitter,
   },
@@ -115,6 +111,7 @@ const services: Provider[] = [DynamoDBService];
         },
       ],
     }),
+    LoggerModule,
     AuthorModule,
   ],
   controllers: [...httpControllers, ...messageControllers],

@@ -1,13 +1,13 @@
 // generate me the module of authentication
 
-import { Logger, Module, Provider } from '@nestjs/common';
+import { Module, Provider } from '@nestjs/common';
 import { AuthenticationGuard } from './global-authentication.guard';
 import { USER_REPOSITORY } from '@src/modules/user-management/user/user.di-tokens';
 import { UserRepository } from '@src/modules/user-management/user/infrastructure/prisma/repository/user.repository';
 import { APP_GUARD } from '@nestjs/core';
 import { UserMapper } from '@src/modules/user-management/user/infrastructure/prisma/mapper/user.mapper';
 import { USER_MAPPER } from '@src/modules/interactions/comment/comment.di-tokens';
-import { LOGGER } from '@src/shared/constants';
+import { LoggerModule } from '../../logger/logger.module';
 
 const repositories: Provider[] = [
   {
@@ -32,16 +32,9 @@ const guards: Provider[] = [
   AuthenticationGuard,
 ];
 
-const libraries: Provider[] = [
-  {
-    provide: LOGGER,
-    useClass: Logger,
-  },
-];
-
 @Module({
-  imports: [],
-  providers: [...guards, ...repositories, ...mappers, ...libraries],
+  imports: [LoggerModule],
+  providers: [...guards, ...repositories, ...mappers],
   exports: [],
 })
 export class GlobalGuardModule {}

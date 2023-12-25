@@ -14,7 +14,7 @@ export class PostCreatedEventHandler
   constructor(
     @Inject(POST_EVENT_PUBLISHER)
     private readonly eventPublisher: EventPublisher,
-    @Inject(LOGGER) private readonly logger: LoggerPort,
+    private readonly logger: LoggerPort,
     @Inject(POST_PROJECTION)
     private readonly postProjection: PostProjection,
   ) {}

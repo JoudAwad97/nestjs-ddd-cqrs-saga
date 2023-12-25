@@ -20,7 +20,7 @@ export class AuthorRepository
 
   constructor(
     @Inject(AUTHOR_MAPPER) protected readonly mapper: AuthorMapperPort,
-    @Inject(LOGGER) protected readonly logger: LoggerPort,
+    protected readonly logger: LoggerPort,
   ) {
     super(mapper, logger);
     this.prismaService = new PrismaService(this.logger);
