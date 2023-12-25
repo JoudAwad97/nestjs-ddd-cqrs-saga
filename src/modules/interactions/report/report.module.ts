@@ -4,10 +4,15 @@ import { ReportInfrastructureModule } from './infrastructure/report-infrastructu
 import { FetchPostReportsHttpController } from './presenters/http/queries/fetch-post-report/fetch-post-report.controller';
 import { FetchPostReportsQueryHandler } from './presenters/http/queries/fetch-post-report/fetch-post-report.service';
 import { LoggerModule } from '@src/shared/infrastructure/logger/logger.module';
+import { CreateReportCommandHandler } from './presenters/http/commands/create-report/create-report.service';
+import { createReportHttpController } from './presenters/http/commands/create-report/create-report.controller';
 
-const httpControllers = [FetchPostReportsHttpController];
+const httpControllers = [
+  FetchPostReportsHttpController,
+  createReportHttpController,
+];
 
-const commandHandlers: Provider[] = [];
+const commandHandlers: Provider[] = [CreateReportCommandHandler];
 const queryHandlers: Provider[] = [FetchPostReportsQueryHandler];
 
 @Module({
