@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { BaseEntityRepository } from '@src/libs/databases/prisma/base-entity.repository';
 import { PrismaService } from '@src/shared/infrastructure/database-providers/prisma/prisma';
@@ -9,9 +9,8 @@ import { orderByFieldExtractor } from '@src/libs/utils';
 import { PostEntity } from '../../../domain/post.entity';
 import { PostModel } from '../schema/post.schema';
 import { PostRepositoryPort } from './post.repository.port';
-import { PostMapper } from '../mapper/post.mapper';
-import { LOGGER } from '@src/shared/constants';
 import { PostRepositoryContract } from '@src/shared/application/contracts/post.contract';
+import { PostMapperPort } from '../mapper/post.mapper.port';
 
 @Injectable()
 export class PostRepository
@@ -22,7 +21,7 @@ export class PostRepository
   protected prismaService: PrismaService;
 
   constructor(
-    protected readonly mapper: PostMapper,
+    protected readonly mapper: PostMapperPort,
     protected readonly logger: LoggerPort,
   ) {
     super(mapper, logger);

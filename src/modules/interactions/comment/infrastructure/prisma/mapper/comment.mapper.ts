@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CommentEntity } from '../../../domain/comment.entity';
 import { CommentModel } from '../schema/comment.schema';
 import { CommentWithAuthorResponseDto } from '../../../presenters/dtos/comment-with-author.dto';

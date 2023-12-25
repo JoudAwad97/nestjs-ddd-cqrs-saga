@@ -31,6 +31,7 @@ model Post {
   status     PostStatus // Assuming 'PostStatus' is an enum
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
+  reports    Report[]
 }
 
 model Author {
@@ -44,6 +45,7 @@ model Author {
   version    Int       @default(0)
   comments   Comment[]
   likes      Like[]
+  reports    Report[]
 }
 
 model Comment {
@@ -63,6 +65,16 @@ model Like {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   user       Author   @relation(fields: [author_id], references: [user_id], onDelete: Cascade)
+}
+
+model Report {
+  id         String   @id @default(uuid())
+  author_id  String
+  post_id    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user       Author   @relation(fields: [author_id], references: [user_id], onDelete: Cascade)
+  post       Post     @relation(fields: [post_id], references: [id], onDelete: Cascade)
 }
 
 // Enum definitions (you will need to define these based on your requirements)

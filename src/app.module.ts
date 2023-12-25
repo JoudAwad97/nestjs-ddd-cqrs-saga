@@ -17,6 +17,7 @@ import { NotificationModule } from './modules/notification/notification.module';
 import { GlobalGuardModule } from './shared/infrastructure/web/guards/guards.module';
 import { LikeModule } from './modules/interactions/likes/likes.module';
 import { LoggerModule } from './shared/infrastructure/logger/logger.module';
+import { ReportModule } from './modules/interactions/report/report.module';
 
 const interceptors: Provider[] = [
   {
@@ -50,6 +51,7 @@ const libraries: Provider[] = [];
     NotificationModule,
     GlobalGuardModule,
     LoggerModule,
+    ReportModule,
   ],
   controllers: [AppController],
   providers: [...interceptors, ...services, ...libraries],
