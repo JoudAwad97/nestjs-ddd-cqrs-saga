@@ -1,5 +1,4 @@
-import { Controller, Get, Inject, Param, Query } from '@nestjs/common';
-import { COMMENT_MAPPER } from '../../../../comment.di-tokens';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { CommentMapperPort } from '../../../../infrastructure/prisma/mapper/comment.mapper.port';
 import { QueryBus } from '@nestjs/cqrs';
 import { FindPostCommentsQuery } from './get-post-comments.query';
@@ -14,7 +13,7 @@ import { Paginated } from '@src/libs/ports/repository.port';
 export class GetPostCommentsHttpController {
   constructor(
     private readonly queryBus: QueryBus,
-    @Inject(COMMENT_MAPPER) protected readonly mapper: CommentMapperPort,
+    protected readonly mapper: CommentMapperPort,
   ) {}
 
   @Get('/post/:postId')

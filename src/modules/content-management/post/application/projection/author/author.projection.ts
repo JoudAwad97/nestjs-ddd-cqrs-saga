@@ -1,7 +1,5 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { AUTHOR_PROJECTION_REPOSITORY } from '../../../post.di-tokens';
+import { Injectable } from '@nestjs/common';
 import { LoggerPort } from '@src/libs/ports/logger.port';
-import { LOGGER } from '@src/shared/constants';
 import { AuthorProjectionPort } from './author.projection.port';
 import { AuthorEntity } from '@src/shared-kernels/author/domain/author.entity';
 import { AuthorRepositoryPort } from '../../../infrastructure/dynamodb/repository/author/author.dynamo.repository.port';
@@ -10,7 +8,6 @@ import { AuthorRepositoryPort } from '../../../infrastructure/dynamodb/repositor
 export class AuthorProjection implements AuthorProjectionPort {
   constructor(
     private readonly logger: LoggerPort,
-    @Inject(AUTHOR_PROJECTION_REPOSITORY)
     private readonly authorProjectionRepository: AuthorRepositoryPort,
   ) {}
 

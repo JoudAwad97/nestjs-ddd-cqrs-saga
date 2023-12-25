@@ -1,17 +1,10 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateCommentCommand } from './create-comment.command';
-import { Inject } from '@nestjs/common';
-import {
-  COMMENT_EVENT_PUBLISHER,
-  COMMENT_REPOSITORY,
-} from '../../../../comment.di-tokens';
 import { LoggerPort } from '@src/libs/ports/logger.port';
 import { EventPublisher } from '@src/libs/ports/event-publisher.port';
 import { AggregateID } from '@src/libs/ddd';
 import { CommentEntity } from '../../../../domain/comment.entity';
-import { POST_REPOSITORY } from '@src/modules/content-management/post/post.di-tokens';
 import { commentDomainService } from '../../../../domain/comment.service';
-import { USER_REPOSITORY } from '@src/modules/user-management/user/user.di-tokens';
 import { UserRepositoryContract } from '@src/shared/application/contracts/user.contract';
 import { PostRepositoryContract } from '@src/shared/application/contracts/post.contract';
 import { CommentRepositoryPort } from '../../../../infrastructure/prisma/repository/comment.repository.port';
@@ -21,17 +14,13 @@ export class CreateCommentApplicationService
   implements ICommandHandler<CreateCommentCommand>
 {
   constructor(
-    @Inject(COMMENT_REPOSITORY)
     private readonly commentRepository: CommentRepositoryPort,
     private readonly logger: LoggerPort,
-    @Inject(COMMENT_EVENT_PUBLISHER)
     private readonly eventPublisher: EventPublisher,
     /**
      * Notice how we share the contracts and not the actual implementation or ports
      */
-    @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepositoryContract,
-    @Inject(POST_REPOSITORY)
     private readonly postRepository: PostRepositoryContract,
   ) {}
 

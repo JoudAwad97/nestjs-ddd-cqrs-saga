@@ -4,6 +4,7 @@ import { UserRepository } from './repository/user.repository';
 import { UserMapperPort } from './mapper/user.mapper.port';
 import { UserMapper } from './mapper/user.mapper';
 import { LoggerModule } from '@src/shared/infrastructure/logger/logger.module';
+import { generateUseContractsFunction } from '@src/shared/infrastructure/database-providers/utils';
 
 @Module({
   imports: [LoggerModule],
@@ -26,19 +27,12 @@ export class UserOrmModule {
     repositoryContracts: InjectionToken[] = [],
     mapperContracts: InjectionToken[] = [],
   ) {
-    return {
-      module: UserOrmModule,
-      providers: [
-        ...repositoryContracts.map((provider) => ({
-          provide: provider,
-          useExisting: UserRepository,
-        })),
-        ...mapperContracts.map((provider) => ({
-          provide: provider,
-          useExisting: UserMapper,
-        })),
-      ],
-      exports: [...repositoryContracts, ...mapperContracts],
-    };
+    return generateUseContractsFunction<UserRepository, UserMapper>(
+      UserOrmModule,
+      UserRepository,
+      UserMapper,
+      repositoryContracts,
+      mapperContracts,
+    );
   }
 }

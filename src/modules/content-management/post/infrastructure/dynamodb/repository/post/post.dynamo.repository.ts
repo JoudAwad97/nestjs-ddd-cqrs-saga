@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PostRepositoryPort } from './post.dynamo.repository.port';
 import { PostEntity } from '../../../../domain/post.entity';
 import { DynamoDBService } from '@src/shared/infrastructure/database-providers/dynamodb/dynamodb';
@@ -11,14 +11,13 @@ import {
   ScanCommandInput,
 } from '@aws-sdk/lib-dynamodb';
 import { POST_TABLE_NAME } from '@src/modules/content-management/post/constants/dynamo.constants';
-import { POST_MAPPER } from '@src/modules/content-management/post/post.di-tokens';
 import { PostMapperPort } from '../../mapper/post.mapper.port';
 
 @Injectable()
 export class PostProjectionRepository implements PostRepositoryPort {
   constructor(
     private readonly dynamoDBService: DynamoDBService,
-    @Inject(POST_MAPPER) private readonly postMapper: PostMapperPort,
+    private readonly postMapper: PostMapperPort,
   ) {}
 
   async findAll(): Promise<PostEntity[]> {

@@ -1,29 +1,21 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreatePostCommand } from './create-post.command';
-import {
-  POST_EVENT_PUBLISHER,
-  POST_REPOSITORY,
-} from '@src/modules/content-management/post/post.di-tokens';
 import { PostRepositoryPort } from '@src/modules/content-management/post/infrastructure/prisma/repository/post.repository.port';
 import { EventPublisher } from '@src/libs/ports/event-publisher.port';
 import { LoggerPort } from '@src/libs/ports/logger.port';
-import { Inject } from '@nestjs/common';
 import { USER_FETCH_MESSAGE_PATTERN } from '@src/shared/constants/user-events.constants';
 import { UserListenerResponseDto } from '@src/shared/application/dto/user.listener.dto';
 import { UserStatuses } from '@src/modules/user-management/user/domain/user.types';
 import { PostErrors } from '@src/modules/content-management/post/domain/post.errors';
 import { PostEntity } from '@src/modules/content-management/post/domain/post.entity';
 import { AggregateID } from '@src/libs/ddd';
-import { LOGGER } from '@src/shared/constants';
 
 @CommandHandler(CreatePostCommand)
 export class CreatePostApplicationService
   implements ICommandHandler<CreatePostCommand>
 {
   constructor(
-    @Inject(POST_REPOSITORY)
     private readonly postRepository: PostRepositoryPort,
-    @Inject(POST_EVENT_PUBLISHER)
     private readonly eventPublisher: EventPublisher,
     private readonly logger: LoggerPort,
   ) {}

@@ -1,34 +1,14 @@
 import { Module, Provider } from '@nestjs/common';
-import {
-  AUTHOR_REPOSITORY,
-  COMMENT_EVENT_PUBLISHER,
-  COMMENT_MAPPER,
-  COMMENT_REPOSITORY,
-  USER_MAPPER,
-} from './comment.di-tokens';
-import { EventEmitter } from '@src/shared/infrastructure/publisher';
-import { CommentRepository } from './infrastructure/prisma/repository/comment.repository';
-import { CommentMapper } from './infrastructure/prisma/mapper/comment.mapper';
-import { UserMapper } from '../../user-management/user/infrastructure/prisma/mapper/user.mapper';
-import {
-  POST_MAPPER,
-  POST_REPOSITORY,
-} from '../../content-management/post/post.di-tokens';
-import { PostRepository } from '../../content-management/post/infrastructure/prisma/repository/post.repository';
-import { USER_REPOSITORY } from '../../user-management/user/user.di-tokens';
-import { UserRepository } from '../../user-management/user/infrastructure/prisma/repository/user.repository';
-import { PostMapper } from '../../content-management/post/infrastructure/prisma/mapper/post.mapper';
 import { GetCommentsHttpController } from './presenters/http/queries/get-comments/get-comments.controller';
 import { FindCommentsQueryApplicationService } from './presenters/http/queries/get-comments/get-comments.application.service';
-import { ClientsModule } from '@nestjs/microservices';
-import { generateRabbitMQConfigurations } from '@src/libs/utils';
-import { AuthorRepository } from '@src/shared-kernels/author/infrastructure/prisma/repository/author.repository';
 import { AuthorModule } from '@src/shared-kernels/author/author.module';
 import { GetPostCommentsHttpController } from './presenters/http/queries/get-post-comments/get-post-comments.controller';
 import { FindPostCommentsQueryApplicationService } from './presenters/http/queries/get-post-comments/get-post-comments.application.service';
 import { CreateCommentHttpController } from './presenters/http/commands/create-comment/create-comment.controller';
 import { CreateCommentApplicationService } from './presenters/http/commands/create-comment/create-comment.application.service';
 import { LoggerModule } from '@src/shared/infrastructure/logger/logger.module';
+import { PublisherModule } from '@src/shared/infrastructure/publisher/publisher.module';
+import { CommentInfrastructureModule } from './infrastructure/comment-infrastructure.module';
 
 const httpControllers = [
   CreateCommentHttpController,
@@ -48,65 +28,16 @@ const queryHandlers: Provider[] = [
   FindPostCommentsQueryApplicationService,
 ];
 
-const mappers: Provider[] = [
-  {
-    provide: COMMENT_MAPPER,
-    useClass: CommentMapper,
-  },
-  {
-    provide: USER_MAPPER,
-    useClass: UserMapper,
-  },
-  {
-    provide: POST_MAPPER,
-    useClass: PostMapper,
-  },
-  UserMapper,
-  PostMapper,
-];
-
-const repositories: Provider[] = [
-  {
-    provide: COMMENT_REPOSITORY,
-    useClass: CommentRepository,
-  },
-  {
-    provide: POST_REPOSITORY,
-    useClass: PostRepository,
-  },
-  {
-    provide: USER_REPOSITORY,
-    useClass: UserRepository,
-  },
-  {
-    provide: AUTHOR_REPOSITORY,
-    useClass: AuthorRepository,
-  },
-];
-
-const libraries: Provider[] = [
-  {
-    provide: COMMENT_EVENT_PUBLISHER,
-    useClass: EventEmitter,
-  },
-];
+const libraries: Provider[] = [];
 
 const services: Provider[] = [];
 
 @Module({
   imports: [
-    ClientsModule.register({
-      /**
-       * TODO: IMPLEMENT DIFFERENT QUEUES FOR EACH USE CASE
-       */
-      clients: [
-        {
-          ...generateRabbitMQConfigurations(),
-        },
-      ],
-    }),
+    PublisherModule,
     AuthorModule,
     LoggerModule,
+    CommentInfrastructureModule,
   ],
   controllers: [...httpControllers, ...messageControllers],
   providers: [
@@ -116,8 +47,6 @@ const services: Provider[] = [];
     ...graphqlResolvers,
     ...commandHandlers,
     ...queryHandlers,
-    ...mappers,
-    ...repositories,
     ...services,
   ],
 })

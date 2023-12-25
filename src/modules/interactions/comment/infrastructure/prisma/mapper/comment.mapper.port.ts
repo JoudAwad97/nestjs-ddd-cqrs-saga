@@ -7,13 +7,16 @@ import { CommentResponseDto } from '../../../presenters/dtos/comment.dto';
 import { AuthorDatabaseModel } from '@src/shared-kernels/author/infrastructure/prisma/schema/author.database.schema';
 import { CommentWithAuthorReadModel } from '../../../domain/read-models/comment.read-model';
 
-export interface CommentMapperPort
-  extends Mapper<CommentEntity, CommentModel, CommentResponseDto> {
-  toResponseWithAuthor(
+export abstract class CommentMapperPort extends Mapper<
+  CommentEntity,
+  CommentModel,
+  CommentResponseDto
+> {
+  abstract toResponseWithAuthor(
     comment: CommentEntity,
     user: UserEntity,
   ): CommentWithAuthorResponseDto;
-  databaseModelToResponseDto(
+  abstract databaseModelToResponseDto(
     comment: CommentModel,
     author: AuthorDatabaseModel,
   ): CommentWithAuthorReadModel;

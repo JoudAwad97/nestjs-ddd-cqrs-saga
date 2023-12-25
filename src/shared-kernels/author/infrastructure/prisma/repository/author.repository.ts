@@ -1,14 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { LoggerPort } from '@src/libs/ports/logger.port';
 import { PrismaService } from '@src/shared/infrastructure/database-providers/prisma/prisma';
 import { Prisma } from '@prisma/client';
 import { BaseEntityRepository } from '@src/libs/databases/prisma/base-entity.repository';
-import { LOGGER } from '@src/shared/constants';
 import { AuthorEntity } from '../../../domain/author.entity';
 import { AuthorDatabaseModel } from '../schema/author.database.schema';
 import { AuthorRepositoryPort } from './author.repository.port';
 import { AuthorMapperPort } from '../mapper/author.mapper.port';
-import { AUTHOR_MAPPER } from '../../../author.di-tokens';
 
 @Injectable()
 export class AuthorRepository
@@ -19,7 +17,7 @@ export class AuthorRepository
   protected prismaService: PrismaService;
 
   constructor(
-    @Inject(AUTHOR_MAPPER) protected readonly mapper: AuthorMapperPort,
+    protected readonly mapper: AuthorMapperPort,
     protected readonly logger: LoggerPort,
   ) {
     super(mapper, logger);

@@ -1,5 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { COMMENT_MAPPER } from '../../../comment.di-tokens';
+import { Injectable } from '@nestjs/common';
 import { LoggerPort } from '@src/libs/ports/logger.port';
 import { PrismaService } from '@src/shared/infrastructure/database-providers/prisma/prisma';
 import { Prisma } from '@prisma/client';
@@ -22,7 +21,7 @@ export class CommentRepository
   protected prismaService: PrismaService;
 
   constructor(
-    @Inject(COMMENT_MAPPER) protected readonly mapper: CommentMapperPort,
+    protected readonly mapper: CommentMapperPort,
     protected readonly logger: LoggerPort,
   ) {
     super(mapper, logger);

@@ -6,16 +6,13 @@ import { CommentMapperPort } from './comment.mapper.port';
 import { UserEntity } from '@src/modules/user-management/user/domain/user.entity';
 import { CommentResponseDto } from '../../../presenters/dtos/comment.dto';
 import { UserResponseDto } from '@src/modules/user-management/user/presenters/dtos/user.db.dto';
-import { AUTHOR_MAPPER } from '@src/shared-kernels/author/author.di-tokens';
 import { AuthorMapperPort } from '@src/shared-kernels/author/infrastructure/prisma/mapper/author.mapper.port';
 import { AuthorDatabaseModel } from '@src/shared-kernels/author/infrastructure/prisma/schema/author.database.schema';
 import { CommentWithAuthorReadModel } from '../../../domain/read-models/comment.read-model';
 
 @Injectable()
 export class CommentMapper implements CommentMapperPort {
-  constructor(
-    @Inject(AUTHOR_MAPPER) protected readonly authorMapper: AuthorMapperPort,
-  ) {}
+  constructor(protected readonly authorMapper: AuthorMapperPort) {}
 
   toPersistence(entity: CommentEntity): CommentModel {
     const copy = entity.getProps();

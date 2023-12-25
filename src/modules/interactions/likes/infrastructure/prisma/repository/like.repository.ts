@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { BaseEntityRepository } from '@src/libs/databases/prisma/base-entity.repository';
 import { LikeEntity } from '../../../domain/like.entity';
 import { LikeModel } from '../schema/like.schema';
@@ -9,8 +9,6 @@ import { GetPostLikesQuery } from '../../../presenters/http/queries/get-likes-by
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '@src/shared/infrastructure/database-providers/prisma/prisma';
 import { LikeMapperPort } from '../mapper/like.mapper.port';
-import { LIKE_MAPPER } from '../../../likes.di-tokens';
-import { LOGGER } from '@src/shared/constants';
 import { LoggerPort } from '@src/libs/ports/logger.port';
 import { orderByFieldExtractor } from '@src/libs/utils';
 
@@ -23,7 +21,7 @@ export class LikeRepository
   protected prismaService: PrismaService;
 
   constructor(
-    @Inject(LIKE_MAPPER) protected readonly mapper: LikeMapperPort,
+    protected readonly mapper: LikeMapperPort,
     protected readonly logger: LoggerPort,
   ) {
     super(mapper, logger);

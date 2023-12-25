@@ -1,3 +1,0 @@
-export const LIKES_EVENT_PUBLISHER = Symbol('LIKES_EVENT_PUBLISHER');
-export const LIKES_REPOSITORY = Symbol('LIKES_REPOSITORY');
-export const LIKE_MAPPER = Symbol('LIKE_MAPPER');

@@ -1,8 +1,6 @@
-import { Controller, Inject } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
-import { AUTHOR_PROJECTION_REPOSITORY } from '../../post.di-tokens';
 import { LoggerPort } from '@src/libs/ports/logger.port';
-import { LOGGER } from '@src/shared/constants';
 import { AuthorRepositoryPort } from '../../infrastructure/dynamodb/repository/author/author.dynamo.repository.port';
 import { UserCreatedIntegrationEvent } from '@src/shared/infrastructure/integration-events/user-created.integration.event';
 import { AuthorEntity } from '@src/shared-kernels/author/domain/author.entity';
@@ -10,7 +8,6 @@ import { AuthorEntity } from '@src/shared-kernels/author/domain/author.entity';
 @Controller()
 export class CreateAuthorPostsListener {
   constructor(
-    @Inject(AUTHOR_PROJECTION_REPOSITORY)
     private readonly authorProjectionRepository: AuthorRepositoryPort,
     private readonly logger: LoggerPort,
   ) {}

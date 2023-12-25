@@ -7,9 +7,12 @@ import {
   LikeResponseDto,
 } from '../../../presenters/dtos/like.dto';
 
-export interface LikeMapperPort
-  extends Mapper<LikeEntity, LikeModel, LikeResponseDto> {
-  toDetailedResponse(
+export abstract class LikeMapperPort extends Mapper<
+  LikeEntity,
+  LikeModel,
+  LikeResponseDto
+> {
+  abstract toDetailedResponse(
     likeRecord: LikeModel,
     authorRecord: AuthorDatabaseModel,
   ): LikeDetailedResponseDto;

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { DynamoDBService } from '@src/shared/infrastructure/database-providers/dynamodb/dynamodb';
 import {
   BatchGetCommand,
@@ -14,13 +14,12 @@ import { AUTHOR_TABLE_NAME } from '@src/modules/content-management/post/constant
 import { AuthorRepositoryPort } from './author.dynamo.repository.port';
 import { AuthorEntity } from '@src/shared-kernels/author/domain/author.entity';
 import { AuthorMapperContract } from '@src/modules/content-management/post/application/contracts/author.repository.contract';
-import { AUTHOR_MAPPER } from '@src/shared-kernels/author/author.di-tokens';
 
 @Injectable()
 export class AuthorProjectionRepository implements AuthorRepositoryPort {
   constructor(
     private readonly dynamoDBService: DynamoDBService,
-    @Inject(AUTHOR_MAPPER) private readonly authorMapper: AuthorMapperContract,
+    private readonly authorMapper: AuthorMapperContract,
   ) {}
 
   async findAuthorsByIds(authorIds: string[]): Promise<AuthorEntity[]> {

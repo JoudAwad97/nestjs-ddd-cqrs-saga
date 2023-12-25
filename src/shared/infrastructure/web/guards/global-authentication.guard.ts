@@ -1,10 +1,9 @@
-import { ExecutionContext, Inject, Injectable } from '@nestjs/common';
+import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { LoggerPort } from '@src/libs/ports/logger.port';
 import { UserRepositoryPort } from '@src/modules/user-management/user/infrastructure/prisma/repository/user.repository.port';
 import { UserService } from '@src/modules/user-management/user/domain/user.service';
-import { USER_REPOSITORY } from '@src/modules/user-management/user/user.di-tokens';
 import { SKIP_GLOBAL_AUTH_GUARD } from './decorators/skip-global-auth-guard.decorator';
 
 const BaseGuard = AuthGuard('jwt');
@@ -13,7 +12,6 @@ const BaseGuard = AuthGuard('jwt');
 export class AuthenticationGuard extends BaseGuard {
   constructor(
     private readonly logger: LoggerPort,
-    @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepositoryPort,
     private reflector: Reflector,
   ) {

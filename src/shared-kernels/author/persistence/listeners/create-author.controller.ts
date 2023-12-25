@@ -1,16 +1,13 @@
-import { Controller, Inject } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import { UserCreatedIntegrationEvent } from '@src/shared/infrastructure/integration-events/user-created.integration.event';
-import { AUTHOR_REPOSITORY } from '../../author.di-tokens';
 import { AuthorRepositoryPort } from '../../infrastructure/prisma/repository/author.repository.port';
 import { AuthorEntity } from '../../domain/author.entity';
-import { LOGGER } from '@src/shared/constants';
 import { LoggerPort } from '@src/libs/ports/logger.port';
 
 @Controller()
 export class CreateAuthorListener {
   constructor(
-    @Inject(AUTHOR_REPOSITORY)
     private readonly authorRepository: AuthorRepositoryPort,
     private readonly logger: LoggerPort,
   ) {}

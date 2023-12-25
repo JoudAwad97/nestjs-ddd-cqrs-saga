@@ -3,5 +3,8 @@ import { PostEntity } from '../../../domain/post.entity';
 import { PostResponseDto } from '../../../presenters/dtos/post.dto';
 import { PostModel } from '../schema/post.schema';
 
-export interface PostMapperPort
-  extends Mapper<PostEntity, PostModel, PostResponseDto> {}
+export abstract class PostMapperPort extends Mapper<
+  PostEntity,
+  PostModel,
+  PostResponseDto
+> {}
