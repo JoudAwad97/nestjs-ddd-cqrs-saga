@@ -1,16 +1,13 @@
 import { Module, Provider } from '@nestjs/common';
-import { generateRabbitMQConfigurations } from '@src/libs/utils';
-import { ClientsModule } from '@nestjs/microservices';
 import { SendWelcomeEmailListener } from './presenters/listeners/send-welcome-email';
-import { UserRepository } from '../user-management/user/infrastructure/prisma/repository/user.repository';
-import {
-  NOTIFICATION_TRANSLATOR_SERVICE,
-  USER_REPOSITORY,
-} from './notification.di-tokens';
 import { UserMapper } from '../user-management/user/infrastructure/prisma/mapper/user.mapper';
 import { TranslatorService } from './infrastructure/anti-corruption-layer/translator.service';
 import { UserNotificationAdaptor } from './infrastructure/anti-corruption-layer/user/adaptar';
 import { LoggerModule } from '@src/shared/infrastructure/logger/logger.module';
+import { PublisherModule } from '@src/shared/infrastructure/publisher/publisher.module';
+import { UserOrmModule } from '../user-management/user/infrastructure/prisma/user-orm.module';
+import { TranslatorServicePort } from './infrastructure/anti-corruption-layer/translator.service.port';
+import { NotificationUserRepositoryContract } from './application/contracts/user.repository.contract';
 
 const httpControllers = [];
 const messageControllers = [SendWelcomeEmailListener];
@@ -25,18 +22,13 @@ const queryHandlers: Provider[] = [];
 
 const mappers: Provider[] = [UserMapper];
 
-const repositories: Provider[] = [
-  {
-    provide: USER_REPOSITORY,
-    useClass: UserRepository,
-  },
-];
+const repositories: Provider[] = [];
 
 const libraries: Provider[] = [];
 
 const translators: Provider[] = [
   {
-    provide: NOTIFICATION_TRANSLATOR_SERVICE,
+    provide: TranslatorServicePort,
     useClass: TranslatorService,
   },
 ];
@@ -46,13 +38,8 @@ const adapters: Provider[] = [UserNotificationAdaptor];
 @Module({
   imports: [
     LoggerModule,
-    ClientsModule.register({
-      clients: [
-        {
-          ...generateRabbitMQConfigurations(),
-        },
-      ],
-    }),
+    PublisherModule,
+    UserOrmModule.useContracts([NotificationUserRepositoryContract]),
   ],
   controllers: [...httpControllers, ...messageControllers],
   providers: [

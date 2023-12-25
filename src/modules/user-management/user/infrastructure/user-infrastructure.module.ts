@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UserPrismaModule } from './prisma/user-prisma.module';
+import { UserOrmModule } from './prisma/user-orm.module';
 
 @Module({
-  imports: [UserPrismaModule],
-  exports: [UserPrismaModule],
+  imports: [UserOrmModule],
+  exports: [UserOrmModule],
 })
 export class UserInfrastructureModule {}

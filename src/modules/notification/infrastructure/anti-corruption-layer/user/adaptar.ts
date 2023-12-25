@@ -1,5 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { USER_REPOSITORY } from '../../../notification.di-tokens';
+import { Injectable } from '@nestjs/common';
 import { NotificationUserRepositoryContract } from '../../../application/contracts/user.repository.contract';
 import { UserNotificationEntity } from '../../../domain/user.entity';
 import { UserNotificationTranslator } from './translator';
@@ -7,7 +6,6 @@ import { UserNotificationTranslator } from './translator';
 @Injectable()
 export class UserNotificationAdaptor {
   constructor(
-    @Inject(USER_REPOSITORY)
     private readonly userRepository: NotificationUserRepositoryContract,
   ) {}
 
