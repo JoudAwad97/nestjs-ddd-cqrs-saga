@@ -14,7 +14,7 @@ import { CommentWithAuthorReadModel } from '../../../domain/read-models/comment.
 
 @Injectable()
 export class CommentRepository
-  extends BaseEntityRepository<CommentEntity, CommentModel>
+  extends BaseEntityRepository<CommentEntity, CommentModel, 'Comment'>
   implements CommentRepositoryPort
 {
   protected modelName: Prisma.ModelName = 'Comment';

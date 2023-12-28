@@ -14,7 +14,7 @@ import { orderByFieldExtractor } from '@src/libs/utils';
 
 @Injectable()
 export class LikeRepository
-  extends BaseEntityRepository<LikeEntity, LikeModel>
+  extends BaseEntityRepository<LikeEntity, LikeModel, 'Like'>
   implements LikesRepositoryPort
 {
   protected modelName: Prisma.ModelName = 'Like';

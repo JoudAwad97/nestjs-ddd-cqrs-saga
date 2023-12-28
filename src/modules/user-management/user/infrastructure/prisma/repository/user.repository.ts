@@ -15,7 +15,7 @@ import { INotificationUserResponseDTO } from '@src/modules/notification/applicat
 
 @Injectable()
 export class UserRepository
-  extends BaseEntityRepository<UserEntity, UserDatabaseModel>
+  extends BaseEntityRepository<UserEntity, UserDatabaseModel, 'User'>
   implements UserRepositoryPort, UserRepositoryContract
 {
   protected modelName: Prisma.ModelName = 'User';

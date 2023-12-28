@@ -14,7 +14,7 @@ import { PostMapperPort } from '../mapper/post.mapper.port';
 
 @Injectable()
 export class PostRepository
-  extends BaseEntityRepository<PostEntity, PostModel>
+  extends BaseEntityRepository<PostEntity, PostModel, 'Post'>
   implements PostRepositoryPort, PostRepositoryContract
 {
   protected modelName: Prisma.ModelName = 'Post';

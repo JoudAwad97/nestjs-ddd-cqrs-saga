@@ -11,7 +11,7 @@ import { ReportDetailResponseDto } from '../../../presenters/dto/report.dto';
 
 @Injectable()
 export class ReportRepository
-  extends BaseEntityRepository<ReportEntity, ReportModel>
+  extends BaseEntityRepository<ReportEntity, ReportModel, 'Report'>
   implements ReportRepositoryPort
 {
   protected modelName: Prisma.ModelName = 'Report';

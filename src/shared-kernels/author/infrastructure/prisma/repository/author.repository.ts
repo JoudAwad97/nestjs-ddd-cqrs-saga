@@ -10,7 +10,7 @@ import { AuthorMapperPort } from '../mapper/author.mapper.port';
 
 @Injectable()
 export class AuthorRepository
-  extends BaseEntityRepository<AuthorEntity, AuthorDatabaseModel>
+  extends BaseEntityRepository<AuthorEntity, AuthorDatabaseModel, 'Author'>
   implements AuthorRepositoryPort
 {
   protected modelName: Prisma.ModelName = 'Author';
